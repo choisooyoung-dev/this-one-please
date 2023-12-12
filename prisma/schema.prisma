@@ -14,9 +14,11 @@ model Users {
   id    Int      @id @default(autoincrement()) @map("id")
   email     String   @unique @map("email")
   password  String   @map("password")
-  name      Int      @map("name")
+  name      String   @map("name")
+  type      Int      @map("type")
+  point     Int      @default(1000000) @map("point")
   createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @updatedAt @map("updatedAt")
+  updatedAt DateTime @default(now())  @map("updatedAt")
 
   Cart Cart? // 1:1
   Orders Orders[]
@@ -29,7 +31,7 @@ model Categories {
   id      Int      @id @default(autoincrement()) @map("id")
   name    String   @map("name") 
   createdAt   DateTime @default(now()) @map("createdAt")
-  updatedAt   DateTime @updatedAt @map("updatedAt")
+  updatedAt DateTime @default(now())  @map("updatedAt")
   
   Stores  Stores[]
 }
@@ -42,7 +44,7 @@ model Stores {
   name        Int      @map("name")
   image       String   @map("imgUrl")
   createdAt   DateTime @default(now()) @map("createdAt")
-  updatedAt   DateTime @updatedAt @map("updatedAt")
+  updatedAt DateTime @default(now())  @map("updatedAt")
 
   Menus       Menus[]
   Orders      Orders[]
@@ -81,6 +83,8 @@ model Orders {
   user_id     Int      @unique @map("userId") 
   store_id    Int      @unique @map("storeId")
   menu_ids    Json     @map("menuIds")
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @default(now())  @map("updatedAt")
  
   Review Reviews?
   User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -92,6 +96,8 @@ model Reviews {
   order_id   Int     @unique @map("orderId")
   comment    String  @map("comment")
   star       Float   @map("star")
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @default(now())  @map("updatedAt")
 
   Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
