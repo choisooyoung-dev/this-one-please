@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  id    Int      @id @default(autoincrement()) @map("id")
+  email     String   @unique @map("email")
+  password  String   @map("password")
+  name      Int      @map("name")
+  createdAt DateTime @default(now()) @map("createdAt")
+  updatedAt DateTime @updatedAt @map("updatedAt")
+
+  Cart Cart? // 1:1
+  Orders Orders[]
+
+  @@map("Users")
+}
+
+
+model Categories {
+  id      Int      @id @default(autoincrement()) @map("id")
+  name    String   @map("name") 
+  createdAt   DateTime @default(now()) @map("createdAt")
+  updatedAt   DateTime @updatedAt @map("updatedAt")
+  
+  Stores  Stores[]
+}
+
+model Stores {
+  id          Int      @id @default(autoincrement()) @map("id")
+  email       String   @unique @map("email")
+  password    String   @map("password")
+  category_id Int      @map("categoryId")
+  name        Int      @map("name")
+  image       String   @map("imgUrl")
+  createdAt   DateTime @default(now()) @map("createdAt")
+  updatedAt   DateTime @updatedAt @map("updatedAt")
+
+  Menus       Menus[]
+  Orders      Orders[]
+  Category Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
+
+  @@map("Stores")
+}
+
+model Menus {
+  id          Int      @id @default(autoincrement()) @map("id")
+  store_id    Int      @unique @map("storeId")
+  name        Int      @unique @map("name")
+  price       Int      @unique @map("price")
+  image       String   @map("imgUrl")
+
+  Cart Cart[]
+  Store Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+}
+
+model Cart {
+  id            Int      @id @default(autoincrement()) @map("id")
+  user_id       Int      @unique @map("userId") // 사용자(Users) 테이블을 참조하는 외래키
+  menu_id       Int
+  count         Int
+  price         Int
+
+  // Users 테이블과 관계를 설정합니다.
+  User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Menu Menus @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+
+  @@map("Cart")
+}
+
+model Orders {
+  id          Int      @id @default(autoincrement()) @map("id")
+  user_id     Int      @unique @map("userId") 
+  store_id    Int      @unique @map("storeId")
+  menu_ids    Json     @map("menuIds")
+ 
+  Review Reviews?
+  User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Store Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+}
+
+model Reviews {
+  id         Int     @id @default(autoincrement()) @map("id")
+  order_id   Int     @unique @map("orderId")
+  comment    String  @map("comment")
+  star       Float   @map("star")
+
+  Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
+}
