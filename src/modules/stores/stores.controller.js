@@ -83,4 +83,19 @@ export class StoresController {
             next(error);
         }
     };
+
+    // 카테고리 id 일치 매장 전체 조회
+    filter = async (req, res, next) => {
+        try {
+            const category_id = Number(req.params.category_id);
+
+            const filterStores = await this.storesService.filter(category_id);
+
+            return res
+                .status(200)
+                .json({ status: 'success', data: filterStores });
+        } catch (error) {
+            next(error);
+        }
+    };
 }

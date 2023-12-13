@@ -33,4 +33,13 @@ export class StoreRepository {
 
         return;
     };
+
+    // 카테고리 id 일치 매장 전체 조회
+    filter = async (category_id) => {
+        const filterStores = await prisma.stores.findMany({
+            where: { category_id },
+        });
+
+        return filterStores;
+    };
 }

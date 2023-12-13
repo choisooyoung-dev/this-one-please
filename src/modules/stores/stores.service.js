@@ -69,4 +69,22 @@ export class StoresService {
 
         return;
     };
+
+    // 카테고리 id 일치 매장 전체 조회
+    filter = async (category_id) => {
+        const filterStores = await this.storeRepository.filter(category_id);
+
+        return filterStores.map((store) => {
+            return {
+                id: store.id,
+                user_id: store.user_id,
+                name: store.name,
+                image_url: store.image_url,
+                category_id: store.category_id,
+                address: store.address,
+                createdAt: store.createdAt,
+                updatedAt: store.updatedAt,
+            };
+        });
+    };
 }
