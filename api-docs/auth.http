@@ -1,0 +1,13 @@
+###
+# 로그인
+POST http://localhost:5000/api/login
+Content-Type: application/json
+
+{
+	"email":"soo@naver.com",
+	"password":"123456"
+}
+
+###
+# 로그아웃
+GET http://localhost:5000/api/logout
