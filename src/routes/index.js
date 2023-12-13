@@ -1,11 +1,12 @@
 import express from 'express';
-import viewRouter from './views.router.js';
 import UsersRouter from './users.router.js';
 import AuthRouter from './auth.router.js';
+import cartRouter from './carts.router.js';
 
 const router = express.Router();
 
-router.use('/', viewRouter);
-router.use('/api', [AuthRouter, UsersRouter]);
+router.use('/auth', AuthRouter);
+router.use('/carts', cartRouter);
+router.use('/users', UsersRouter);
 
 export default router;

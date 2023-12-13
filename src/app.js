@@ -1,10 +1,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import router from './routes/index.js';
+import apiRouter from './routes/index.js';
 import path from 'path';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
+import viewRouter from './routes/views.router.js';
 dotenv.config();
 
 const app = express();
@@ -18,7 +19,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(router);
+app.use('/', viewRouter);
+app.use('/api', apiRouter);
 
 app.listen(process.env.PORT, () => {
     console.log('서버가 열렸어요!');
