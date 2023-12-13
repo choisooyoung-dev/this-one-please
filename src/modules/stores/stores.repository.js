@@ -18,7 +18,14 @@ export class StoreRepository {
     };
 
     // 매장 수정
-    interior = async () => {};
+    remodelling = async (id, name, image, category_id, address) => {
+        const remodellingStore = await prisma.stores.update({
+            where: { id },
+            data: { name, image, category_id, address },
+        });
+
+        return remodellingStore;
+    };
 
     // 매장 삭제
     close = async () => {};

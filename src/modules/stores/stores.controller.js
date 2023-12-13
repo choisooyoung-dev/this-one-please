@@ -47,8 +47,23 @@ export class StoresController {
     };
 
     // 매장 수정
-    interior = async (req, res, next) => {
+    remodelling = async (req, res, next) => {
         try {
+            const { id } = req.params;
+            const { name, image, category_id, address } = req.body;
+
+            const remodellingStore = await this.storesService.remodelling(
+                id,
+                name,
+                image,
+                category_id,
+                address,
+            );
+
+            return res.status.json({
+                status: 'success',
+                data: remodellingStore,
+            });
         } catch (error) {
             next(error);
         }

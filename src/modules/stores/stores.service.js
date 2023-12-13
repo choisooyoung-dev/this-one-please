@@ -42,7 +42,26 @@ export class StoresService {
     };
 
     // 매장 수정
-    interior = async () => {};
+    remodelling = async (id, name, image, category_id, address) => {
+        const remodellingStore = await this.storeRepository.remodelling(
+            id,
+            name,
+            image,
+            category_id,
+            address,
+        );
+
+        return {
+            id: remodellingStore.id,
+            user_id: remodellingStore.user_id,
+            name: remodellingStore.name,
+            image: remodellingStore.image,
+            category_id: remodellingStore.category_id,
+            address: remodellingStore.address,
+            createdAt: remodellingStore.createdAt,
+            updatedAt: remodellingStore.updatedAt,
+        };
+    };
 
     // 매장 삭제
     close = async () => {};
