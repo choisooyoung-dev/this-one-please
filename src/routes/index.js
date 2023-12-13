@@ -1,11 +1,8 @@
 import express from 'express';
-import viewRouter from './views.router.js'
-
+import cartRouter from './carts.router.js';
 
 const router = express.Router();
 
-router.get('/', viewRouter);
-router.get('/api', []);
-
+router.use('/carts', cartRouter);
 
 export default router;
