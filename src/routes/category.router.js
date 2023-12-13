@@ -8,6 +8,7 @@ const router = express.Router();
 router.get('', async (req, res, next) => {
   const categories = await prisma.categories.findMany({
     select: {
+      id:true,
       name: true,
       image_url:true
     },
