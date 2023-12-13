@@ -17,7 +17,7 @@ model Users {
   name      String   @map("name")
   type      Int      @map("type")
   point     Int      @default(1000000) @map("point")
-  adress    String   @map("adress")
+  address    String   @map("address")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @default(now()) @map("updatedAt")
 
@@ -43,7 +43,7 @@ model Stores {
   category_id Int      @map("categoryId")
   name        Int      @map("name")
   image       String   @map("imgUrl")
-  adress      String   @map("adress")
+  address      String   @map("address")
   createdAt   DateTime @default(now()) @map("createdAt")
   updatedAt   DateTime @default(now()) @map("updatedAt")
 
