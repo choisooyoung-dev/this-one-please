@@ -72,11 +72,11 @@ export class StoresController {
     // 매장 삭제
     close = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const id = Number(req.params.id);
 
             const closeStore = await this.storesService.close(id);
 
-            return res.status.json({
+            return res.status(200).json({
                 status: 'success',
             });
         } catch (error) {

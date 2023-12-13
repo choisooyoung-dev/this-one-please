@@ -7,6 +7,6 @@ const storesController = new StoresController();
 storesRouter.post('', storesController.open);
 storesRouter.get('/:id', storesController.enter);
 storesRouter.patch('/:id', storesController.remodelling);
-storesRouter.post('/:id', storesController.close);
+storesRouter.delete('/:id', storesController.close);
 
 export default storesRouter;
