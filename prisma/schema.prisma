@@ -34,7 +34,7 @@ model Categories {
 
 model Stores {
   id          Int        @id @default(autoincrement()) @map("id")
-  user_id     Int        @unique @map("userId")
+  user_id     Int        @unique @map("user_id")
   category_id Int        @map("category_id")
   name        String     @map("name")
   image_url   String     @map("image_url")
