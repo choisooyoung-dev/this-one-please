@@ -35,9 +35,9 @@ model Categories {
 model Stores {
   id          Int        @id @default(autoincrement()) @map("id")
   user_id     Int        @unique @map("userId")
-  category_id Int        @map("categoryId")
+  category_id Int        @map("category_id")
   name        String     @map("name")
-  image       String     @map("imgUrl")
+  image_url   String     @map("image_url")
   address     String     @map("address")
   created_at  DateTime   @default(now()) @map("created_at")
   updated_at  DateTime   @default(now()) @map("updated_at")
@@ -47,18 +47,18 @@ model Stores {
   Category    Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
   User        Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  @@index([category_id], map: "Stores_categoryId_fkey")
+  @@index([category_id], map: "Stores_category_id_fkey")
   @@map("Stores")
 }
 
 model Menus {
-  id       Int    @id @default(autoincrement()) @map("id")
-  store_id Int    @map("store_id")
-  name     String @unique @map("name")
-  price    Int    @map("price")
-  image    String @map("imgUrl")
-  Cart     Cart[]
-  Stores   Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  id        Int    @id @default(autoincrement()) @map("id")
+  store_id  Int    @map("store_id")
+  name      String @unique @map("name")
+  price     Int    @map("price")
+  image_url String @map("image_url")
+  Cart      Cart[]
+  Stores    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
 
   @@index([store_id], map: "Menus_store_id_fkey")
 }
