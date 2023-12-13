@@ -8,6 +8,6 @@ const usersController = new UsersController();
 router.post('/signup', usersController.signup);
 
 // 사용자 정보
-router.get('/users/:id', usersController.getUser);
+router.get('/:id', usersController.getUser);
 
 export default router;
