@@ -10,12 +10,16 @@ console.log(__path);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express',path:__path });
+  res.render('index', { path:__path });
 });
 
 router.get('/category/:categoryId', function(req, res, next) {
   const categoryId = req.params.categoryId;
   res.render('storeList', { categoryId,path:__path });
+});
+
+router.get('/signup', function(req, res, next) {
+  res.render('signup', { path:__path });
 });
 
 

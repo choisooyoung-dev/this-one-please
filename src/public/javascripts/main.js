@@ -1,5 +1,10 @@
-document.addEventListener("DOMContentLoaded", function () {
-  fetch("/api/category")
+document.addEventListener("DOMContentLoaded",  () => {
+  InitCategory();
+});
+ 
+
+const InitCategory= async()=> {
+  await fetch("/api/category")
   .then((response) => response.json())
   .then((response) => {
       console.log(response);
@@ -19,5 +24,4 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   })
   .catch((error) => console.error("에러 발생:", error));
-});
- 
+}
