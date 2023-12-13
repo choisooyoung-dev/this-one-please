@@ -18,10 +18,10 @@ model Users {
   type      Int      @map("type")
   point     Int      @default(1000000) @map("point")
   address    String   @map("address")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @map("updated_at")
 
-  Cart   Cart? // 1:1
+  Cart   Cart[]
   Orders Orders[]
   Stores Stores?
 
@@ -31,8 +31,8 @@ model Users {
 model Categories {
   id        Int      @id @default(autoincrement()) @map("id")
   name      String   @map("name")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @map("updated_at")
 
   Stores Stores[]
 }
@@ -44,20 +44,21 @@ model Stores {
   name        String      @map("name")
   image       String   @map("imgUrl")
   address      String   @map("address")
-  createdAt   DateTime @default(now()) @map("createdAt")
-  updatedAt   DateTime @default(now()) @map("updatedAt")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @map("updated_at")
 
   Menus    Menus[]
   Orders   Orders[]
   User     Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Category Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  Cart   Cart[]
 
   @@map("Stores")
 }
 
 model Menus {
   id       Int    @id @default(autoincrement()) @map("id")
-  store_id Int    @map("storeId")
+  store_id Int    @map("store_id")
   name     String    @unique @map("name")
   price    Int    @map("price")
   image    String @map("imgUrl")
@@ -68,7 +69,8 @@ model Menus {
 
 model Cart {
   id      Int @id @default(autoincrement()) @map("id")
-  user_id Int @unique @map("userId") // 사용자(Users) 테이블을 참조하는 외래키
+  user_id Int @unique @map("user_id") // 사용자(Users) 테이블을 참조하는 외래키
+  store_id  Int      @unique @map("store_id")
   menu_id Int
   count   Int
   price   Int
@@ -76,17 +78,18 @@ model Cart {
   // Users 테이블과 관계를 설정합니다.
   User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Menu Menus @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+  Store  Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
 
   @@map("Cart")
 }
 
 model Orders {
   id        Int      @id @default(autoincrement()) @map("id")
-  user_id   Int      @unique @map("userId")
-  store_id  Int      @unique @map("storeId")
-  menu_ids  Json     @map("menuIds")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
+  user_id   Int      @unique @map("user_id")
+  store_id  Int      @unique @map("store_id")
+  menu_ids  Json     @map("menu_ids")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @map("updated_at")
 
   Review Reviews?
   User   Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -95,11 +98,11 @@ model Orders {
 
 model Reviews {
   id        Int      @id @default(autoincrement()) @map("id")
-  order_id  Int      @unique @map("orderId")
+  order_id  Int      @unique @map("order_id")
   comment   String   @map("comment")
   star      Float    @map("star")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
+  created_at DateTime @default(now()) @map("created_at")
+  updated_at DateTime @default(now()) @map("updated_at")
 
   Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
