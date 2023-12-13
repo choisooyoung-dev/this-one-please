@@ -1,8 +1,11 @@
 import express from 'express';
-
-const apiRouter = express.Router();
-
-apiRouter.get('/', []);
+import viewRouter from './views.router.js'
 
 
-export default apiRouter;
+const router = express.Router();
+
+router.get('/', viewRouter);
+router.get('/api', []);
+
+
+export default router;
