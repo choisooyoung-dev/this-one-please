@@ -4,14 +4,14 @@ export class StoresService {
     storeRepository = new StoreRepository();
 
     // 매장 등록
-    open = async (user_id, name, image, category_id, address) => {
+    open = async (user_id, name, image_url, category_id, address) => {
         // 이미지url 형식 유효성검사
         // 주소 형식 유효성검사
 
         const openStore = await this.storeRepository.open(
             user_id,
             name,
-            image,
+            image_url,
             category_id,
             address,
         );
@@ -19,7 +19,7 @@ export class StoresService {
         return {
             id: openStore.id,
             name: openStore.name,
-            image: openStore.image,
+            image_url: openStore.image_url,
             category_id: openStore.category_id,
             address: openStore.address,
         };
