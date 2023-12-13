@@ -19,8 +19,9 @@ router.post('', async (req, res, next) => {
         async (tx) => {
             const cart = await tx.cart.create({
                 data: {
-                    menu_id: 3,
+                    menu_id: 2,
                     user_id: 1,
+                    store_id: 1,
                     count: 1,
                     price: 0,
                 },
@@ -41,6 +42,14 @@ router.get('', async (req, res, next) => {});
 router.patch('/:id', async (req, res, next) => {});
 
 //Cart삭제하기
-router.delete('/:id', async (req, res, next) => {});
+router.delete('/:id', async (req, res, next) => {
+    const { id } = req.params;
+    await prisma.$transaction(async (tx) => {
+        await tx.cart.delete({
+            where: { id: +id },
+        });
+    });
+    res.status(201).json({ message: '삭제 성공' });
+});
 
 export default router;
