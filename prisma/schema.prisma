@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,12 +8,12 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement()) @map("id")
-  email     String   @unique @map("email")
-  password  String   @map("password")
-  name      String   @map("name")
-  type      Int      @map("type")
-  point     Int      @default(1000000) @map("point")
+  id         Int      @id @default(autoincrement()) @map("id")
+  email      String   @unique @map("email")
+  password   String   @map("password")
+  name       String   @map("name")
+  type       Int      @map("type")
+  point      Int      @default(1000000) @map("point")
   address    String   @map("address")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
@@ -62,9 +59,10 @@ model Menus {
   name     String    @unique @map("name")
   price    Int    @map("price")
   image    String @map("imgUrl")
+  Cart     Cart[]
+  Stores   Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
 
-  Cart  Cart[]
-  Store Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  @@index([store_id], map: "Menus_store_id_fkey")
 }
 
 model Cart {
@@ -84,6 +82,7 @@ model Cart {
 }
 
 model Orders {
+
   id        Int      @id @default(autoincrement()) @map("id")
   user_id   Int      @unique @map("user_id")
   store_id  Int      @unique @map("store_id")
@@ -105,4 +104,5 @@ model Reviews {
   updated_at DateTime @default(now()) @map("updated_at")
 
   Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
 }

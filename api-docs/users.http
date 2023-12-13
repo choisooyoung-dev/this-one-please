@@ -1,0 +1,16 @@
+###
+# 회원가입
+POST http://localhost:5000/api/signup
+Content-Type: application/json
+
+{
+	"email":"soo@naver.com",
+	"password":"123456",
+	"name":"admin",
+	"type":0,
+	"address":"인천시 서구"
+}
+
+###
+# 사용자 정보조회
+GET http://localhost:5000/api/users/1
