@@ -24,7 +24,7 @@ export class StoresController {
                 address,
             );
 
-            return res.status.json({ status: 'success', data: openStore });
+            return res.status(200).json({ status: 'success', data: openStore });
         } catch (error) {
             next(error);
         }
@@ -33,11 +33,11 @@ export class StoresController {
     // 매장 조회
     enter = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const id = Number(req.params.id);
 
             const enterStore = await this.storesService.enter(id);
 
-            return res.status.json({
+            return res.status(200).json({
                 status: 'success',
                 data: enterStore,
             });
