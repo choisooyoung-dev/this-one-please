@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,95 +8,96 @@ datasource db {
 }
 
 model Users {
-  id        Int      @id @default(autoincrement()) @map("id")
-  email     String   @unique @map("email")
-  password  String   @map("password")
-  name      String   @map("name")
-  type      Int      @map("type")
-  point     Int      @default(1000000) @map("point")
+  id         Int      @id @default(autoincrement()) @map("id")
+  email      String   @unique @map("email")
+  password   String   @map("password")
+  name       String   @map("name")
+  type       Int      @map("type")
+  point      Int      @default(1000000) @map("point")
   address    String   @map("address")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
-
-  Cart   Cart? // 1:1
-  Orders Orders[]
-  Stores Stores?
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Cart       Cart[]
+  Orders     Orders?
+  Stores     Stores?
 
   @@map("Users")
 }
 
 model Categories {
-  id        Int      @id @default(autoincrement()) @map("id")
-  name      String   @map("name")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
-
-  Stores Stores[]
+  id         Int      @id @default(autoincrement()) @map("id")
+  name       String   @map("name")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Stores     Stores[]
 }
 
 model Stores {
-  id          Int      @id @default(autoincrement()) @map("id")
-  user_id     Int      @map("userId") @unique
-  category_id Int      @map("categoryId")
-  name        String      @map("name")
-  image       String   @map("imgUrl")
-  address      String   @map("address")
-  createdAt   DateTime @default(now()) @map("createdAt")
-  updatedAt   DateTime @default(now()) @map("updatedAt")
+  id          Int        @id @default(autoincrement()) @map("id")
+  user_id     Int        @unique @map("userId")
+  category_id Int        @map("categoryId")
+  name        String     @map("name")
+  image       String     @map("imgUrl")
+  address     String     @map("address")
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @default(now())
+  Cart        Cart[]
+  Menus       Menus[]
+  Orders      Orders?
+  Category    Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  User        Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  Menus    Menus[]
-  Orders   Orders[]
-  User     Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Category Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
-
+  @@index([category_id], map: "Stores_categoryId_fkey")
   @@map("Stores")
 }
 
 model Menus {
   id       Int    @id @default(autoincrement()) @map("id")
-  store_id Int    @map("storeId")
-  name     String    @unique @map("name")
+  store_id Int
+  name     String @unique @map("name")
   price    Int    @map("price")
   image    String @map("imgUrl")
+  Cart     Cart[]
+  Stores   Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
 
-  Cart  Cart[]
-  Store Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  @@index([store_id], map: "Menus_store_id_fkey")
 }
 
 model Cart {
-  id      Int @id @default(autoincrement()) @map("id")
-  user_id Int @unique @map("userId") // 사용자(Users) 테이블을 참조하는 외래키
-  menu_id Int
-  count   Int
-  price   Int
+  id       Int    @id @default(autoincrement()) @map("id")
+  user_id  Int
+  store_id Int
+  menu_id  Int
+  count    Int
+  price    Int
+  Menu     Menus  @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+  Stores   Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  Users    Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  // Users 테이블과 관계를 설정합니다.
-  User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Menu Menus @relation(fields: [menu_id], references: [id], onDelete: Cascade)
-
+  @@index([menu_id], map: "Cart_menu_id_fkey")
+  @@index([store_id], map: "Cart_store_id_fkey")
+  @@index([user_id], map: "Cart_user_id_fkey")
   @@map("Cart")
 }
 
 model Orders {
-  id        Int      @id @default(autoincrement()) @map("id")
-  user_id   Int      @unique @map("userId")
-  store_id  Int      @unique @map("storeId")
-  menu_ids  Json     @map("menuIds")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
-
-  Review Reviews?
-  User   Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Store  Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement()) @map("id")
+  user_id    Int      @unique
+  store_id   Int      @unique
+  menu_ids   String   @db.LongText
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Stores     Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  Users      Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Reviews    Reviews?
 }
 
 model Reviews {
-  id        Int      @id @default(autoincrement()) @map("id")
-  order_id  Int      @unique @map("orderId")
-  comment   String   @map("comment")
-  star      Float    @map("star")
-  createdAt DateTime @default(now()) @map("createdAt")
-  updatedAt DateTime @default(now()) @map("updatedAt")
-
-  Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  id         Int      @id @default(autoincrement()) @map("id")
+  order_id   Int      @unique
+  comment    String   @map("comment")
+  star       Float    @map("star")
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  Orders     Orders   @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
