@@ -41,7 +41,7 @@ model Stores {
   id          Int      @id @default(autoincrement()) @map("id")
   user_id     Int      @map("userId") @unique
   category_id Int      @map("categoryId")
-  name        Int      @map("name")
+  name        String      @map("name")
   image       String   @map("imgUrl")
   address      String   @map("address")
   createdAt   DateTime @default(now()) @map("createdAt")
@@ -57,9 +57,9 @@ model Stores {
 
 model Menus {
   id       Int    @id @default(autoincrement()) @map("id")
-  store_id Int    @unique @map("storeId")
-  name     Int    @unique @map("name")
-  price    Int    @unique @map("price")
+  store_id Int    @map("storeId")
+  name     String    @unique @map("name")
+  price    Int    @map("price")
   image    String @map("imgUrl")
 
   Cart  Cart[]
