@@ -72,6 +72,13 @@ export class StoresController {
     // 매장 삭제
     close = async (req, res, next) => {
         try {
+            const { id } = req.params;
+
+            const closeStore = await this.storesService.close(id);
+
+            return res.status.json({
+                status: 'success',
+            });
         } catch (error) {
             next(error);
         }

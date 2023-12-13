@@ -28,5 +28,9 @@ export class StoreRepository {
     };
 
     // 매장 삭제
-    close = async () => {};
+    close = async (id) => {
+        const closeStore = await prisma.stores.delete({ where: { id } });
+
+        return;
+    };
 }

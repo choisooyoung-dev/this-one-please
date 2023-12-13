@@ -64,5 +64,9 @@ export class StoresService {
     };
 
     // 매장 삭제
-    close = async () => {};
+    close = async (id) => {
+        const closeStore = await this.storeRepository.close(id);
+
+        return;
+    };
 }
