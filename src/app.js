@@ -1,15 +1,20 @@
 import express from 'express';
 import dotenv from 'dotenv'
-import apiRouter from './routes/index'
+import router from './routes/index.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
 dotenv.config();
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-app.use('/api', apiRouter);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.listen(process.env[PORT], () => {
+app.use(router);
+
+app.listen(process.env.PORT, () => {
   console.log( '서버가 열렸어요!');
 });
