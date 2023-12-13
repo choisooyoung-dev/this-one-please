@@ -17,12 +17,13 @@ model Users {
   name      String   @map("name")
   type      Int      @map("type")
   point     Int      @default(1000000) @map("point")
+  adress    String   @map("adress")
   createdAt DateTime @default(now()) @map("createdAt")
   updatedAt DateTime @default(now()) @map("updatedAt")
 
   Cart   Cart? // 1:1
   Orders Orders[]
-  Stores Stores[]
+  Stores Stores?
 
   @@map("Users")
 }
@@ -42,6 +43,7 @@ model Stores {
   category_id Int      @map("categoryId")
   name        Int      @map("name")
   image       String   @map("imgUrl")
+  adress      String   @map("adress")
   createdAt   DateTime @default(now()) @map("createdAt")
   updatedAt   DateTime @default(now()) @map("updatedAt")
 
