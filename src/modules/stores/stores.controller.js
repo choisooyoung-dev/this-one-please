@@ -33,6 +33,14 @@ export class StoresController {
     // 매장 조회
     enter = async (req, res, next) => {
         try {
+            const { id } = req.params;
+
+            const enterStore = await this.storesService.enter(id);
+
+            return res.status.json({
+                status: 'success',
+                data: enterStore,
+            });
         } catch (error) {
             next(error);
         }

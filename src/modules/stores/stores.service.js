@@ -26,7 +26,20 @@ export class StoresService {
     };
 
     // 매장 조회
-    enter = async () => {};
+    enter = async (id) => {
+        const enterStore = await this.storeRepository.enter(id);
+
+        return {
+            id: enterStore.id,
+            user_id: enterStore.user_id,
+            name: enterStore.name,
+            image: enterStore.image,
+            category_id: enterStore.category_id,
+            address: enterStore.address,
+            createdAt: enterStore.createdAt,
+            updatedAt: enterStore.updatedAt,
+        };
+    };
 
     // 매장 수정
     interior = async () => {};

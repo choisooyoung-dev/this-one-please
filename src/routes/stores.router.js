@@ -5,7 +5,7 @@ const storesRouter = Router();
 const storesController = new StoresController();
 
 storesRouter.post('/open', storesController.open);
-storesRouter.get('/enter', storesController.enter);
+storesRouter.get('/:user_id/enter', storesController.enter);
 storesRouter.patch('/interior', storesController.interior);
 storesRouter.post('/close', storesController.close);
 

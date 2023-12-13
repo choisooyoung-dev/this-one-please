@@ -11,7 +11,11 @@ export class StoreRepository {
     };
 
     // 매장 조회
-    enter = async () => {};
+    enter = async (id) => {
+        const enterStore = await prisma.stores.findUnique({ where: { id } });
+
+        return enterStore;
+    };
 
     // 매장 수정
     interior = async () => {};
