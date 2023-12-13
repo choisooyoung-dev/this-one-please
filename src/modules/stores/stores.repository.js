@@ -18,10 +18,10 @@ export class StoreRepository {
     };
 
     // 매장 수정
-    remodelling = async (id, name, image, category_id, address) => {
+    remodelling = async (id, name, image_url, category_id, address) => {
         const remodellingStore = await prisma.stores.update({
             where: { id },
-            data: { name, image, category_id, address },
+            data: { name, image_url, category_id, address },
         });
 
         return remodellingStore;

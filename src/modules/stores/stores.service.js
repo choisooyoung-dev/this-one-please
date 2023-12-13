@@ -33,7 +33,7 @@ export class StoresService {
             id: enterStore.id,
             user_id: enterStore.user_id,
             name: enterStore.name,
-            image: enterStore.image,
+            image_url: enterStore.image_url,
             category_id: enterStore.category_id,
             address: enterStore.address,
             createdAt: enterStore.createdAt,
@@ -42,11 +42,11 @@ export class StoresService {
     };
 
     // 매장 수정
-    remodelling = async (id, name, image, category_id, address) => {
+    remodelling = async (id, name, image_url, category_id, address) => {
         const remodellingStore = await this.storeRepository.remodelling(
             id,
             name,
-            image,
+            image_url,
             category_id,
             address,
         );
@@ -55,7 +55,7 @@ export class StoresService {
             id: remodellingStore.id,
             user_id: remodellingStore.user_id,
             name: remodellingStore.name,
-            image: remodellingStore.image,
+            image_url: remodellingStore.image_url,
             category_id: remodellingStore.category_id,
             address: remodellingStore.address,
             createdAt: remodellingStore.createdAt,

@@ -49,18 +49,18 @@ export class StoresController {
     // 매장 수정
     remodelling = async (req, res, next) => {
         try {
-            const { id } = req.params;
-            const { name, image, category_id, address } = req.body;
+            const id = Number(req.params.id);
+            const { name, image_url, category_id, address } = req.body;
 
             const remodellingStore = await this.storesService.remodelling(
                 id,
                 name,
-                image,
+                image_url,
                 category_id,
                 address,
             );
 
-            return res.status.json({
+            return res.status(200).json({
                 status: 'success',
                 data: remodellingStore,
             });
