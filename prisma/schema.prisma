@@ -17,46 +17,44 @@ model Users {
   address    String   @map("address")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-
-  Cart   Cart[]
-  Orders Orders[]
-  Stores Stores?
+  Cart       Cart[]
+  Orders     Orders?
+  Stores     Stores?
 
   @@map("Users")
 }
 
 model Categories {
-  id        Int      @id @default(autoincrement()) @map("id")
-  name      String   @map("name")
+  id         Int      @id @default(autoincrement()) @map("id")
+  name       String   @map("name")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-
-  Stores Stores[]
+  Stores     Stores[]
 }
 
 model Stores {
-  id          Int      @id @default(autoincrement()) @map("id")
-  user_id     Int      @map("userId") @unique
-  category_id Int      @map("categoryId")
-  name        String      @map("name")
-  image       String   @map("imgUrl")
-  address      String   @map("address")
-  created_at DateTime @default(now()) @map("created_at")
-  updated_at DateTime @default(now()) @map("updated_at")
+  id          Int        @id @default(autoincrement()) @map("id")
+  user_id     Int        @unique @map("userId")
+  category_id Int        @map("categoryId")
+  name        String     @map("name")
+  image       String     @map("imgUrl")
+  address     String     @map("address")
+  created_at  DateTime   @default(now()) @map("created_at")
+  updated_at  DateTime   @default(now()) @map("updated_at")
+  Cart        Cart[]
+  Menus       Menus[]
+  Orders      Orders?
+  Category    Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
+  User        Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  Menus    Menus[]
-  Orders   Orders[]
-  User     Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Category Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
-  Cart   Cart[]
-
+  @@index([category_id], map: "Stores_categoryId_fkey")
   @@map("Stores")
 }
 
 model Menus {
   id       Int    @id @default(autoincrement()) @map("id")
   store_id Int    @map("store_id")
-  name     String    @unique @map("name")
+  name     String @unique @map("name")
   price    Int    @map("price")
   image    String @map("imgUrl")
   Cart     Cart[]
@@ -66,43 +64,40 @@ model Menus {
 }
 
 model Cart {
-  id      Int @id @default(autoincrement()) @map("id")
-  user_id Int @map("user_id") // 사용자(Users) 테이블을 참조하는 외래키
-  store_id  Int      @map("store_id")
-  menu_id Int
-  count   Int
-  price   Int
+  id       Int    @id @default(autoincrement()) @map("id")
+  user_id  Int    @map("user_id")
+  store_id Int    @map("store_id")
+  menu_id  Int
+  count    Int
+  price    Int
+  Menu     Menus  @relation(fields: [menu_id], references: [id], onDelete: Cascade)
+  Store    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  User     Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  // Users 테이블과 관계를 설정합니다.
-  User Users @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Menu Menus @relation(fields: [menu_id], references: [id], onDelete: Cascade)
-  Store  Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
-
+  @@index([menu_id], map: "Cart_menu_id_fkey")
+  @@index([store_id], map: "Cart_store_id_fkey")
+  @@index([user_id], map: "Cart_user_id_fkey")
   @@map("Cart")
 }
 
 model Orders {
-
-  id        Int      @id @default(autoincrement()) @map("id")
-  user_id   Int      @unique @map("user_id")
-  store_id  Int      @unique @map("store_id")
-  menu_ids  Json     @map("menu_ids")
+  id         Int      @id @default(autoincrement()) @map("id")
+  user_id    Int      @unique @map("user_id")
+  store_id   Int      @unique @map("store_id")
+  menu_ids   String   @map("menu_ids") @db.LongText
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-
-  Review Reviews?
-  User   Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  Store  Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
+  User       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Review     Reviews?
 }
 
 model Reviews {
-  id        Int      @id @default(autoincrement()) @map("id")
-  order_id  Int      @unique @map("order_id")
-  comment   String   @map("comment")
-  star      Float    @map("star")
+  id         Int      @id @default(autoincrement()) @map("id")
+  order_id   Int      @unique @map("order_id")
+  comment    String   @map("comment")
+  star       Float    @map("star")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-
-  Order Orders @relation(fields: [order_id], references: [id], onDelete: Cascade)
-
+  Order      Orders   @relation(fields: [order_id], references: [id], onDelete: Cascade)
 }
