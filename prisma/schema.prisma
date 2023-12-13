@@ -69,8 +69,8 @@ model Menus {
 
 model Cart {
   id      Int @id @default(autoincrement()) @map("id")
-  user_id Int @unique @map("user_id") // 사용자(Users) 테이블을 참조하는 외래키
-  store_id  Int      @unique @map("store_id")
+  user_id Int @map("user_id") // 사용자(Users) 테이블을 참조하는 외래키
+  store_id  Int      @map("store_id")
   menu_id Int
   count   Int
   price   Int
