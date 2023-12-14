@@ -11,6 +11,6 @@ router.post('/', reviewsController.createReview);
 router.get('/', reviewsController.getReviews);
 
 //리뷰 삭제
-router.delete('/:reviewId', reviewsController.deleteReview);
+router.delete('/:reviewId', reviewsController.deletedReview);
 
 export default router;

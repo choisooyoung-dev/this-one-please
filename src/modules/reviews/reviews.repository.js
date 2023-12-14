@@ -35,13 +35,12 @@ export class ReviewsRepository {
         return reviews;
     };
 
-    deleteCart = async (reviewId) => {
-        // const { reviewId } = req.params;
-        // const reviewId = 1;
-        const deletedReview = await prisma.reviews.findUnique({
-            // where: { reviewId: +reviewId },
-            where: { id: reviewId },
+    deletedReview = async (id) => {
+        await prisma.$transaction(async (tx) => {
+            await tx.reviews.delete({
+                where: { id: +id },
+            });
         });
-        return deletedReview;
+        return {};
     };
 }
