@@ -9,6 +9,6 @@ const usersController = new UsersController();
 router.post('/signup', usersController.signup);
 
 // 사용자 정보
-router.get('/:id', authMiddleware, usersController.getUser);
+router.get('', authMiddleware, usersController.getUser);
 
 export default router;
