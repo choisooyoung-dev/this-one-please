@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '../../utils/prisma/index.js';
 import { CartsService } from './carts.service.js';
 import { StoresController } from '../stores/stores.controller.js';
@@ -8,13 +7,12 @@ export class CartsController {
 
     createCart = async (req, res, next) => {
         try {
-            const { menu_id, user_id, store_id, count, price } = req.body;
+            const { menu_id, user_id, store_id, count } = req.body;
             const createdCart = await this.cartsService.createCart(
                 menu_id,
                 user_id,
                 store_id,
                 count,
-                price,
             );
             res.status(201).json({ data: createdCart, message: '성공' });
         } catch (e) {
