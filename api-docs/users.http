@@ -4,13 +4,13 @@ POST http://localhost:5000/api/users/signup
 Content-Type: application/json
 
 {
-	"email":"soo@naver.com",
+	"email":"ekekekg@naver.com",
 	"password":"123456",
-	"name":"admin",
-	"type":0,
-	"address":"인천시 서구"
+	"name":"owner",
+	"type":1,
+	"address":"경기도 화성"
 }
 
 ###
 # 사용자 정보조회
-GET http://localhost:5000/api/users/1
+GET http://localhost:5000/api/users

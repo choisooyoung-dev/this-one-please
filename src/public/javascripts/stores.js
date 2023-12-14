@@ -7,6 +7,7 @@ fetch(`/api/stores/filter/${categoryId}`)
     response.data.forEach((e) => {
       var newItem = document.createElement("div");
       newItem.innerHTML = `
+      <a href="/store/${e.id}">
       <div class="max-w-4xl mx-auto p-8">
         <div class="bg-white shadow-md rounded p-6">
           <div class="flex flex-col lg:flex-row gap-6">
@@ -22,6 +23,7 @@ fetch(`/api/stores/filter/${categoryId}`)
           </div>
         </div>
       </div>
+      </a>
       `;
       document.getElementById(`store-container`).appendChild(newItem);  
     });
