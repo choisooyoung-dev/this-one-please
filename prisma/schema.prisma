@@ -92,6 +92,9 @@ model Orders {
   Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
   User       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Review     Reviews?
+
+  @@index([store_id], map: "Orders_store_id_fkey")
+  @@index([user_id], map: "Orders_user_id_fkey")
 }
 
 model Reviews {
