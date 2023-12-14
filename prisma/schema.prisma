@@ -27,9 +27,9 @@ model Users {
 model Categories {
   id         Int      @id @default(autoincrement()) @map("id")
   name       String   @map("name")
-  image_url  String   @default("www.www.www") @map("image_url")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
+  image_url  String   @default("www.www.www") @map("image_url")
   Stores     Stores[]
 }
 
