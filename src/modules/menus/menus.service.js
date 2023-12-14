@@ -69,7 +69,7 @@ export class MenusService {
 
     // 메뉴 삭제
     deleteMenu = async (store_id, id) => {
-        const deletedMenu = await this.menusRepository.updateMenu(store_id, id);
+        const deletedMenu = await this.menusRepository.deleteMenu(store_id, id);
 
         return;
     };
