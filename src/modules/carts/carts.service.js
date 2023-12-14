@@ -34,6 +34,10 @@ export class CartsService {
         return updatedCart;
     };
 
+    getCart = async (id) => {
+        const carts = await this.cartsRepository.getCart(id);
+        return carts;
+    };
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);
         // await prisma.$transaction(async (tx) => {

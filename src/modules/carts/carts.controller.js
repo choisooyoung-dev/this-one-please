@@ -55,17 +55,11 @@ export class CartsController {
     deleteCart = async (req, res, next) => {
         try {
             const { id } = req.params;
-            const cart = await prisma.cart.findUnique({
-                where: { id: +id },
-            });
+            const cart = await this.cartsService.getCart(id);
             if (!cart) {
                 res.status(404).json({ message: '삭제할 주문목록이 없습니다' });
             }
-            await prisma.$transaction(async (tx) => {
-                await tx.cart.delete({
-                    where: { id: +id },
-                });
-            });
+            await this.cartsService.deleteCart(id);
             res.status(201).json({ message: '삭제 성공' });
         } catch (e) {
             console.log(e);
