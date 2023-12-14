@@ -6,8 +6,8 @@ export class StoresController {
     // 매장 등록
     open = async (req, res, next) => {
         try {
-            // const { id: user_id } = res.locals.user;
-            const { user_id, name, image_url, category_id, address } = req.body;
+            const user_id = res.locals.user.id;
+            const { name, image_url, category_id, address } = req.body;
 
             // // 에러 핸들러 미들웨어에서 statusCode와 에러 키워드를 받아 에러를 처리할 수 있도록 하면 좋을 것 같다.
             // if (!user_id) next(errorHandler, 401, 'isNotExistUser'); // 인증받은 사용자 아이디가 없음
@@ -49,10 +49,12 @@ export class StoresController {
     // 매장 수정
     remodelling = async (req, res, next) => {
         try {
+            const user_id = res.locals.user.id;
             const id = Number(req.params.id);
             const { name, image_url, category_id, address } = req.body;
 
             const remodellingStore = await this.storesService.remodelling(
+                user_id,
                 id,
                 name,
                 image_url,
@@ -72,6 +74,7 @@ export class StoresController {
     // 매장 삭제
     close = async (req, res, next) => {
         try {
+            const user_id = res.locals.user.id;
             const id = Number(req.params.id);
 
             const closeStore = await this.storesService.close(id);
