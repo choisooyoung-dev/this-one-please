@@ -13,6 +13,6 @@ router.use('/carts', cartRouter);
 router.use('/users', UsersRouter);
 router.use('/category', categoriesRouter);
 router.use('/stores', storesRouter);
-router.use('/stores/:store_id/menus', menusRouter);
+router.use('/stores/menus', menusRouter);
 
 export default router;

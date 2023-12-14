@@ -5,18 +5,18 @@ const menusRouter = Router();
 const menusController = new MenusController();
 
 // 메뉴 등록
-menusRouter.post('', menusController.createMenu);
+menusRouter.post('/:store_id', menusController.createMenu);
 
 // 메뉴 전체 조회
-menusRouter.get('', menusController.getMenusAll);
+menusRouter.get('/:store_id', menusController.getMenusAll);
 
 // 메뉴 단일 조회
-menusRouter.get('/:id', menusController.getMenuOne);
+menusRouter.get('/:store_id/:id', menusController.getMenuOne);
 
 // 메뉴 수정
-menusRouter.patch('/:id', menusController.updateMenu);
+menusRouter.patch('/:store_id/:id', menusController.updateMenu);
 
 // 메뉴 삭제
-menusRouter.delete('/:id', menusController.deleteMenu);
+menusRouter.delete('/:store_id/:id', menusController.deleteMenu);
 
 export default menusRouter;
