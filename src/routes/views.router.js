@@ -22,4 +22,18 @@ router.get('/signup', function (req, res, next) {
     });
 });
 
+router.get('/login', function (req, res, next) {
+  res.render('login', {
+      path: '../',
+  });
+});
+
+
+router.get('/store', function (req, res, next) {
+  res.render('storeCreate', {
+      path: '../',
+  });
+});
+
+
 export default router;
