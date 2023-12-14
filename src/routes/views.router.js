@@ -11,8 +11,8 @@ router.get('/', function (req, res, next) {
 router.get('/category/:categoryId', function (req, res, next) {
     const categoryId = req.params.categoryId;
     res.render('storeList', {
-        categoryId,
         path: '../../',
+        categoryId,
     });
 });
 
@@ -32,6 +32,14 @@ router.get('/login', function (req, res, next) {
 router.get('/store', function (req, res, next) {
   res.render('storeCreate', {
       path: '../',
+  });
+});
+
+router.get('/store/:storeId', function (req, res, next) {
+  const storeId = req.params.storeId;
+  res.render('store', {
+      path: '../',
+      storeId,
   });
 });
 

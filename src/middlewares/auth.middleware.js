@@ -36,8 +36,9 @@ export default async (req, res, next) => {
             }
 
             return res
-                .status(400)
-                .json({ message: 'ACCESS TOKEN이 만료되었습니다.' });
+                .status(200)
+                .json({ message: 'ACCESS TOKEN이 갱신 되었습니다.' });
+
         }
 
         // refreshtoken 없을때, accesstoken이 인증되었다면 새로운 refreshtoken 발급해주기
@@ -75,8 +76,9 @@ export default async (req, res, next) => {
                 res.cookie('refreshToken', newRefreshToken);
             }
             return res
-                .status(400)
-                .json({ message: 'REFRESH TOKEN이 만료되었습니다.' });
+                .status(200)
+                .json({ message: 'REFRESH TOKEN이 갱신 되었습니다.' });
+
         }
 
         const { user_id } = accessPayload;
