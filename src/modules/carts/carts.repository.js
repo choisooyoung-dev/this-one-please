@@ -40,7 +40,7 @@ export class CartsRepository {
         console.log(id, updatedData);
         const updatedCart = await prisma.$transaction(
             async (tx) => {
-                await tx.carts.update({
+                await tx.cart.update({
                     data: {
                         ...updatedData,
                     },
