@@ -7,9 +7,9 @@ const router = express.Router();
 const authController = new AuthController();
 
 // 로그인
-router.post('/login', authMiddleware, authController.login);
+router.post('/login', authController.login);
 
 // 로그아웃
-router.get('/logout', authController.logout);
+router.get('/logout', authMiddleware, authController.logout);
 
 export default router;
