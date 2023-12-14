@@ -18,7 +18,7 @@ model Users {
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
   Cart       Cart[]
-  Orders     Orders?
+  Orders     Orders[]
   Stores     Stores?
 
   @@map("Users")
@@ -29,7 +29,7 @@ model Categories {
   name       String   @map("name")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-  image_url  String   @default("www.www.www") @map("image_url")
+  image_url  String   @map("image_url")
   Stores     Stores[]
 }
 
@@ -44,7 +44,7 @@ model Stores {
   updated_at  DateTime   @default(now()) @map("updated_at")
   Cart        Cart[]
   Menus       Menus[]
-  Orders      Orders?
+  Orders      Orders[]
   Categories  Categories @relation(fields: [category_id], references: [id], onDelete: Cascade)
   Users       Users      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
@@ -56,9 +56,9 @@ model Stores {
 model Menus {
   id        Int    @id @default(autoincrement()) @map("id")
   store_id  Int    @map("store_id")
-  name      String @unique @map("name")
+  name      String @map("name")
   price     Int    @map("price")
-  image_url String
+  image_url String @map("image_url")
   Cart      Cart[]
   Stores    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
 
@@ -69,9 +69,9 @@ model Cart {
   id       Int    @id @default(autoincrement()) @map("id")
   user_id  Int    @map("user_id")
   store_id Int    @map("store_id")
-  menu_id  Int
-  count    Int
-  price    Int
+  menu_id  Int    @map("menu_id")
+  count    Int    @map("count")
+  price    Int    @map("price")
   Menu     Menus  @relation(fields: [menu_id], references: [id], onDelete: Cascade)
   Store    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
   User     Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -84,14 +84,17 @@ model Cart {
 
 model Orders {
   id         Int      @id @default(autoincrement()) @map("id")
-  user_id    Int      @unique @map("user_id")
-  store_id   Int      @unique @map("store_id")
+  user_id    Int      @map("user_id")
+  store_id   Int      @map("store_id")
   menu_ids   String   @map("menu_ids") @db.LongText
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
   Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
   User       Users    @relation(fields: [user_id], references: [id], onDelete: Cascade)
   Review     Reviews?
+
+  @@index([store_id], map: "Orders_store_id_fkey")
+  @@index([user_id], map: "Orders_user_id_fkey")
 }
 
 model Reviews {
