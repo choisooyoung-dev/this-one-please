@@ -1,8 +1,7 @@
 import redisClient from '../../../auth-utils/redis.util.js';
 import { AuthService } from './auth.service.js';
-import { sign, refresh } from '../../../auth-utils/jwt.util.js';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-// import { refresh } from '../../../auth-utils/jwt.util.js';
 dotenv.config();
 
 export class AuthController {
@@ -10,36 +9,41 @@ export class AuthController {
 
     login = async (req, res, next) => {
         try {
-            console.log(req.body);
             const { email, password } = req.body;
 
             const user = await this.authService.login(email, password);
 
+            // console.log(user);
+            const user_id = user.user.id;
             if (!user) {
                 throw error;
             }
 
-            const secret = process.env.TOKEN_KEY;
-            if (!secret) {
-                return res
-                    .status(500)
-                    .json({ error: 'JWT secret key is missing' });
-            }
-            const accessToken = sign({ user }, secret);
-            const refreshToken = refresh();
-
-            redisClient.set(toString(user.id), refreshToken);
-
-            res.status(200).send({
-                // client에게 토큰 모두를 반환합니다.
-                ok: true,
-                data: {
-                    accessToken,
-                    refreshToken,
+            const accessToken = jwt.sign(
+                { user_id },
+                process.env.ACC_TOKEN_KEY,
+                {
+                    expiresIn: process.env.ACCESS_EXP_IN,
                 },
-            });
+            );
+            const refreshToken = jwt.sign(
+                { user_id },
+                process.env.REF_TOKEN_KEY,
+                {
+                    expiresIn: process.env.REFRESH_EXP_IN,
+                },
+            );
 
-            //return res.status(200).json({ message: '로그인 성공' });
+            // Accesstoken 쿠키 저장
+            res.cookie('accessToken', accessToken);
+            // Refreshtoken redis 저장 (key, value)
+            redisClient.set(refreshToken, user_id);
+            res.cookie('refreshToken', refreshToken);
+
+            return res.status(200).json({
+                message: '로그인 성공',
+                data: { accessToken, refreshToken },
+            });
         } catch (error) {
             console.log(error);
             next(error);
@@ -48,7 +52,17 @@ export class AuthController {
 
     logout = async (req, res, next) => {
         try {
-            res.clearCookie('authorization');
+            // AccessToken 및 RefreshToken 변수 선언
+            const accessToken = req.cookies.accessToken;
+            const refreshToken = req.cookies.refreshToken;
+
+            res.clearCookie('accessToken');
+            res.clearCookie('refreshToken');
+
+            // Redis에서 키 삭제
+            redisClient.del(refreshToken);
+            redisClient.del(accessToken);
+
             return res.status(200).json({
                 message: '로그아웃 성공',
             });
