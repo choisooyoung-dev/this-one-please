@@ -13,7 +13,7 @@ export class AuthController {
 
             const user = await this.authService.login(email, password);
 
-            // console.log(user);
+            console.log(user);
             const user_id = user.user.id;
             if (!user) {
                 throw error;

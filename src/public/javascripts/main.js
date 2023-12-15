@@ -9,7 +9,7 @@ const InitCategory= async()=> {
   .then((response) => {
       console.log(response);
       response.data.forEach((e) => {
-        var newItem = document.createElement("div");
+        const newItem = document.createElement("div");
         newItem.innerHTML = `
         <a href="/category/${e.id}">
         <div class="bg-white p-4 rounded-md shadow-md">
