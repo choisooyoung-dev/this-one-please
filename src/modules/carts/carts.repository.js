@@ -55,18 +55,19 @@ export class CartsRepository {
         );
         return updatedCart;
     };
-
-    deleteCart = async (id) => {
+    getCart = async (id) => {
         const cart = await prisma.cart.findUnique({
             where: { id: +id },
         });
-        if (!cart) {
-            res.status(404).json({ message: '삭제할 주문목록이 없습니다' });
-        }
+        return cart;
+    };
+
+    deleteCart = async (id) => {
         await prisma.$transaction(async (tx) => {
             await tx.cart.delete({
                 where: { id: +id },
             });
         });
+        return {};
     };
 }
