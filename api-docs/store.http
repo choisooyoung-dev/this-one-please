@@ -1,0 +1,37 @@
+###
+# store create
+POST http://localhost:5000/api/stores
+Content-Type: application/json
+
+{
+  "user_id": 6,
+  "name": "엽기떡볶이",
+  "image_url": "data:image/jpeg;base64",
+  "category_id": 9,
+  "address": "인천광역시 미추홀구"
+}
+
+###
+# store get
+GET http://localhost:5000/api/stores/6
+
+###
+# store category filter
+GET http://localhost:5000/api/stores/filter/1
+
+###
+# store update
+PATCH  http://localhost:5000/api/stores/6
+Content-Type: application/json
+
+{
+  "name": "김밥천국",
+  "image_url": "data:image/jpeg;base64",
+  "category_id": 9,
+  "address": "제주도 어딘가"
+}
+
+
+###
+# store delete
+DELETE http://localhost:5000/api/stores/5
