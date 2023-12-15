@@ -14,7 +14,7 @@ router.use('/carts', cartRouter);
 router.use('/users', UsersRouter);
 router.use('/category', categoriesRouter);
 router.use('/stores', storesRouter);
-router.use('/stores/menus', menusRouter);
+router.use('/menus', menusRouter);
 router.use('/review', reviewsRouter);
 
 export default router;
