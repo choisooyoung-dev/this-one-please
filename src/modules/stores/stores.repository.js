@@ -19,7 +19,6 @@ export class StoreRepository {
 
     // 매장 수정
     remodelling = async (
-        user_id,
         id,
         name,
         image_url,
@@ -27,7 +26,7 @@ export class StoreRepository {
         address,
     ) => {
         const remodellingStore = await prisma.stores.update({
-            where: { user_id, id },
+            where: { id },
             data: { name, image_url, category_id, address },
         });
 
@@ -35,9 +34,9 @@ export class StoreRepository {
     };
 
     // 매장 삭제
-    close = async (user_id, id) => {
+    close = async ( id) => {
         const closeStore = await prisma.stores.delete({
-            where: { user_id, id },
+            where: {id },
         });
 
         return;

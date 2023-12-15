@@ -43,7 +43,6 @@ export class StoresService {
 
     // 매장 수정
     remodelling = async (
-        user_id,
         id,
         name,
         image_url,
@@ -51,7 +50,6 @@ export class StoresService {
         address,
     ) => {
         const remodellingStore = await this.storeRepository.remodelling(
-            user_id,
             id,
             name,
             image_url,
@@ -72,8 +70,8 @@ export class StoresService {
     };
 
     // 매장 삭제
-    close = async (user_id, id) => {
-        const closeStore = await this.storeRepository.close(user_id, id);
+    close = async (id) => {
+        const closeStore = await this.storeRepository.close(id);
 
         return;
     };

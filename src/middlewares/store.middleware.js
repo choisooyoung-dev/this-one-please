@@ -4,7 +4,7 @@ import { prisma } from './../utils/prisma/index.js';
 export default async (req, res, next) => {
   const user = res.locals.user;
   if( user.type === 1 ){
-    const store = await prisma.stores.findUnique({ where: { user_id } });
+    const store = await prisma.stores.findUnique({ where: { user_id:user.id } });
 
     if(store) {
       res.locals.store = store;
