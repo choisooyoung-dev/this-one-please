@@ -8,6 +8,9 @@ const usersController = new UsersController();
 // 사용자 회원가입
 router.post('/signup', usersController.signup);
 
+// 사용자 이메일 인증
+router.post('/signup/auth-mail', usersController.signup);
+
 // 사용자 정보
 router.get('', authMiddleware, usersController.getUser);
 
