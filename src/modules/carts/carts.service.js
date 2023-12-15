@@ -32,10 +32,10 @@ export class CartsService {
         return updatedCart;
     };
 
-    // getCart = async (id) => {
-    //     const carts = await this.cartsRepository.getCart(id);
-    //     return carts;
-    // };
+    getCart = async (id) => {
+        const carts = await this.cartsRepository.getCart(id);
+        return carts;
+    };
 
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);

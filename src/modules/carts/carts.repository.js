@@ -27,6 +27,7 @@ export class CartsRepository {
         const carts = await prisma.cart.findMany({
             where: { user_id: user_id },
             select: {
+                id: true,
                 user_id: true,
                 menu_id: true,
                 store_id: true,
@@ -43,6 +44,7 @@ export class CartsRepository {
 
         return carts.map((cart) => {
             return {
+                id:cart.id,
                 user_id: cart.user_id,
                 menu_name: cart.Menu?.name,
                 store_name: cart.Store?.name,
@@ -75,12 +77,12 @@ export class CartsRepository {
         return updatedCart;
     };
 
-    // getCart = async (id) => {
-    //     const cart = await prisma.cart.findUnique({
-    //         where: { id: +id },
-    //     });
-    //     return cart;
-    // };
+    getCart = async (id) => {
+        const cart = await prisma.cart.findUnique({
+            where: { id: +id },
+        });
+        return cart;
+    };
 
     deleteCart = async (id) => {
         await prisma.$transaction(async (tx) => {
