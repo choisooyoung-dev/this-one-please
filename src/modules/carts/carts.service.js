@@ -20,23 +20,23 @@ export class CartsService {
         };
     };
 
-    getCarts = async (userId) => {
-        const carts = await this.cartsRepository.getCarts(userId);
+    getCarts = async (user_id) => {
+        const carts = await this.cartsRepository.getCarts(user_id);
+        console.log('service: ', carts);
+
         return carts;
     };
 
-    updateCart = async (id, updatedData) => {
-        const updatedCart = await this.cartsRepository.updateCart(
-            id,
-            updatedData,
-        );
+    updateCart = async (id, count) => {
+        const updatedCart = await this.cartsRepository.updateCart(id, count);
         return updatedCart;
     };
 
-    getCart = async (id) => {
-        const carts = await this.cartsRepository.getCart(id);
-        return carts;
-    };
+    // getCart = async (id) => {
+    //     const carts = await this.cartsRepository.getCart(id);
+    //     return carts;
+    // };
+
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);
 
