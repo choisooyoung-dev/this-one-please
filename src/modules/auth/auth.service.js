@@ -6,6 +6,6 @@ export class AuthService {
     login = async (email, password) => {
         const user = await this.authRepository.login(email);
 
-        return { user };
+        return user;
     };
 }
