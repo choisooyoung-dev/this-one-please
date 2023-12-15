@@ -35,7 +35,14 @@ export class ReviewsRepository {
         return reviews;
     };
 
-    deletedReview = async (id) => {
+    getReview = async (id) => {
+        const review = await prisma.reviews.findUnique({
+            where: { id: +id },
+        });
+        return review;
+    };
+
+    deleteReview = async (id) => {
         await prisma.$transaction(async (tx) => {
             await tx.reviews.delete({
                 where: { id: +id },

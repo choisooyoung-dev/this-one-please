@@ -23,9 +23,14 @@ export class ReviewsService {
         return reviews;
     };
 
-    deletedReview = async (id) => {
+    getReview = async (id) => {
+        const review = await this.reviewsRepository.getReview(id);
+        return review;
+    };
+
+    deleteReview = async (id) => {
         // const { reviewId } = req.params;
-        await this.reviewsRepository.deletedReview(id);
+        await this.reviewsRepository.deleteReview(id);
         return {};
     };
 }
