@@ -6,6 +6,13 @@ export class StoresController {
     // 매장 등록
     open = async (req, res, next) => {
         try {
+            const store = res.locals.store;
+            if(store){
+                return res.status(400).json({
+                    message:"이미 매장을 가지고 있습니다."
+                });
+            }
+
             const user_id = res.locals.user.id;
             const { name, image_url, category_id, address } = req.body;
 
@@ -34,7 +41,6 @@ export class StoresController {
     enter = async (req, res, next) => {
         try {
             const id = Number(req.params.id);
-
             const enterStore = await this.storesService.enter(id);
 
             return res.status(200).json({
@@ -49,12 +55,17 @@ export class StoresController {
     // 매장 수정
     remodelling = async (req, res, next) => {
         try {
-            const user_id = res.locals.user.id;
-            const id = Number(req.params.id);
+            const store = res.locals.store;
+            if(!store){
+                return res.status(404).json({
+                    message:"매장 정보가 없습니다."
+                });
+            }
+
+            const id = Number(store.id);
             const { name, image_url, category_id, address } = req.body;
 
             const remodellingStore = await this.storesService.remodelling(
-                user_id,
                 id,
                 name,
                 image_url,
@@ -74,8 +85,15 @@ export class StoresController {
     // 매장 삭제
     close = async (req, res, next) => {
         try {
-            const user_id = res.locals.user.id;
-            const id = Number(req.params.id);
+            const store = res.locals.store;
+            if(!store){
+                return res.status(404).json({
+                    message:"매장 정보가 없습니다."
+                });
+            }
+            
+            // const user_id = res.locals.user.id;
+            const id = Number(store.id);
 
             const closeStore = await this.storesService.close(id);
 
