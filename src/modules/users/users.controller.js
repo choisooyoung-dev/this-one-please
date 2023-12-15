@@ -6,7 +6,9 @@ export class UsersController {
     // 회원 가입
     signup = async (req, res, next) => {
         try {
-            const { email, password, name, type, address } = req.body;
+            // const { email, password, name, type, address } = req.body;
+            // 회원가입 입력 폼에서 받아 온 데이터들로 변경
+            const { email, name, type, address, password } = res.data;
             await this.usersService.signup(
                 email,
                 password,

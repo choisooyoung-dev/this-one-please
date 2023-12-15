@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const sendEmail = async (e) => {
     const email = document.getElementById('email').value;
 
-    await fetch('/api/users/signup/auth-mail', {
+    await fetch('/api/users/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -24,4 +24,8 @@ const sendEmail = async (e) => {
         .catch((error) => {
             console.log('에러 발생', error);
         });
+};
+
+const authEmail = async (e) => {
+    const authEmailNum = document.getElementById('email-verification').value;
 };
