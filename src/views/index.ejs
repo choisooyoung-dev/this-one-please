@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel='stylesheet' href='<%= path %>stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
   </head>
-  <body class="bg-gray-100">
+  <body>
+    <div class="icon-container">
+      <a href="/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons"
+          style="font-size: 70px; color: #ffffff; margin: 10px;">account_circle</i></a>
+    </div>
     <%-include('header')%>
-    <a href="/signup">
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-md">로그인</button>
-    </a>
     <div class="container mx-auto p-4">
       
-      <div class="flex gap-4 mb-6">
-          <input type="text" placeholder="검색어 입력란" class="flex-grow p-2 border rounded-md">
-          <button class="bg-blue-500 text-white px-4 py-2 rounded-md">검색</button>
+      <div class="input-field-container" style="display: flex; align-items:center">
+        <div class="input-field" style="width: 85%;">
+          <input type="text" id="search" required autocomplete="off">
+          <label for="search">검색어 입력란</label>
+        </div>
+        <div class="button-container" style="width: 15%;">
+          <button class="waves-effect waves-light btn" id="searchbtn" style="width: 100%;">검색</button>
+        </div>
       </div>
  
       <div id="category-container" class="grid grid-cols-3 gap-6">
@@ -22,5 +30,5 @@
   </div>
     <%-include('footer')%>
   </body>
-  <script src="javascripts/main.js"></script>
+  <script src="<%= path %>javascripts/main.js"></script>
 </html>
