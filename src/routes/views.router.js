@@ -60,8 +60,17 @@ router.get('/store/:storeId', function (req, res, next) {
 async function checkLogin(req, res) {
     const { accessToken, refreshToken } = req.cookies;
     
-    if (!accessToken) {
+    if (!accessToken && !refreshToken) {
         return [false,null,null];
+    }
+
+    async function returnData(user_id) {
+        const user = await prisma.users.findUnique({ where: { id: user_id } });
+        let store = null;
+        if( user.type === 1 ){
+            store = await prisma.stores.findUnique({ where: { user_id } });
+        }
+        return [true,user,store];
     }
 
     function validToken(token, secretKey) {
@@ -79,6 +88,7 @@ async function checkLogin(req, res) {
     const refreshPayload = validToken(refreshToken, process.env.REF_TOKEN_KEY);
     const redisRefreshToken = await redisClient.get(refreshToken);
 
+    console.log(accessPayload);
 
     if (!accessPayload) {
         if (
@@ -91,6 +101,11 @@ async function checkLogin(req, res) {
                 process.env.ACC_TOKEN_KEY,
             );
             res.cookie('accessToken', newAccessToken);
+
+            return await returnData(user_id);
+        }
+        else {
+            
         }
     }
 
@@ -102,6 +117,7 @@ async function checkLogin(req, res) {
                 process.env.REF_TOKEN_KEY,
             );
             res.cookie('refreshToken', newRefreshToken);
+            return await returnData(user_id);
         }
     }
 
@@ -120,17 +136,12 @@ async function checkLogin(req, res) {
                 process.env.REF_TOKEN_KEY,
             );
             res.cookie('refreshToken', newRefreshToken);
+            return await returnData(user_id);
         }
     }
 
-    const { user_id } = accessPayload;
-    const user = await prisma.users.findUnique({ where: { id: user_id } });
-    let store = null;
-    if( user.type === 1 ){
-        store = await prisma.stores.findUnique({ where: { user_id } });
-    }
-
-    return [true,user,store];
+    const user_id = accessPayload ? accessPayload.user_id : refreshPayload.user_id;
+    return await returnData(user_id);
 }
 
 export default router;
