@@ -5,7 +5,7 @@ fetch(`/api/stores/filter/${categoryId}`)
 .then((response) => {
     console.log(response);
     response.data.forEach((e) => {
-      var newItem = document.createElement("div");
+      const newItem = document.createElement("div");
       newItem.innerHTML = `
       <a href="/store/${e.id}">
       <div class="max-w-4xl mx-auto p-8">
