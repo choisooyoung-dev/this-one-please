@@ -139,6 +139,9 @@ async function checkLogin(req, res) {
             return await returnData(user_id);
         }
     }
+    if(!refreshPayload && !accessPayload) {
+        return [false,null,null];
+    }
 
     const user_id = accessPayload ? accessPayload.user_id : refreshPayload.user_id;
     return await returnData(user_id);
