@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { StoresController } from '../modules/stores/stores.controller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
+import storeMiddleware from '../middlewares/store.middleware.js';
 
 const storesRouter = Router();
 const storesController = new StoresController();
