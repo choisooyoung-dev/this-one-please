@@ -39,11 +39,7 @@ export class CartsService {
     };
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);
-        // await prisma.$transaction(async (tx) => {
-        //     await tx.cart.delete({
-        //         where: { id: +id },
-        //     });
-        // });
+
         return deletedCart;
     };
 }
