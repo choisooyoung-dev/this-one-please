@@ -36,15 +36,7 @@ export class UsersController {
             };
 
             let randomStr = randomStrFunc(10);
-            redisClient.set(
-                randomStr,
-                randomStr,
-                'EX',
-                process.env.MAILS_AUTHNUM_EXP_IN,
-                async () => {
-                    console.log(key + 'redis 저장 완료');
-                },
-            );
+            redisClient.set(randomStr, randomStr);
             if (!email) {
                 return res
                     .status(400)
@@ -82,18 +74,18 @@ export class UsersController {
             const redisAuthEmailNum = await redisClient.get(authEmailNum);
 
             if (!redisAuthEmailNum) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     error: '일치하지 않은 인증번호 입니다. 다시 입력해주세요.',
                 });
             } else {
+                redisClient.del(redisAuthEmailNum);
                 res.status(200).json({
                     success: true,
                     message: '인증되었습니다. 가입을 진행해주세요.',
                 });
-
-                res.redirect('/');
             }
+            res.redirect('/');
         } catch (error) {
             console.log(error);
             next(error);
@@ -103,24 +95,31 @@ export class UsersController {
     // 회원 가입
     signup = async (req, res, next) => {
         try {
-            // const { email, password, name, type, address } = req.body;
+            const { email, password, name, type, address, confirmPassword } =
+                req.body;
             // 회원가입 입력 폼에서 받아 온 데이터들로 변경
-            const { email, name, type, address, password } = res.data;
-            await this.usersService.signup(
-                email,
-                password,
-                name,
-                type,
-                address,
-            );
-            return res.status(201).json({
-                success: true,
-                data: email,
-                password,
-                name,
-                type,
-                address,
-            });
+            // const { email, name, type, address, password, confirmPassword } =
+            //     res.data;
+
+            if (password !== confirmPassword) {
+                return res.status(400).json({
+                    success: false,
+                    error: '비밀번호와 확인 비밀번호가 일치하지 않습니다. 다시 적어주세요.',
+                });
+            } else {
+                await this.usersService.signup(
+                    email,
+                    password,
+                    name,
+                    type,
+                    address,
+                );
+                res.status(201).json({
+                    success: true,
+                    data: { email, password, name, type, address },
+                    message: '회원가입이 되었습니다. 로그인 해주세요.',
+                });
+            }
         } catch (error) {
             next(error);
         }
