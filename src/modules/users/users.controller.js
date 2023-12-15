@@ -1,7 +1,101 @@
 import { UsersService } from './users.service.js';
+import nodemailer from 'nodemailer';
+import * as dotenv from 'dotenv';
+import redisClient from '../../../auth-utils/redis.util.js';
+dotenv.config();
 
 export class UsersController {
     usersService = new UsersService();
+
+    // 회원 가입 시 인증 이메일 보내기
+    sendEmail = async (req, res, next) => {
+        const { email } = req.body;
+
+        try {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail', // gmail 사용
+                auth: {
+                    user: process.env.MAILS_EMAIL, // env 파일 내 보내는 사람의 메일 주소
+                    pass: process.env.MAILS_PWD, // env 파일 내 생성된 앱 비밀번호 16자리
+                },
+            });
+
+            // 랜덤 인증번호 생성 함수
+            const randomStrFunc = (num) => {
+                const characters =
+                    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                let result = '';
+                const randomMaxLength = characters.length;
+                for (let i = 0; i < num; i++) {
+                    result += characters.charAt(
+                        Math.floor(Math.random() * randomMaxLength),
+                    );
+                }
+
+                return result;
+            };
+
+            let randomStr = randomStrFunc(10);
+            redisClient.set(
+                randomStr,
+                randomStr,
+                'EX',
+                process.env.MAILS_AUTHNUM_EXP_IN,
+                async () => {
+                    console.log(key + 'redis 저장 완료');
+                },
+            );
+            if (!email) {
+                return res
+                    .status(400)
+                    .json({ error: '이메일을 입력해주세요.' });
+            }
+            async function main() {
+                await transporter.sendMail({
+                    from: process.env.MAILS_EMAIL, // env 파일 내 보내는 사람의 메일 주소
+                    to: email, // 받는 사람
+                    subject: '👋 2거주세요 가입 인증번호입니다.', // 제목
+                    text: `인증번호는 ${randomStr} 입니다.`, // 메일 내용
+                    // html: "<b>Hello world?</b>", // html 보내줄 수도 있음
+                });
+            }
+            await main();
+
+            res.status(200).json({
+                message:
+                    '입력해주신 이메일 주소로 전송되었습니다. 확인해주세요.',
+            });
+
+            res.redirect('/');
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    };
+
+    // 회원 가입 시 인증 번호 검증
+    verifyEmail = async (req, res, next) => {
+        try {
+            const { authEmailNum } = req.body;
+
+            const redisAuthEmailNum = await redisClient.get(authEmailNum);
+
+            if (!redisAuthEmailNum) {
+                return res.status(400).json({
+                    error: '일치하지 않은 인증번호 입니다. 다시 입력해주세요.',
+                });
+            } else {
+                res.status(200).json({
+                    message: '인증되었습니다. 가입을 진행해주세요.',
+                });
+
+                res.redirect('/');
+            }
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    };
 
     // 회원 가입
     signup = async (req, res, next) => {
@@ -43,6 +137,7 @@ export class UsersController {
         }
     };
 
+    /*
     // 회원 수정
     updateUser = async (req, res, next) => {
         try {
@@ -60,4 +155,5 @@ export class UsersController {
             next(error);
         }
     };
+    */
 }

@@ -1,9 +1,10 @@
 import nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
+import redisClient from '../../auth-utils/redis.util.js';
 dotenv.config();
 
 export default async (req, res, next) => {
-    const { email, name, type, address, password } = req.body;
+    const { email } = req.body;
 
     try {
         const transporter = nodemailer.createTransport({
@@ -30,6 +31,7 @@ export default async (req, res, next) => {
         };
 
         let randomStr = randomStrFunc(10);
+        redisClient.set(randomStr, randomStr);
 
         async function main() {
             await transporter.sendMail({
