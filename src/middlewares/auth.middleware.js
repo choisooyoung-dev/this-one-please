@@ -34,9 +34,10 @@ export default async (req, res, next) => {
                 res.cookie('accessToken', newAccessToken);
             }
 
-            return res
-                .status(200)
-                .json({ message: 'ACCESS TOKEN이 갱신 되었습니다.' });
+            return res.status(200).json({
+                success: true,
+                message: 'ACCESS TOKEN이 갱신 되었습니다.',
+            });
         }
 
         // refreshtoken 없을때, accesstoken이 인증되었다면 새로운 refreshtoken 발급해주기
@@ -49,15 +50,17 @@ export default async (req, res, next) => {
                 );
                 res.cookie('refreshToken', newRefreshToken);
             }
-            return res
-                .status(401)
-                .json({ message: 'REFRESH TOKEN이 존재하지 않습니다.' });
+            return res.status(401).json({
+                success: false,
+                message: 'REFRESH TOKEN이 존재하지 않습니다.',
+            });
         }
 
         if (!redisRefreshToken) {
-            return res
-                .status(401)
-                .json({ message: 'REFRESH TOKEN이 서버에 존재하지 않습니다.' });
+            return res.status(401).json({
+                success: false,
+                message: 'REFRESH TOKEN이 서버에 존재하지 않습니다.',
+            });
         }
 
         // accesstoken은 있고, refreshtoken 만료되었을때
@@ -75,7 +78,10 @@ export default async (req, res, next) => {
             }
             return res
                 .status(200)
-                .json({ message: 'REFRESH TOKEN이 갱신 되었습니다.' });
+                .json({
+                    success: true,
+                    message: 'REFRESH TOKEN이 갱신 되었습니다.',
+                });
         }
 
         const { user_id } = accessPayload;

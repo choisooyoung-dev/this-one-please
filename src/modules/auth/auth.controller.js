@@ -40,6 +40,7 @@ export class AuthController {
             res.cookie('refreshToken', refreshToken);
 
             return res.status(200).json({
+                success: true,
                 message: '로그인 성공',
                 data: { accessToken, refreshToken },
             });
@@ -63,6 +64,7 @@ export class AuthController {
             redisClient.del(accessToken);
 
             return res.status(200).json({
+                success: true,
                 message: '로그아웃 성공',
             });
         } catch (err) {

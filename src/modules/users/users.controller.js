@@ -48,7 +48,7 @@ export class UsersController {
             if (!email) {
                 return res
                     .status(400)
-                    .json({ error: '이메일을 입력해주세요.' });
+                    .json({ success: false, error: '이메일을 입력해주세요.' });
             }
             async function main() {
                 await transporter.sendMail({
@@ -62,6 +62,7 @@ export class UsersController {
             await main();
 
             res.status(200).json({
+                success: true,
                 message:
                     '입력해주신 이메일 주소로 전송되었습니다. 확인해주세요.',
             });
@@ -82,10 +83,12 @@ export class UsersController {
 
             if (!redisAuthEmailNum) {
                 return res.status(400).json({
+                    success: false,
                     error: '일치하지 않은 인증번호 입니다. 다시 입력해주세요.',
                 });
             } else {
                 res.status(200).json({
+                    success: true,
                     message: '인증되었습니다. 가입을 진행해주세요.',
                 });
 
@@ -110,9 +113,14 @@ export class UsersController {
                 type,
                 address,
             );
-            return res
-                .status(201)
-                .json({ data: email, password, name, type, address });
+            return res.status(201).json({
+                success: true,
+                data: email,
+                password,
+                name,
+                type,
+                address,
+            });
         } catch (error) {
             next(error);
         }
@@ -131,7 +139,7 @@ export class UsersController {
             // }
 
             const user = await this.usersService.getUser(localUserId);
-            return res.status(201).json({ data: user });
+            return res.status(201).json({ success: true, data: user });
         } catch (error) {
             next(error);
         }

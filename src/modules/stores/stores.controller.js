@@ -7,9 +7,10 @@ export class StoresController {
     open = async (req, res, next) => {
         try {
             const store = res.locals.store;
-            if(store){
+            if (store) {
                 return res.status(400).json({
-                    message:"이미 매장을 가지고 있습니다."
+                    success: false,
+                    message: '이미 매장을 가지고 있습니다.',
                 });
             }
 
@@ -31,7 +32,7 @@ export class StoresController {
                 address,
             );
 
-            return res.status(200).json({ status: 'success', data: openStore });
+            return res.status(200).json({ success: true, data: openStore });
         } catch (error) {
             next(error);
         }
@@ -44,7 +45,7 @@ export class StoresController {
             const enterStore = await this.storesService.enter(id);
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
                 data: enterStore,
             });
         } catch (error) {
@@ -56,9 +57,10 @@ export class StoresController {
     remodelling = async (req, res, next) => {
         try {
             const store = res.locals.store;
-            if(!store){
+            if (!store) {
                 return res.status(404).json({
-                    message:"매장 정보가 없습니다."
+                    success: false,
+                    message: '매장 정보가 없습니다.',
                 });
             }
 
@@ -74,7 +76,7 @@ export class StoresController {
             );
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
                 data: remodellingStore,
             });
         } catch (error) {
@@ -86,19 +88,21 @@ export class StoresController {
     close = async (req, res, next) => {
         try {
             const store = res.locals.store;
-            if(!store){
+            if (!store) {
                 return res.status(404).json({
-                    message:"매장 정보가 없습니다."
+                    success: false,
+                    message: '매장 정보가 없습니다.',
                 });
             }
-            
+
             // const user_id = res.locals.user.id;
             const id = Number(store.id);
 
             const closeStore = await this.storesService.close(id);
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
+                message: '삭제 되었습니다.',
             });
         } catch (error) {
             next(error);
@@ -112,9 +116,7 @@ export class StoresController {
 
             const filterStores = await this.storesService.filter(category_id);
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: filterStores });
+            return res.status(200).json({ success: true, data: filterStores });
         } catch (error) {
             next(error);
         }
