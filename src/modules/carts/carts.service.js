@@ -2,13 +2,12 @@ import { CartsRepository } from './carts.repository.js';
 
 export class CartsService {
     cartsRepository = new CartsRepository();
-    createCart = async (menu_id, user_id, store_id, count, price) => {
+    createCart = async (menu_id, user_id, store_id, count) => {
         const createdCart = await this.cartsRepository.createCart(
             menu_id,
             user_id,
             store_id,
             count,
-            price,
         );
 
         return {
@@ -34,6 +33,10 @@ export class CartsService {
         return updatedCart;
     };
 
+    getCart = async (id) => {
+        const carts = await this.cartsRepository.getCart(id);
+        return carts;
+    };
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);
         // await prisma.$transaction(async (tx) => {
