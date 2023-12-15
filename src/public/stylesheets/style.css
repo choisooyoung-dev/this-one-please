@@ -1,3 +1,7 @@
 body {
-  background-color: #c1e7e7;
+    background-color: #c1e7e7;
+}
+
+.user-logo {
+    margin-right: 40px;
 }

@@ -16,9 +16,7 @@ export class MenusController {
                 image_url,
             );
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: createdMenu });
+            return res.status(200).json({ success: true, data: createdMenu });
         } catch (error) {
             next(error);
         }
@@ -31,9 +29,7 @@ export class MenusController {
 
             const gotMenusAll = await this.menusService.getMenusAll(store_id);
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: gotMenusAll });
+            return res.status(200).json({ success: true, data: gotMenusAll });
         } catch (error) {
             next(error);
         }
@@ -47,9 +43,7 @@ export class MenusController {
 
             const gotMenuOne = await this.menusService.getMenuOne(store_id, id);
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: gotMenuOne });
+            return res.status(200).json({ success: true, data: gotMenuOne });
         } catch (error) {
             next(error);
         }
@@ -70,9 +64,7 @@ export class MenusController {
                 image_url,
             );
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: updatedMenu });
+            return res.status(200).json({ success: true, data: updatedMenu });
         } catch (error) {
             next(error);
         }
@@ -89,7 +81,7 @@ export class MenusController {
                 id,
             );
 
-            return res.status(200).json({ status: 'success' });
+            return res.status(200).json({ success: true });
         } catch (error) {
             next(error);
         }
