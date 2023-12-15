@@ -1,20 +1,20 @@
 import express from 'express';
-//controller
+import authMiddleware from '../middlewares/auth.middleware.js';
 import { CartsController } from '../modules/carts/carts.controller.js';
 
 const router = express.Router();
 const cartController = new CartsController();
 
 //Cart담기
-router.post('', cartController.createCart);
+router.post('', authMiddleware, cartController.createCart);
 
 //Cart목록보기
-router.get('', cartController.getCarts);
+router.get('', authMiddleware, cartController.getCarts);
 
 //Cart수정하기
-router.patch('/:id', cartController.updateCart);
+router.patch('/:id', authMiddleware, cartController.updateCart);
 
 //Cart삭제하기
-router.delete('/:id', cartController.deleteCart);
+router.delete('/:id', authMiddleware, cartController.deleteCart);
 
 export default router;

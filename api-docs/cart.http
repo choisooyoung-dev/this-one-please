@@ -1,0 +1,30 @@
+###
+# cart create
+POST http://localhost:5000/api/carts
+Content-Type: application/json
+
+{ 
+  "store_id": 1,
+  "menu_id": 1,
+  "count": 9,
+  "price": 1000
+}
+
+###
+# cart get
+GET http://localhost:5000/api/carts
+
+
+###
+# cart update
+PATCH  http://localhost:5000/api/carts/10
+Content-Type: application/json
+
+{
+  "count": 2
+}
+
+
+###
+# cart delete
+DELETE http://localhost:5000/api/carts/2

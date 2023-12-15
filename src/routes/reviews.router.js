@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middlewares/auth.middleware.js';
 import { ReviewsController } from '../modules/reviews/reviews.controller.js';
 
 const router = express.Router();
@@ -11,6 +12,6 @@ router.post('/', reviewsController.createReview);
 router.get('/', reviewsController.getReviews);
 
 //리뷰 삭제
-router.delete('/:reviewId', reviewsController.deletedReview);
+router.delete('/:reviewId', reviewsController.deleteReview);
 
 export default router;
