@@ -14,6 +14,8 @@ export class CartsController {
                 store_id,
                 count,
             );
+            console.log('controller: ', createdCart);
+
             res.status(201).json({ data: createdCart, message: '성공' });
         } catch (e) {
             console.log(e);
@@ -23,9 +25,11 @@ export class CartsController {
 
     getCarts = async (req, res, next) => {
         try {
-            const userId = req.body.userId;
-            const carts = await this.cartsService.getCarts(userId);
-            console.log(carts);
+            const { user_id } = req.body;
+
+            const carts = await this.cartsService.getCarts(user_id);
+            console.log('controller: ', carts);
+
             res.status(201).json({ data: carts, message: '성공' });
         } catch (e) {
             res.status(500).json({ message: '예상치못한에러입니다' });
@@ -34,12 +38,9 @@ export class CartsController {
 
     updateCart = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            const updatedData = req.body;
-            const updatedCart = await this.cartsService.updateCart(
-                id,
-                updatedData,
-            );
+            const id = Number(req.params.id);
+            const { count } = req.body;
+            const updatedCart = await this.cartsService.updateCart(id, count);
             res.status(201).json({
                 data: updatedCart,
                 message: '업데이트가 되었습니다',
