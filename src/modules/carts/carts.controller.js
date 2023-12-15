@@ -13,6 +13,8 @@ export class CartsController {
                 store_id,
                 count,
             );
+            console.log('controller: ', createdCart);
+
             res.status(201).json({ data: createdCart, message: '성공' });
         } catch (e) {
             console.log(e);
@@ -23,34 +25,29 @@ export class CartsController {
     getCarts = async (req, res, next) => {
         try {
             const user_id = res.locals.user.id;
-            const cart = await this.cartsService.getCart(id);
-            if (cart.user_id !== res.locals.user.id) {
-                res.status(400).json({ message: '권한이 없습니다' });
-            }
-            const userId = req.body.userId;
-            const carts = await this.cartsService.getCarts(userId);
+            // const cart = await this.cartsService.getCart(id);
+            // if (cart.user_id !== res.locals.user.id) {
+            //     res.status(400).json({ message: '권한이 없습니다' });
+            // }
+            const carts = await this.cartsService.getCarts(user_id);
             console.log(carts);
             res.status(201).json({ data: carts, message: '성공' });
         } catch (e) {
+            console.log(e);
             res.status(500).json({ message: '예상치못한에러입니다' });
         }
     };
 
     updateCart = async (req, res, next) => {
         try {
-            const user_id = res.locals.user.id;
+            // const user_id = res.locals.user.id;
+            const id = Number(req.params.id);
+            const { count } = req.body;
             const cart = await this.cartsService.getCart(id);
             if (cart.user_id !== res.locals.user.id) {
                 res.status(400).json({ message: '권한이 없습니다' });
             }
-
-            const id = req.params.id;
-            const updatedData = req.body;
-            const updatedCart = await this.cartsService.updateCart(
-                user_id,
-                id,
-                updatedData,
-            );
+            const updatedCart = await this.cartsService.updateCart(id, count);
             res.status(201).json({
                 data: updatedCart,
                 message: '업데이트가 되었습니다',

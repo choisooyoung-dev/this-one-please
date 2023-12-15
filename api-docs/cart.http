@@ -17,7 +17,7 @@ GET http://localhost:5000/api/carts
 
 ###
 # cart update
-PATCH  http://localhost:5000/api/carts/4
+PATCH  http://localhost:5000/api/carts/10
 Content-Type: application/json
 
 {
