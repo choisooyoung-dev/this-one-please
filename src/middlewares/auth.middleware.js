@@ -4,6 +4,9 @@ import redisClient from '../../auth-utils/redis.util.js';
 export default async (req, res, next) => {
     try {
         const { accessToken, refreshToken } = req.cookies;
+        if (!accessToken && !refreshToken) {
+            return res.status(401).json({ message: '다시 로그인 해주세요.' });
+        }
         const accessPayload = validToken(
             accessToken,
             process.env.ACC_TOKEN_KEY,
@@ -16,10 +19,6 @@ export default async (req, res, next) => {
         );
         const redisRefreshToken = await redisClient.get(refreshToken);
         console.log(redisRefreshToken);
-
-        if (!accessToken) {
-            return res.status(401).json({ message: '다시 로그인 해주세요.' });
-        }
 
         // accesstoken이 만료되고, refreshtoken은 있을때
         if (!accessPayload) {
@@ -38,7 +37,6 @@ export default async (req, res, next) => {
             return res
                 .status(200)
                 .json({ message: 'ACCESS TOKEN이 갱신 되었습니다.' });
-
         }
 
         // refreshtoken 없을때, accesstoken이 인증되었다면 새로운 refreshtoken 발급해주기
@@ -78,7 +76,6 @@ export default async (req, res, next) => {
             return res
                 .status(200)
                 .json({ message: 'REFRESH TOKEN이 갱신 되었습니다.' });
-
         }
 
         const { user_id } = accessPayload;

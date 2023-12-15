@@ -1,16 +1,15 @@
-import { prisma } from '../../utils/prisma/index.js';
 import { CartsService } from './carts.service.js';
-import { StoresController } from '../stores/stores.controller.js';
 
 export class CartsController {
     cartsService = new CartsService();
 
     createCart = async (req, res, next) => {
         try {
-            const { menu_id, user_id, store_id, count } = req.body;
+            const user_id = res.locals.user.id;
+            const { menu_id, store_id, count } = req.body;
             const createdCart = await this.cartsService.createCart(
-                menu_id,
                 user_id,
+                menu_id,
                 store_id,
                 count,
             );
@@ -23,6 +22,11 @@ export class CartsController {
 
     getCarts = async (req, res, next) => {
         try {
+            const user_id = res.locals.user.id;
+            const cart = await this.cartsService.getCart(id);
+            if (cart.user_id !== res.locals.user.id) {
+                res.status(400).json({ message: '권한이 없습니다' });
+            }
             const userId = req.body.userId;
             const carts = await this.cartsService.getCarts(userId);
             console.log(carts);
@@ -34,9 +38,16 @@ export class CartsController {
 
     updateCart = async (req, res, next) => {
         try {
+            const user_id = res.locals.user.id;
+            const cart = await this.cartsService.getCart(id);
+            if (cart.user_id !== res.locals.user.id) {
+                res.status(400).json({ message: '권한이 없습니다' });
+            }
+
             const id = req.params.id;
             const updatedData = req.body;
             const updatedCart = await this.cartsService.updateCart(
+                user_id,
                 id,
                 updatedData,
             );
@@ -52,8 +63,12 @@ export class CartsController {
 
     deleteCart = async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const user_id = res.locals.user.id;
             const cart = await this.cartsService.getCart(id);
+            if (cart.user_id !== res.locals.user.id) {
+                res.status(400).json({ message: '권한이 없습니다' });
+            }
+            const { id } = req.params;
             if (!cart) {
                 res.status(404).json({ message: '삭제할 주문목록이 없습니다' });
             }
