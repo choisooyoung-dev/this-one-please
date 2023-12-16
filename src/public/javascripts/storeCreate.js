@@ -54,6 +54,9 @@ const createStore = () => {
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
+            if(response.success) {
+                window.location.href = '/'
+            }
         })
         .catch((error) => console.error('Error:', error));
 };
