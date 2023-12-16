@@ -90,15 +90,9 @@ async function checkLogin(req, res) {
     console.log(accessPayload);
 
     if (!accessPayload) {
-        if (
-            refreshPayload &&
-            Number(redisRefreshToken) === jwt.decode(refreshToken).user_id
-        ) {
+        if (refreshPayload && Number(redisRefreshToken) === jwt.decode(refreshToken).user_id) {
             const { user_id } = refreshPayload;
-            const newAccessToken = jwt.sign(
-                { user_id },
-                process.env.ACC_TOKEN_KEY,
-            );
+            const newAccessToken = jwt.sign({ user_id }, process.env.ACC_TOKEN_KEY);
             res.cookie('accessToken', newAccessToken);
 
             return await returnData(user_id);
@@ -109,10 +103,7 @@ async function checkLogin(req, res) {
     if (!refreshToken) {
         if (accessPayload) {
             const { user_id } = accessPayload;
-            const newRefreshToken = jwt.sign(
-                { user_id },
-                process.env.REF_TOKEN_KEY,
-            );
+            const newRefreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY);
             res.cookie('refreshToken', newRefreshToken);
             return await returnData(user_id);
         }
@@ -123,15 +114,9 @@ async function checkLogin(req, res) {
     }
 
     if (!refreshPayload) {
-        if (
-            accessPayload &&
-            Number(redisRefreshToken) === jwt.decode(accessToken).user_id
-        ) {
+        if (accessPayload && Number(redisRefreshToken) === jwt.decode(accessToken).user_id) {
             const { user_id } = accessPayload;
-            const newRefreshToken = jwt.sign(
-                { user_id },
-                process.env.REF_TOKEN_KEY,
-            );
+            const newRefreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY);
             res.cookie('refreshToken', newRefreshToken);
             return await returnData(user_id);
         }
@@ -140,9 +125,7 @@ async function checkLogin(req, res) {
         return [false, null, null];
     }
 
-    const user_id = accessPayload
-        ? accessPayload.user_id
-        : refreshPayload.user_id;
+    const user_id = accessPayload ? accessPayload.user_id : refreshPayload.user_id;
     return await returnData(user_id);
 }
 

@@ -24,128 +24,44 @@
                 <form>
                     <div class="user-logo"><%-include('logo')%></div>
                     <div class="mb-4">
-                        <label
-                            for="email"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >이메일</label
-                        >
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">이메일</label>
                         <div class="flex">
-                            <input
-                                type="text"
-                                id="email"
-                                placeholder="이메일을 입력하세요"
-                                class="form-input w-full px-3 py-1 border rounded mr-2"
-                            />
-                            <button
-                                type="button"
-                                id="emailBtn"
-                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded"
-                            >
-                                전송
-                            </button>
+                            <input type="text" id="email" placeholder="이메일을 입력하세요" class="form-input w-full px-3 py-1 border rounded mr-2" />
+                            <button type="button" id="emailBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded">전송</button>
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label
-                            for="email-verification"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >이메일인증번호</label
-                        >
+                        <label for="email-verification" class="block text-gray-700 text-sm font-bold mb-2">이메일인증번호</label>
                         <div class="flex">
-                            <input
-                                type="text"
-                                id="email-verification"
-                                placeholder="인증번호를 입력하세요"
-                                class="form-input w-full px-3 py-1 border rounded mr-2"
-                            />
-                            <button
-                                type="button"
-                                id="authMailBtn"
-                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded"
-                            >
-                                인증
-                            </button>
+                            <input type="text" id="email-verification" placeholder="인증번호를 입력하세요" class="form-input w-full px-3 py-1 border rounded mr-2" />
+                            <button type="button" id="authMailBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded">인증</button>
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label
-                            for="password"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >비밀번호</label
-                        >
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="비밀번호 입력란"
-                            class="form-input w-full px-3 py-2 border rounded"
-                        />
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">비밀번호</label>
+                        <input type="password" id="password" placeholder="비밀번호 입력란" class="form-input w-full px-3 py-2 border rounded" />
                     </div>
                     <div class="mb-6">
-                        <label
-                            for="password-confirm"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >비밀번호 확인</label
-                        >
-                        <input
-                            type="password"
-                            id="password-confirm"
-                            placeholder="비밀번호 확인란"
-                            class="form-input w-full px-3 py-2 border rounded"
-                        />
+                        <label for="password-confirm" class="block text-gray-700 text-sm font-bold mb-2">비밀번호 확인</label>
+                        <input type="password" id="password-confirm" placeholder="비밀번호 확인란" class="form-input w-full px-3 py-2 border rounded" />
                     </div>
                     <div class="mb-6">
-                        <label
-                            for="nickname"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >닉네임</label
-                        >
-                        <input
-                            type="text"
-                            id="nickname"
-                            placeholder="닉네임 입력란"
-                            class="form-input w-full px-3 py-2 border rounded"
-                        />
+                        <label for="nickname" class="block text-gray-700 text-sm font-bold mb-2">닉네임</label>
+                        <input type="text" id="nickname" placeholder="닉네임 입력란" class="form-input w-full px-3 py-2 border rounded" />
                     </div>
                     <div class="mb-6">
-                        <label
-                            for="address"
-                            class="block text-gray-700 text-sm font-bold mb-2"
-                            >주소</label
-                        >
-                        <input
-                            type="text"
-                            id="address"
-                            placeholder="주소 입력란"
-                            class="form-input w-full px-3 py-2 border rounded"
-                        />
+                        <label for="address" class="block text-gray-700 text-sm font-bold mb-2">주소</label>
+                        <input type="text" id="address" placeholder="주소 입력란" class="form-input w-full px-3 py-2 border rounded" />
                     </div>
 
                     <form>
-                        <input
-                            type="radio"
-                            name="userType"
-                            value="customer"
-                            id="customerRadio"
-                            checked
-                        />
+                        <input type="radio" name="userType" value="customer" id="customerRadio" checked />
                         <label for="customerRadio">고객</label>
-                        <input
-                            type="radio"
-                            name="userType"
-                            value="business"
-                            id="businessRadio"
-                        />
+                        <input type="radio" name="userType" value="business" id="businessRadio" />
                         <label for="businessRadio">사업자</label>
                     </form>
                     <div class="flex justify-center" style="margin-top: 20px">
-                        <button
-                            id="signupBtn"
-                            type="submit"
-                            disabled
-                            class="bg-gray-500 text-white font-bold py-2 px-4 rounded w-full"
-                        >
-                            회원가입
-                        </button>
+                        <button id="signupBtn" type="submit" disabled class="bg-gray-500 text-white font-bold py-2 px-4 rounded w-full">회원가입</button>
                     </div>
                 </form>
             </div>

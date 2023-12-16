@@ -8,13 +8,7 @@ export class StoresService {
         // 이미지url 형식 유효성검사
         // 주소 형식 유효성검사
 
-        const openStore = await this.storeRepository.open(
-            user_id,
-            name,
-            image_url,
-            category_id,
-            address,
-        );
+        const openStore = await this.storeRepository.open(user_id, name, image_url, category_id, address);
 
         return {
             id: openStore.id,
@@ -43,13 +37,7 @@ export class StoresService {
 
     // 매장 수정
     remodelling = async (id, name, image_url, category_id, address) => {
-        const remodellingStore = await this.storeRepository.remodelling(
-            id,
-            name,
-            image_url,
-            category_id,
-            address,
-        );
+        const remodellingStore = await this.storeRepository.remodelling(id, name, image_url, category_id, address);
 
         return {
             id: remodellingStore.id,

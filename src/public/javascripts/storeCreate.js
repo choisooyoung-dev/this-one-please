@@ -23,9 +23,7 @@ const InitCategory = async () => {
 
 const createStore = () => {
     // category_id
-    const categoryId = parseInt(
-        document.getElementById('categorySelect').value,
-    );
+    const categoryId = parseInt(document.getElementById('categorySelect').value);
     console.log(categoryId);
     // store_name
     const storeName = document.getElementById('store-name').value;

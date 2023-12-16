@@ -60,8 +60,7 @@ const getMenus = async () => {
 
                 // 버튼생성
                 const newButton = document.createElement('button');
-                newButton.className =
-                    'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
+                newButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
                 newButton.innerText = '장바구니 추가';
                 div1.appendChild(newButton);
             });

@@ -4,12 +4,7 @@ export class MenusService {
     menusRepository = new MenusRepository();
     // 메뉴 등록
     createMenu = async (store_id, name, price, image_url) => {
-        const createdMenu = await this.menusRepository.createMenu(
-            store_id,
-            name,
-            price,
-            image_url,
-        );
+        const createdMenu = await this.menusRepository.createMenu(store_id, name, price, image_url);
 
         return {
             store_id: createdMenu.store_id,
@@ -50,13 +45,7 @@ export class MenusService {
 
     // 메뉴 수정
     updateMenu = async (store_id, id, name, price, image_url) => {
-        const updatedMenu = await this.menusRepository.updateMenu(
-            store_id,
-            id,
-            name,
-            price,
-            image_url,
-        );
+        const updatedMenu = await this.menusRepository.updateMenu(store_id, id, name, price, image_url);
 
         return {
             store_id: updatedMenu.store_id,

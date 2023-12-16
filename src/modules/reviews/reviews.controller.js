@@ -6,11 +6,7 @@ export class ReviewsController {
     createReview = async (req, res, next) => {
         try {
             const { order_id, comment, star } = req.body;
-            const createdReview = await this.reviewsService.createReview(
-                order_id,
-                comment,
-                star,
-            );
+            const createdReview = await this.reviewsService.createReview(order_id, comment, star);
             return res.status(201).json({
                 success: true,
                 data: createdReview,
@@ -50,9 +46,7 @@ export class ReviewsController {
                 });
             }
             await this.reviewsService.deleteReview(reviewId);
-            return res
-                .status(201)
-                .json({ success: true, message: '삭제 성공' });
+            return res.status(201).json({ success: true, message: '삭제 성공' });
         } catch (e) {
             console.log(e);
             res.status(500).json({

@@ -15,8 +15,6 @@ export default async (req, res, next) => {
             next();
         }
     } else {
-        return res
-            .status(401)
-            .json({ success: false, message: '사업 권한이 없습니다.' });
+        return res.status(401).json({ success: false, message: '사업 권한이 없습니다.' });
     }
 };

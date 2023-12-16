@@ -3,12 +3,7 @@ import { CartsRepository } from './carts.repository.js';
 export class CartsService {
     cartsRepository = new CartsRepository();
     createCart = async (menu_id, user_id, store_id, count) => {
-        const createdCart = await this.cartsRepository.createCart(
-            menu_id,
-            user_id,
-            store_id,
-            count,
-        );
+        const createdCart = await this.cartsRepository.createCart(menu_id, user_id, store_id, count);
 
         return {
             id: createdCart.id,
