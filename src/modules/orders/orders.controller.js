@@ -1,8 +1,12 @@
+import OrderService from './orders.service.js';
 
-export default class StoresController {
-  createOrder = async (req, res, next) => {
-  }
+export default class OrderController {
   
+  OrderService = new OrderService();
+  createOrder = async (req, res, next) => {
+
+  }
+
   getOrders = async (req, res, next) => {
   }
 
