@@ -2,16 +2,15 @@ import { CartsRepository } from './carts.repository.js';
 
 export class CartsService {
     cartsRepository = new CartsRepository();
-    createCart = async (menu_id, user_id, store_id, count) => {
-        const createdCart = await this.cartsRepository.createCart(menu_id, user_id, store_id, count);
+    createCart = async (user_id, menu_id, store_id, count) => {
+        const createdCart = await this.cartsRepository.createCart(user_id, menu_id, store_id, count);
 
         return {
             id: createdCart.id,
-            menu_id: createdCart.menu_id,
             user_id: createdCart.user_id,
+            menu_id: createdCart.menu_id,
             store_id: createdCart.store_id,
             count: createdCart.count,
-            price: createdCart.price,
         };
     };
 

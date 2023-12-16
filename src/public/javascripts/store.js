@@ -14,7 +14,7 @@ const getMenus = async () => {
             const storeAddress = document.getElementById('storeAddress');
             storeAddress.innerText = response.data.address;
             const storeImage = document.getElementById('storeImage');
-            storeImage.src = response.data.image_url
+            storeImage.src = response.data.image_url;
             // storeImage.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
         })
         .catch((error) => console.error('에러 발생:', error));
@@ -63,8 +63,35 @@ const getMenus = async () => {
                 const newButton = document.createElement('button');
                 newButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
                 newButton.innerText = '장바구니 추가';
+                newButton.addEventListener('click', function () {
+                    addCart(e.id, Number(storeId));
+                });
                 div1.appendChild(newButton);
             });
         })
         .catch((error) => console.error('에러 발생:', error));
+};
+
+const addCart = (menuId, storeId) => {
+    const userId = document.getElementById('userId').dataset.userId;
+
+    // 회원가입 버튼 누르면 api 실행
+    fetch('/api/carts', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            // 다른 필요한 헤더가 있다면 여기에 추가
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            menu_id: menuId,
+            store_id: storeId,
+            count: 1,
+        }),
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => console.error('Error:', error));
 };
