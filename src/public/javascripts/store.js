@@ -15,7 +15,6 @@ const getMenus = async () => {
             storeAddress.innerText = response.data.address;
             const storeImage = document.getElementById('storeImage');
             storeImage.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
-            
         })
         .catch((error) => console.error('에러 발생:', error));
 
@@ -42,7 +41,7 @@ const getMenus = async () => {
                 const div1 = document.createElement('div');
                 div1.className = 'flex items-center justify-between mb-4';
                 newDiv.appendChild(div1);
-                
+
                 const textContainer = document.createElement('div');
                 textContainer.className = 'flex-grow pl-4';
                 div1.appendChild(textContainer);

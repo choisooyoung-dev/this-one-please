@@ -12,7 +12,7 @@ router.get('/', async function (req, res, next) {
         path: '',
         isLogin,
         user,
-        store
+        store,
     });
 });
 
@@ -38,7 +38,7 @@ router.get('/login', function (req, res, next) {
 
 router.get('/mypage', function (req, res, next) {
     res.render('myPage', {
-        path: '../'
+        path: '../',
     });
 });
 
@@ -56,21 +56,20 @@ router.get('/store/:storeId', function (req, res, next) {
     });
 });
 
-
 async function checkLogin(req, res) {
     const { accessToken, refreshToken } = req.cookies;
-    
+
     if (!accessToken && !refreshToken) {
-        return [false,null,null];
+        return [false, null, null];
     }
 
     async function returnData(user_id) {
         const user = await prisma.users.findUnique({ where: { id: user_id } });
         let store = null;
-        if( user.type === 1 ){
+        if (user.type === 1) {
             store = await prisma.stores.findUnique({ where: { user_id } });
         }
-        return [true,user,store];
+        return [true, user, store];
     }
 
     function validToken(token, secretKey) {
@@ -103,9 +102,7 @@ async function checkLogin(req, res) {
             res.cookie('accessToken', newAccessToken);
 
             return await returnData(user_id);
-        }
-        else {
-            
+        } else {
         }
     }
 
@@ -122,7 +119,7 @@ async function checkLogin(req, res) {
     }
 
     if (!redisRefreshToken) {
-        return [false,null,null];
+        return [false, null, null];
     }
 
     if (!refreshPayload) {
@@ -139,11 +136,13 @@ async function checkLogin(req, res) {
             return await returnData(user_id);
         }
     }
-    if(!refreshPayload && !accessPayload) {
-        return [false,null,null];
+    if (!refreshPayload && !accessPayload) {
+        return [false, null, null];
     }
 
-    const user_id = accessPayload ? accessPayload.user_id : refreshPayload.user_id;
+    const user_id = accessPayload
+        ? accessPayload.user_id
+        : refreshPayload.user_id;
     return await returnData(user_id);
 }
 

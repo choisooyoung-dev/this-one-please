@@ -42,13 +42,7 @@ export class StoresService {
     };
 
     // 매장 수정
-    remodelling = async (
-        id,
-        name,
-        image_url,
-        category_id,
-        address,
-    ) => {
+    remodelling = async (id, name, image_url, category_id, address) => {
         const remodellingStore = await this.storeRepository.remodelling(
             id,
             name,

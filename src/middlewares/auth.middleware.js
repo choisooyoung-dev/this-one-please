@@ -76,12 +76,10 @@ export default async (req, res, next) => {
                 );
                 res.cookie('refreshToken', newRefreshToken);
             }
-            return res
-                .status(200)
-                .json({
-                    success: true,
-                    message: 'REFRESH TOKEN이 갱신 되었습니다.',
-                });
+            return res.status(200).json({
+                success: true,
+                message: 'REFRESH TOKEN이 갱신 되었습니다.',
+            });
         }
 
         const { user_id } = accessPayload;
