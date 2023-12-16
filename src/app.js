@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import { fileURLToPath } from 'url';
 import viewRouter from './routes/views.router.js';
+import { ErrorHandler } from './middlewares/error.middleware.js';
 dotenv.config();
 
 const app = express();
@@ -21,6 +22,9 @@ app.use(cookieParser());
 
 app.use('/', viewRouter);
 app.use('/api', apiRouter);
+
+// Error Handler
+app.use(ErrorHandler);
 
 app.listen(process.env.PORT, () => {
     console.log('서버가 열렸어요!');
