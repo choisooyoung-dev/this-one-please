@@ -8,7 +8,7 @@ export class CartsRepository {
             select: { price: true },
         });
 
-        const price = menu?.price * count;
+        // const price = menu?.price * count;
 
         const createdCart = await prisma.cart.create({
             data: {
