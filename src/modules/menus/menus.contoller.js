@@ -9,12 +9,7 @@ export class MenusController {
             const store_id = Number(req.params.store_id);
             const { name, price, image_url } = req.body;
 
-            const createdMenu = await this.menusService.createMenu(
-                store_id,
-                name,
-                price,
-                image_url,
-            );
+            const createdMenu = await this.menusService.createMenu(store_id, name, price, image_url);
 
             return res.status(200).json({ success: true, data: createdMenu });
         } catch (error) {
@@ -56,13 +51,7 @@ export class MenusController {
             const id = Number(req.params.id);
             const { name, price, image_url } = req.body;
 
-            const updatedMenu = await this.menusService.updateMenu(
-                store_id,
-                id,
-                name,
-                price,
-                image_url,
-            );
+            const updatedMenu = await this.menusService.updateMenu(store_id, id, name, price, image_url);
 
             return res.status(200).json({ success: true, data: updatedMenu });
         } catch (error) {
@@ -76,10 +65,7 @@ export class MenusController {
             const store_id = Number(req.params.store_id);
             const id = Number(req.params.id);
 
-            const deletedMenu = await this.menusService.deleteMenu(
-                store_id,
-                id,
-            );
+            const deletedMenu = await this.menusService.deleteMenu(store_id, id);
 
             return res.status(200).json({ success: true });
         } catch (error) {

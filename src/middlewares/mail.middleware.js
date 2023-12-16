@@ -17,14 +17,11 @@ export default async (req, res, next) => {
 
         // 랜덤 인증번호 생성 함수
         const randomStrFunc = (num) => {
-            const characters =
-                'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
             let result = '';
             const randomMaxLength = characters.length;
             for (let i = 0; i < num; i++) {
-                result += characters.charAt(
-                    Math.floor(Math.random() * randomMaxLength),
-                );
+                result += characters.charAt(Math.floor(Math.random() * randomMaxLength));
             }
 
             return result;

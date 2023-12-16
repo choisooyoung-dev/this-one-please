@@ -42,8 +42,7 @@ function storeList() {
                 cdev2.appendChild(cdev3);
 
                 const cdev4 = document.createElement('div');
-                cdev4.className =
-                    'image-placeholder w-full lg:w-1/2 h-32 rounded';
+                cdev4.className = 'image-placeholder w-full lg:w-1/2 h-32 rounded';
                 cdev3.appendChild(cdev4);
 
                 const image = document.createElement('img');
@@ -65,8 +64,7 @@ function storeList() {
                 cdev6.appendChild(storeName);
 
                 const storeAddress = document.createElement('label');
-                storeAddress.className =
-                    'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm';
+                storeAddress.className = 'mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm';
                 storeAddress.innerText = `${e.address}`;
                 cdev6.appendChild(storeAddress);
             });

@@ -18,20 +18,12 @@ export class AuthController {
                 throw error;
             }
 
-            const accessToken = jwt.sign(
-                { user_id },
-                process.env.ACC_TOKEN_KEY,
-                {
-                    expiresIn: process.env.ACCESS_EXP_IN,
-                },
-            );
-            const refreshToken = jwt.sign(
-                { user_id },
-                process.env.REF_TOKEN_KEY,
-                {
-                    expiresIn: process.env.REFRESH_EXP_IN,
-                },
-            );
+            const accessToken = jwt.sign({ user_id }, process.env.ACC_TOKEN_KEY, {
+                expiresIn: process.env.ACCESS_EXP_IN,
+            });
+            const refreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY, {
+                expiresIn: process.env.REFRESH_EXP_IN,
+            });
 
             // Accesstoken 쿠키 저장
             res.cookie('accessToken', accessToken);

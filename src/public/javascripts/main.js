@@ -19,9 +19,7 @@ const InitCategory = async () => {
                   </div> 
                   </a>
         `;
-                document
-                    .getElementById(`category-container`)
-                    .appendChild(newItem);
+                document.getElementById(`category-container`).appendChild(newItem);
             });
         })
         .catch((error) => console.error('에러 발생:', error));

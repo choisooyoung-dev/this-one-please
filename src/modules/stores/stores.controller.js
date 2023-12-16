@@ -24,13 +24,7 @@ export class StoresController {
             // if (!category_id) next(errorHandler, 400, 'isNotEnterCategoryId'); // body에서 카테고리 아이디가 입력되지 않음
             // if (!address) next(errorHandler, 400, 'isNotEnterAddress'); // body에서 주소가 입력되지 않음
 
-            const openStore = await this.storesService.open(
-                user_id,
-                name,
-                image_url,
-                category_id,
-                address,
-            );
+            const openStore = await this.storesService.open(user_id, name, image_url, category_id, address);
 
             return res.status(200).json({ success: true, data: openStore });
         } catch (error) {
@@ -67,13 +61,7 @@ export class StoresController {
             const id = Number(store.id);
             const { name, image_url, category_id, address } = req.body;
 
-            const remodellingStore = await this.storesService.remodelling(
-                id,
-                name,
-                image_url,
-                category_id,
-                address,
-            );
+            const remodellingStore = await this.storesService.remodelling(id, name, image_url, category_id, address);
 
             return res.status(200).json({
                 success: true,

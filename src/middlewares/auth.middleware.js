@@ -7,30 +7,18 @@ export default async (req, res, next) => {
         if (!accessToken && !refreshToken) {
             return res.status(401).json({ message: '다시 로그인 해주세요.' });
         }
-        const accessPayload = validToken(
-            accessToken,
-            process.env.ACC_TOKEN_KEY,
-        );
+        const accessPayload = validToken(accessToken, process.env.ACC_TOKEN_KEY);
 
         console.log('accessPayload: ', accessPayload);
-        const refreshPayload = validToken(
-            refreshToken,
-            process.env.REF_TOKEN_KEY,
-        );
+        const refreshPayload = validToken(refreshToken, process.env.REF_TOKEN_KEY);
         const redisRefreshToken = await redisClient.get(refreshToken);
         console.log(redisRefreshToken);
 
         // accesstoken이 만료되고, refreshtoken은 있을때
         if (!accessPayload) {
-            if (
-                refreshPayload &&
-                Number(redisRefreshToken) === jwt.decode(refreshToken).user_id
-            ) {
+            if (refreshPayload && Number(redisRefreshToken) === jwt.decode(refreshToken).user_id) {
                 const { user_id } = refreshPayload;
-                const newAccessToken = jwt.sign(
-                    { user_id },
-                    process.env.ACC_TOKEN_KEY,
-                );
+                const newAccessToken = jwt.sign({ user_id }, process.env.ACC_TOKEN_KEY);
                 res.cookie('accessToken', newAccessToken);
             }
 
@@ -44,10 +32,7 @@ export default async (req, res, next) => {
         if (!refreshToken) {
             if (accessPayload) {
                 const { user_id } = accessPayload;
-                const newRefreshToken = jwt.sign(
-                    { user_id },
-                    process.env.REF_TOKEN_KEY,
-                );
+                const newRefreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY);
                 res.cookie('refreshToken', newRefreshToken);
             }
             return res.status(401).json({
@@ -65,15 +50,9 @@ export default async (req, res, next) => {
 
         // accesstoken은 있고, refreshtoken 만료되었을때
         if (!refreshPayload) {
-            if (
-                accessPayload &&
-                Number(redisRefreshToken) === jwt.decode(accessToken).user_id
-            ) {
+            if (accessPayload && Number(redisRefreshToken) === jwt.decode(accessToken).user_id) {
                 const { user_id } = accessPayload;
-                const newRefreshToken = jwt.sign(
-                    { user_id },
-                    process.env.REF_TOKEN_KEY,
-                );
+                const newRefreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY);
                 res.cookie('refreshToken', newRefreshToken);
             }
             return res.status(200).json({

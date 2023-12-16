@@ -77,9 +77,7 @@ const signup = async () => {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('password-confirm').value;
     const name = document.getElementById('nickname').value;
-    const userType = document.querySelector(
-        'input[name="userType"]:checked',
-    ).value;
+    const userType = document.querySelector('input[name="userType"]:checked').value;
     const address = document.getElementById('address').value;
     let type = 0;
     try {

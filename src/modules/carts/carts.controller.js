@@ -7,12 +7,7 @@ export class CartsController {
         try {
             const user_id = res.locals.user.id;
             const { menu_id, store_id, count } = req.body;
-            const createdCart = await this.cartsService.createCart(
-                user_id,
-                menu_id,
-                store_id,
-                count,
-            );
+            const createdCart = await this.cartsService.createCart(user_id, menu_id, store_id, count);
             // console.log('controller: ', createdCart);
 
             return res.status(201).json({
@@ -56,9 +51,7 @@ export class CartsController {
 
             const cart = await this.cartsService.getCart(id);
             if (cart.user_id !== res.locals.user.id) {
-                return res
-                    .status(400)
-                    .json({ success: false, message: '권한이 없습니다' });
+                return res.status(400).json({ success: false, message: '권한이 없습니다' });
             }
             const updatedCart = await this.cartsService.updateCart(id, count);
             return res.status(201).json({
@@ -80,9 +73,7 @@ export class CartsController {
             const user_id = res.locals.user.id;
             const cart = await this.cartsService.getCart(id);
             if (cart.user_id !== res.locals.user.id) {
-                return res
-                    .status(400)
-                    .json({ success: false, message: '권한이 없습니다' });
+                return res.status(400).json({ success: false, message: '권한이 없습니다' });
             }
             const { id } = req.params;
             if (!cart) {
@@ -92,9 +83,7 @@ export class CartsController {
                 });
             }
             await this.cartsService.deleteCart(id);
-            return res
-                .status(201)
-                .json({ success: true, message: '삭제 성공' });
+            return res.status(201).json({ success: true, message: '삭제 성공' });
         } catch (e) {
             console.log(e);
             res.status(500).json({
