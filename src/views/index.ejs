@@ -3,19 +3,10 @@
     <head>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     </head>
     <body>
-        <% if(!isLogin) { %>
-        <div class="icon-container">
-            <a href="/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">account_circle</i></a>
-        </div>
-        <% } else { %>
-        <div class="icon-container">
-            <a href="/myPage" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">account_circle</i></a>
-        </div>
-        <% } %> <%-include('header')%>
+        
+        <%-include('header')%>
         <div class="container mx-auto p-4">
             <div class="input-field-container" style="display: flex; align-items: center">
                 <div class="input-field" style="width: 85%">
