@@ -2,13 +2,13 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../../utils/prisma/index.js';
 
 export class CartsRepository {
-    createCart = async (menu_id, user_id, store_id, count) => {
+    createCart = async (user_id, menu_id, store_id, count) => {
         const createdCart = await prisma.cart.create({
             data: {
-                menu_id,
                 user_id,
+                menu_id,
                 store_id,
-                count
+                count,
             },
         });
 
@@ -25,7 +25,7 @@ export class CartsRepository {
                 store_id: true,
                 count: true,
                 Menu: {
-                    select: { name: true, price: true, image_url:true },
+                    select: { name: true, price: true, image_url: true },
                 },
                 Store: {
                     select: { name: true },
@@ -41,7 +41,7 @@ export class CartsRepository {
                 menu_price: cart.Menu?.price,
                 menu_image: cart.Menu?.image_url,
                 store_name: cart.Store?.name,
-                count: cart.count
+                count: cart.count,
             };
         });
     };
