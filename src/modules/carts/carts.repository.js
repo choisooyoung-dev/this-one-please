@@ -96,6 +96,14 @@ export class CartsRepository {
         return cart;
     };
 
+    getCartMenu = async (user_id,menu_id) => {
+        const cart = await prisma.cart.findFirst({
+            where: { user_id:+user_id, menu_id: +menu_id },
+        });
+        return cart;
+    };
+
+
     deleteCart = async (id) => {
         await prisma.$transaction(async (tx) => {
             await tx.cart.delete({

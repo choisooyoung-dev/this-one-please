@@ -73,25 +73,31 @@ const getMenus = async () => {
 };
 
 const addCart = (menuId, storeId) => {
-    const userId = document.getElementById('userId').dataset.userId;
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
 
-    // 회원가입 버튼 누르면 api 실행
-    fetch('/api/carts', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // 다른 필요한 헤더가 있다면 여기에 추가
-        },
-        body: JSON.stringify({
-            user_id: userId,
-            menu_id: menuId,
-            store_id: storeId,
-            count: 1,
-        }),
-    })
-        .then((response) => response.json())
-        .then((response) => {
-            console.log(response);
+        // 회원가입 버튼 누르면 api 실행
+        fetch('/api/carts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 다른 필요한 헤더가 있다면 여기에 추가
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                menu_id: menuId,
+                store_id: storeId,
+                count: 1,
+            }),
         })
-        .catch((error) => console.error('Error:', error));
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => console.error('Error:', error));
+    } else {
+        alert('로그인 후 이용 가능합니다.');
+        // window.location.href = '/login';
+    }
 };

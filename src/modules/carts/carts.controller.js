@@ -7,14 +7,25 @@ export class CartsController {
         try {
             const user_id = res.locals.user.id;
             const { menu_id, store_id, count } = req.body;
-            const createdCart = await this.cartsService.createCart(user_id, menu_id, store_id, count);
-            // console.log('controller: ', createdCart);
+            const originCart = await this.cartsService.getCartMenu(user_id, menu_id);
 
-            return res.status(201).json({
-                success: true,
-                data: createdCart,
-                message: '장바구니 만들기 성공',
-            });
+            if(!originCart) {
+                const createdCart = await this.cartsService.createCart(user_id, menu_id, store_id, count);
+                return res.status(201).json({
+                    success: true,
+                    data: createdCart,
+                    message: '장바구니 만들기 성공',
+                });
+            }
+            else {
+                const updatedCart = await this.cartsService.updateCart(originCart.id, count + originCart.count);
+                return res.status(201).json({
+                    success: true,
+                    data: updatedCart,
+                    message: '업데이트가 되었습니다',
+                });
+            }
+
         } catch (e) {
             console.log(e);
             res.status(500).json({
