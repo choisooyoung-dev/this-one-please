@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>장바구니</title> -->
+    <style>
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .product img {
+            width: 80px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity input {
+            width: 30px;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        .total-price {
+            font-weight: bold;
+        }
+
+        .checkout-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+</head>
+<body>
+
+<!-- <header>
+    <h1>장바구니</h1>
+</header> -->
+<%-include('header')%>
+<main>
+    <div class="product">
+        <img src="https://source.unsplash.com/random/80x80" alt="Product Image">
+        <div class="product-details">
+            <h2>상품 제목</h2>
+            <p>가격: $19.99</p>
+        </div>
+        <div class="quantity">
+            <button onclick="decreaseQuantity(this)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="increaseQuantity(this)">+</button>
+        </div>
+        <div class="total-price">$19.99</div>
+        <button onclick="removeFromCart(this)">제거</button>
+    </div>
+
+    <div class="product">
+        <img src="https://source.unsplash.com/random/80x80" alt="Product Image">
+        <div class="product-details">
+            <h2>다른 상품</h2>
+            <p>가격: $29.99</p>
+        </div>
+        <div class="quantity">
+            <button onclick="decreaseQuantity(this)">-</button>
+            <input type="text" value="1" readonly>
+            <button onclick="increaseQuantity(this)">+</button>
+        </div>
+        <div class="total-price">$29.99</div>
+        <button onclick="removeFromCart(this)">제거</button>
+    </div>
+
+    <!-- 더 많은 상품들을 추가할 수 있습니다. -->
+
+    <div class="checkout-button" onclick="checkout()">주문하기</div>
+</main>
+<%-include('footer')%>
+
+<script>
+    function removeFromCart(button) {
+        // 상품 제거 로직을 추가할 수 있습니다.
+        var productElement = button.parentElement;
+        productElement.remove();
+        updateTotalPrice();
+    }
+
+    function decreaseQuantity(button) {
+        var inputElement = button.nextElementSibling;
+        var quantity = parseInt(inputElement.value);
+        if (quantity > 1) {
+            inputElement.value = quantity - 1;
+        }
+        updateTotalPrice();
+    }
+
+    function increaseQuantity(button) {
+        var inputElement = button.previousElementSibling;
+        var quantity = parseInt(inputElement.value);
+        inputElement.value = quantity + 1;
+        updateTotalPrice();
+    }
+
+    function updateTotalPrice() {
+        var products = document.querySelectorAll('.product');
+        var totalPrice = 0;
+
+        products.forEach(function (product) {
+            var quantity = parseInt(product.querySelector('.quantity input').value);
+            var price = parseFloat(product.querySelector('.product-details p').innerText.replace('$', ''));
+            var total = quantity * price;
+            product.querySelector('.total-price').innerText = '$' + total.toFixed(2);
+            totalPrice += total;
+        });
+
+        document.querySelector('.checkout-button').innerText = '주문하기 - 총 가격: $' + totalPrice.toFixed(2);
+    }
+
+    function checkout() {
+        // 주문 처리 로직을 추가할 수 있습니다.
+        alert("주문이 완료되었습니다!");
+    }
+</script>
+
+</body>
+</html>
