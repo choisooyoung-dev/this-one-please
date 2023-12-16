@@ -46,9 +46,9 @@ function storeList() {
                 cdev3.appendChild(cdev4);
 
                 const image = document.createElement('img');
-                // image.src = `${e.image_url}`
+                image.src = `${e.image_url}`
                 image.className = 'w-full h-full object-cover';
-                image.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
+                // image.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
                 cdev4.appendChild(image);
 
                 const cdev5 = document.createElement('div');

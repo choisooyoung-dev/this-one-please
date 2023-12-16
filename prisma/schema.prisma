@@ -29,7 +29,7 @@ model Categories {
   name       String   @map("name")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
-  image_url  String   @map("image_url")
+  image_url  String   @map("image_url") @db.LongText
   Stores     Stores[]
 }
 
@@ -38,7 +38,7 @@ model Stores {
   user_id     Int        @unique
   category_id Int
   name        String     @map("name")
-  image_url   String
+  image_url   String     @map("image_url") @db.LongText
   address     String     @map("address")
   created_at  DateTime   @default(now()) @map("created_at")
   updated_at  DateTime   @default(now()) @map("updated_at")
@@ -71,7 +71,6 @@ model Cart {
   store_id Int    @map("store_id")
   menu_id  Int    @map("menu_id")
   count    Int    @map("count")
-  price    Int    @map("price")
   Menu     Menus  @relation(fields: [menu_id], references: [id], onDelete: Cascade)
   Store    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
   User     Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -86,7 +85,9 @@ model Orders {
   id         Int      @id @default(autoincrement()) @map("id")
   user_id    Int      @map("user_id")
   store_id   Int      @map("store_id")
-  menu_ids   String   @map("menu_ids") @db.LongText
+  info       String   @map("info") @db.LongText
+  price      Int      @map("price")
+  state      Int      @map("state")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
   Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
