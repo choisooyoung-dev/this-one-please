@@ -86,6 +86,7 @@ model Orders {
   user_id    Int      @map("user_id")
   store_id   Int      @map("store_id")
   info       Json     @map("info")
+  price      Int      @map("price")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
   Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
