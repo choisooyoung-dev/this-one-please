@@ -8,7 +8,7 @@ export class CartsRepository {
             select: { price: true },
         });
 
-        const price = menu?.price * count;
+        // const price = menu?.price * count;
 
         const createdCart = await prisma.cart.create({
             data: {
@@ -23,38 +23,60 @@ export class CartsRepository {
         return createdCart;
     };
 
-    getCarts = async (userId) => {
+    getCarts = async (user_id) => {
         const carts = await prisma.cart.findMany({
-            where: { user_id: +userId },
+            where: { user_id: user_id },
             select: {
                 id: true,
+                user_id: true,
                 menu_id: true,
                 store_id: true,
                 count: true,
+                price: true,
+                Menu: {
+                    select: { name: true },
+                },
+                Store: {
+                    select: { name: true },
+                },
             },
         });
-        return carts;
+
+        return carts.map((cart) => {
+            return {
+                id: cart.id,
+                user_id: cart.user_id,
+                menu_name: cart.Menu?.name,
+                store_name: cart.Store?.name,
+                count: cart.count,
+                price: cart.price,
+            };
+        });
     };
 
-    updateCart = async (id, updatedData) => {
-        console.log(id, updatedData);
-        const updatedCart = await prisma.$transaction(
-            async (tx) => {
-                await tx.cart.update({
-                    data: {
-                        ...updatedData,
-                    },
-                    where: {
-                        id: +id,
-                    },
-                });
-            },
-            {
-                isolationLevel: Prisma.TransactionIsolationLevel.ReadCommitted,
-            },
-        );
+    updateCart = async (id, count) => {
+        console.log(id, count);
+
+        const cart = await prisma.cart.findUnique({
+            where: { id },
+            select: { menu_id: true },
+        });
+
+        const menu = await prisma.menus.findUnique({
+            where: { id: cart?.menu_id },
+            select: { price: true },
+        });
+
+        const price = menu?.price * count;
+
+        const updatedCart = await prisma.cart.update({
+            where: { id },
+            data: { count, price },
+        });
+
         return updatedCart;
     };
+
     getCart = async (id) => {
         const cart = await prisma.cart.findUnique({
             where: { id: +id },

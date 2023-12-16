@@ -6,14 +6,14 @@ const router = express.Router();
 
 //카테고리 분류 보기
 router.get('', async (req, res, next) => {
-  const categories = await prisma.categories.findMany({
-    select: {
-      id:true,
-      name: true,
-      image_url:true
-    },
-  });
-  return res.status(201).json({ data:categories});
+    const categories = await prisma.categories.findMany({
+        select: {
+            id: true,
+            name: true,
+            image_url: true,
+        },
+    });
+    return res.status(201).json({ data: categories });
 });
 
 export default router;

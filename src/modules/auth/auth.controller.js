@@ -13,26 +13,17 @@ export class AuthController {
 
             const user = await this.authService.login(email, password);
 
-            // console.log(user);
-            const user_id = user.user.id;
+            const user_id = user.id;
             if (!user) {
                 throw error;
             }
 
-            const accessToken = jwt.sign(
-                { user_id },
-                process.env.ACC_TOKEN_KEY,
-                {
-                    expiresIn: process.env.ACCESS_EXP_IN,
-                },
-            );
-            const refreshToken = jwt.sign(
-                { user_id },
-                process.env.REF_TOKEN_KEY,
-                {
-                    expiresIn: process.env.REFRESH_EXP_IN,
-                },
-            );
+            const accessToken = jwt.sign({ user_id }, process.env.ACC_TOKEN_KEY, {
+                expiresIn: process.env.ACCESS_EXP_IN,
+            });
+            const refreshToken = jwt.sign({ user_id }, process.env.REF_TOKEN_KEY, {
+                expiresIn: process.env.REFRESH_EXP_IN,
+            });
 
             // Accesstoken 쿠키 저장
             res.cookie('accessToken', accessToken);
@@ -41,6 +32,7 @@ export class AuthController {
             res.cookie('refreshToken', refreshToken);
 
             return res.status(200).json({
+                success: true,
                 message: '로그인 성공',
                 data: { accessToken, refreshToken },
             });
@@ -64,6 +56,7 @@ export class AuthController {
             redisClient.del(accessToken);
 
             return res.status(200).json({
+                success: true,
                 message: '로그아웃 성공',
             });
         } catch (err) {

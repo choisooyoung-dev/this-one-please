@@ -3,13 +3,7 @@ import { UsersRepository } from './users.repository.js';
 export class UsersService {
     usersRespository = new UsersRepository();
     signup = async (email, password, name, type, address) => {
-        const createdUser = await this.usersRespository.signup(
-            email,
-            password,
-            name,
-            type,
-            address,
-        );
+        const createdUser = await this.usersRespository.signup(email, password, name, type, address);
         return {
             email: createdUser.email,
             password: createdUser.password,

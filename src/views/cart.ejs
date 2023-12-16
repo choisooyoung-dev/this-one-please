@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title>장바구니</title> -->
+    <style>
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .product img {
+            width: 80px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity input {
+            width: 30px;
+            text-align: center;
+            margin: 0 5px;
+        }
+
+        .total-price {
+            font-weight: bold;
+        }
+
+        .checkout-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+</head>
+<body>
+
+<!-- <header>
+    <h1>장바구니</h1>
+</header> -->
+<%-include('header')%>
+<main>
+  <div id = 'cart-container'>
+
+  </div>
+  <div id='order' class="checkout-button" onclick="checkout()">주문하기</div>
+
+</main>
+
+<%-include('footer')%>
+
+<script src="<%= path %>javascripts/cart.js"></script>
+
+</body>
+</html>

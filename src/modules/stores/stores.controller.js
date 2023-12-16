@@ -6,6 +6,14 @@ export class StoresController {
     // 매장 등록
     open = async (req, res, next) => {
         try {
+            const store = res.locals.store;
+            if (store) {
+                return res.status(400).json({
+                    success: false,
+                    message: '이미 매장을 가지고 있습니다.',
+                });
+            }
+
             const user_id = res.locals.user.id;
             const { name, image_url, category_id, address } = req.body;
 
@@ -16,15 +24,9 @@ export class StoresController {
             // if (!category_id) next(errorHandler, 400, 'isNotEnterCategoryId'); // body에서 카테고리 아이디가 입력되지 않음
             // if (!address) next(errorHandler, 400, 'isNotEnterAddress'); // body에서 주소가 입력되지 않음
 
-            const openStore = await this.storesService.open(
-                user_id,
-                name,
-                image_url,
-                category_id,
-                address,
-            );
+            const openStore = await this.storesService.open(user_id, name, image_url, category_id, address);
 
-            return res.status(200).json({ status: 'success', data: openStore });
+            return res.status(200).json({ success: true, data: openStore });
         } catch (error) {
             next(error);
         }
@@ -34,11 +36,10 @@ export class StoresController {
     enter = async (req, res, next) => {
         try {
             const id = Number(req.params.id);
-
             const enterStore = await this.storesService.enter(id);
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
                 data: enterStore,
             });
         } catch (error) {
@@ -49,21 +50,21 @@ export class StoresController {
     // 매장 수정
     remodelling = async (req, res, next) => {
         try {
-            const user_id = res.locals.user.id;
-            const id = Number(req.params.id);
+            const store = res.locals.store;
+            if (!store) {
+                return res.status(404).json({
+                    success: false,
+                    message: '매장 정보가 없습니다.',
+                });
+            }
+
+            const id = Number(store.id);
             const { name, image_url, category_id, address } = req.body;
 
-            const remodellingStore = await this.storesService.remodelling(
-                user_id,
-                id,
-                name,
-                image_url,
-                category_id,
-                address,
-            );
+            const remodellingStore = await this.storesService.remodelling(id, name, image_url, category_id, address);
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
                 data: remodellingStore,
             });
         } catch (error) {
@@ -74,13 +75,22 @@ export class StoresController {
     // 매장 삭제
     close = async (req, res, next) => {
         try {
-            const user_id = res.locals.user.id;
-            const id = Number(req.params.id);
+            const store = res.locals.store;
+            if (!store) {
+                return res.status(404).json({
+                    success: false,
+                    message: '매장 정보가 없습니다.',
+                });
+            }
+
+            // const user_id = res.locals.user.id;
+            const id = Number(store.id);
 
             const closeStore = await this.storesService.close(id);
 
             return res.status(200).json({
-                status: 'success',
+                success: true,
+                message: '삭제 되었습니다.',
             });
         } catch (error) {
             next(error);
@@ -94,9 +104,7 @@ export class StoresController {
 
             const filterStores = await this.storesService.filter(category_id);
 
-            return res
-                .status(200)
-                .json({ status: 'success', data: filterStores });
+            return res.status(200).json({ success: true, data: filterStores });
         } catch (error) {
             next(error);
         }

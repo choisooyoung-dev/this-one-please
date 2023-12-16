@@ -4,11 +4,7 @@ export class ReviewsService {
     reviewsRepository = new ReviewsRepository();
 
     createReview = async (order_id, comment, star) => {
-        const createdReview = await this.reviewsRepository.createReview(
-            order_id,
-            comment,
-            star,
-        );
+        const createdReview = await this.reviewsRepository.createReview(order_id, comment, star);
         return {
             id: createdReview.id,
             order_id: createdReview.order_id,
@@ -23,9 +19,14 @@ export class ReviewsService {
         return reviews;
     };
 
-    deletedReview = async (id) => {
+    getReview = async (id) => {
+        const review = await this.reviewsRepository.getReview(id);
+        return review;
+    };
+
+    deleteReview = async (id) => {
         // const { reviewId } = req.params;
-        await this.reviewsRepository.deletedReview(id);
+        await this.reviewsRepository.deleteReview(id);
         return {};
     };
 }

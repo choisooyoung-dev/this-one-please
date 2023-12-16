@@ -1,5 +1,47 @@
-<header style="text-align: center; background-color: #0fa5a5;">
-  <a href="/">
-      <img src="https://www.emojiall.com/images/120/skype/1f3cd-fe0f.png" alt="로고" style="display: inline-block; vertical-align: middle;">
-  </a>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+<% if(!data.isLogin) { %>
+    <div class="icon-container">
+        <a href="/login" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px"><span class="material-symbols-outlined">
+            login
+            </span></i></a>
+    </div>
+    <% } else { %>
+    <div class="icon-container">
+        <a href="#" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px" onclick="logout()">logout</i></a>
+        <% if(data.user.type === 1) { %>
+            <% if(data.store !== null) { %>
+                <a href="/storeAdmin" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">storefront</i></a>
+            <% } else { %>
+                <a href="/storeCreate" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">store</i></a>
+            <% } %> 
+        <% } else { %>
+            <a href="/cart" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">shopping_cart</i></a>
+            <a href="/myPage" data-target="slide-out" class="sidenav-trigger right"><i class="material-icons" style="font-size: 70px; color: #ffffff; margin: 10px">account_circle</i></a>
+        <% } %> 
+    </div>
+    <% } %> 
+
+<header style="background-color: #0fa5a5">
+    <a href="/" style="display: flex; justify-content: center; align-items: center; margin-left: 40px;">
+        <img src="https://www.emojiall.com/images/120/skype/1f3cd-fe0f.png" alt="로고" style="vertical-align: middle" />
+    </a>
 </header>
+
+<script>
+    function logout(){
+        fetch(`/api/auth/logout`)
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+            if(response.success){
+                //alert('로그아웃 성공');
+                window.location.href = '/';
+            }
+        })
+        .catch((error) => console.error('에러 발생:', error));
+
+    }
+</script>
