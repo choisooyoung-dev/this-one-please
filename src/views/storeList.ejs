@@ -21,10 +21,15 @@
 <body>
   <%-include('header')%>
   
+  <div style="display: flex; align-items: center; justify-content: center; margin: 10px;">
+    <label id="category-name"></label>
+  </div>
   <div id = "store-container"></div>
 
   <%-include('footer')%>
+
   <div id="categoryId" data-category-id="<%=categoryId%>"></div>
+  
 </body>
-<script src="<%= path %>/javascripts/stores.js"></script>
+<script src="<%= path %>/javascripts/storeList.js"></script>
 </html>
