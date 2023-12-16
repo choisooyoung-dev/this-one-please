@@ -44,7 +44,7 @@ export class CartsRepository {
 
         return carts.map((cart) => {
             return {
-                id:cart.id,
+                id: cart.id,
                 user_id: cart.user_id,
                 menu_name: cart.Menu?.name,
                 store_name: cart.Store?.name,

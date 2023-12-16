@@ -13,10 +13,20 @@ storesRouter.post('', authMiddleware, storeMiddleware, storesController.open);
 storesRouter.get('/:id', storesController.enter);
 
 // 매장 수정
-storesRouter.patch('', authMiddleware, storeMiddleware, storesController.remodelling);
+storesRouter.patch(
+    '',
+    authMiddleware,
+    storeMiddleware,
+    storesController.remodelling,
+);
 
 // 매장 삭제
-storesRouter.delete('', authMiddleware, storeMiddleware, storesController.close);
+storesRouter.delete(
+    '',
+    authMiddleware,
+    storeMiddleware,
+    storesController.close,
+);
 
 // 카테고리 id 일치 매장 전체 조회
 storesRouter.get('/filter/:category_id', storesController.filter);
