@@ -83,7 +83,7 @@ const signup = async () => {
     const address = document.getElementById('address').value;
     let type = 0;
     try {
-        if (userType === 'customer') {
+        if (userType === 'business') {
             type = 1;
         }
         const response = await fetch('/api/users/signup', {
