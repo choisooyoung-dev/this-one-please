@@ -85,7 +85,7 @@ model Orders {
   id         Int      @id @default(autoincrement()) @map("id")
   user_id    Int      @map("user_id")
   store_id   Int      @map("store_id")
-  menu_ids   String   @map("menu_ids") @db.LongText
+  info       Json     @map("info")
   created_at DateTime @default(now()) @map("created_at")
   updated_at DateTime @default(now()) @map("updated_at")
   Store      Stores   @relation(fields: [store_id], references: [id], onDelete: Cascade)
