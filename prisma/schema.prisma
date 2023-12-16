@@ -71,7 +71,6 @@ model Cart {
   store_id Int    @map("store_id")
   menu_id  Int    @map("menu_id")
   count    Int    @map("count")
-  price    Int    @map("price")
   Menu     Menus  @relation(fields: [menu_id], references: [id], onDelete: Cascade)
   Store    Stores @relation(fields: [store_id], references: [id], onDelete: Cascade)
   User     Users  @relation(fields: [user_id], references: [id], onDelete: Cascade)

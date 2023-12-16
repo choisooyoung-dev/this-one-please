@@ -20,7 +20,7 @@ function cartList() {
                 container.appendChild(product);
 
                 const newImage = document.createElement('img');
-                newImage.src = ``;
+                newImage.src = `${e.menu_image}`;
                 product.appendChild(newImage);
 
                 const details = document.createElement('div');
@@ -32,7 +32,7 @@ function cartList() {
                 details.appendChild(name);
 
                 const price = document.createElement('p');
-                price.innerText = `${e.price}`;
+                price.innerText = `${e.menu_price}`;
                 details.appendChild(price);
 
                 const quantity = document.createElement('div');
