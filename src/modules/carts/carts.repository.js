@@ -3,20 +3,12 @@ import { prisma } from '../../utils/prisma/index.js';
 
 export class CartsRepository {
     createCart = async (menu_id, user_id, store_id, count) => {
-        const menu = await prisma.menus.findUnique({
-            where: { id: menu_id },
-            select: { price: true },
-        });
-
-        // const price = menu?.price * count;
-
         const createdCart = await prisma.cart.create({
             data: {
                 menu_id,
                 user_id,
                 store_id,
-                count,
-                price,
+                count
             },
         });
 
@@ -32,9 +24,8 @@ export class CartsRepository {
                 menu_id: true,
                 store_id: true,
                 count: true,
-                price: true,
                 Menu: {
-                    select: { name: true },
+                    select: { name: true, price: true, image_url:true },
                 },
                 Store: {
                     select: { name: true },
@@ -47,9 +38,10 @@ export class CartsRepository {
                 id: cart.id,
                 user_id: cart.user_id,
                 menu_name: cart.Menu?.name,
+                menu_price: cart.Menu?.price,
+                menu_image: cart.Menu?.image_url,
                 store_name: cart.Store?.name,
-                count: cart.count,
-                price: cart.price,
+                count: cart.count
             };
         });
     };
@@ -57,21 +49,9 @@ export class CartsRepository {
     updateCart = async (id, count) => {
         console.log(id, count);
 
-        const cart = await prisma.cart.findUnique({
-            where: { id },
-            select: { menu_id: true },
-        });
-
-        const menu = await prisma.menus.findUnique({
-            where: { id: cart?.menu_id },
-            select: { price: true },
-        });
-
-        const price = menu?.price * count;
-
         const updatedCart = await prisma.cart.update({
             where: { id },
-            data: { count, price },
+            data: { count },
         });
 
         return updatedCart;

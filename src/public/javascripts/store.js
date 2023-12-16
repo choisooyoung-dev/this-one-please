@@ -14,7 +14,8 @@ const getMenus = async () => {
             const storeAddress = document.getElementById('storeAddress');
             storeAddress.innerText = response.data.address;
             const storeImage = document.getElementById('storeImage');
-            storeImage.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
+            storeImage.src = response.data.image_url
+            // storeImage.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
         })
         .catch((error) => console.error('에러 발생:', error));
 
@@ -32,9 +33,9 @@ const getMenus = async () => {
             response.data.forEach((e) => {
                 // 이미지 생성
                 const newImage = document.createElement('img');
-                // newImage.src = e.image_url;
+                newImage.src = e.image_url;
                 // newImage.alt = e.name;
-                newImage.src = `https://source.unsplash.com/random/600x400?food&rand=${Math.random()}`;
+                // newImage.src = `https://source.unsplash.com/random/600x400?food&rand=${Math.random()}`;
                 newImage.className = 'w-full h-48 object-cover mb-4';
                 newDiv.appendChild(newImage);
 
