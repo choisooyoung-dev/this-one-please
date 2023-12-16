@@ -29,7 +29,7 @@ const sendEmail = async () => {
             body: JSON.stringify({ email }),
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if (data.error) {
             alert(data.error);
@@ -62,7 +62,9 @@ const authEmail = async () => {
         } else if (data.message) {
             signupBtn.removeAttribute('disabled');
             signupBtn.classList.add('hover:bg-blue-700');
-            console.log('signupBtn: ', signupBtn);
+            emailBtn.setAttribute('disabled', '');
+            authMailBtn.setAttribute('disabled', '');
+            // console.log('signupBtn: ', signupBtn);
             alert(data.message);
         } else {
             alert('인증 번호 확인에 실패했습니다.');
