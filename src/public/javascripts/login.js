@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then((response) => response.json())
             .then((response) => {
                 // console.log(response);
-                if (response.message === '로그인 성공') {
+                if (response.success) {
                     window.location.href = '/';
                 } else {
-                    alert('로그인 실패');
+                    alert(response.message);
                 }
             })
             .catch((error) => console.error('Error:', error));
