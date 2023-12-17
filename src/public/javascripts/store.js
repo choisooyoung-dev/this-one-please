@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     getMenus();
     getCart();
+    getReviews();
 });
 
 // store page에 들어오면 store의 menu 모두 보이기
@@ -75,6 +76,10 @@ const getMenus = async () => {
             });
         })
         .catch((error) => console.error('에러 발생:', error));
+};
+
+const getReviews = async () => {
+    console.log('review tab');
 };
 
 // get cart api 실행 후 data가 있는지 없는지 -> 없으면 create cart
