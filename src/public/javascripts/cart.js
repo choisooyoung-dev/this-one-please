@@ -40,7 +40,9 @@ function cartList() {
                 product.appendChild(quantity);
 
                 const decrease = document.createElement('button');
-                decrease.addEventListener('click', decreaseQuantity.bind(decrease, decrease));
+                decrease.addEventListener('click', function () {
+                    decreaseQuantity(decrease, e.id);
+                });
                 decrease.innerText = '-';
                 quantity.appendChild(decrease);
 
@@ -51,7 +53,9 @@ function cartList() {
                 quantity.appendChild(value);
 
                 const increase = document.createElement('button');
-                increase.addEventListener('click', increaseQuantity.bind(increase, increase));
+                increase.addEventListener('click', function () {
+                    increaseQuantity(increase, e.id);
+                });
                 increase.innerText = '+';
                 quantity.appendChild(increase);
 
@@ -61,7 +65,9 @@ function cartList() {
                 product.appendChild(newDiv2);
 
                 const remove = document.createElement('button');
-                remove.addEventListener('click', removeFromCart.bind(remove, remove));
+                remove.addEventListener('click', function () {
+                    removeFromCart(remove, e.id);
+                });
                 remove.innerText = '삭제';
                 product.appendChild(remove);
             });
@@ -76,27 +82,85 @@ function cartList() {
         .catch((error) => console.error('에러 발생:', error));
 }
 
-function removeFromCart(button) {
+function removeFromCart(button, cartId) {
     // 상품 제거 로직을 추가할 수 있습니다.
     var productElement = button.parentElement;
     productElement.remove();
     updateTotalPrice();
+
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
+
+        // 삭제 버튼 누르면 delete api 실행
+        fetch(`/api/carts/${cartId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                // 다른 필요한 헤더가 있다면 여기에 추가
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log('response >> ', response);
+            })
+            .catch((error) => console.error('Error:', error));
+    } else {
+        alert('로그인 후 이용 가능합니다.');
+        // window.location.href = '/login';
+    }
 }
 
-function decreaseQuantity(button) {
+function decreaseQuantity(button, cartId) {
     var inputElement = button.nextElementSibling;
     var quantity = parseInt(inputElement.value);
     if (quantity > 1) {
         inputElement.value = quantity - 1;
     }
     updateTotalPrice();
+
+    const count = parseInt(inputElement.value);
+    // - 버튼 누르면 update api 실행
+    fetch(`/api/carts/${cartId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            // 다른 필요한 헤더가 있다면 여기에 추가
+        },
+        body: JSON.stringify({
+            count: count,
+        }),
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
-function increaseQuantity(button) {
+function increaseQuantity(button, cartId) {
     var inputElement = button.previousElementSibling;
     var quantity = parseInt(inputElement.value);
     inputElement.value = quantity + 1;
     updateTotalPrice();
+
+    const count = parseInt(inputElement.value);
+    // + 버튼 누르면 update api 실행
+    fetch(`/api/carts/${cartId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            // 다른 필요한 헤더가 있다면 여기에 추가
+        },
+        body: JSON.stringify({
+            count: count,
+        }),
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => console.error('Error:', error));
 }
 
 function updateTotalPrice() {
