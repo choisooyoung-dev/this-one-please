@@ -33,10 +33,17 @@ export default async (req, res, next) => {
         }
     }
 
-    const accessPayload = validToken(accessToken, process.env.ACC_TOKEN_KEY);
+    let accessPayload = null;
+    if(accessToken)
+        accessPayload =validToken(accessToken, process.env.ACC_TOKEN_KEY);
 
-    const refreshPayload = validToken(refreshToken, process.env.REF_TOKEN_KEY);
-    const redisRefreshToken = await redisClient.get(refreshToken);
+        
+    let refreshPayload = null;
+    let redisRefreshToken = null;
+    if(refreshToken) {
+        refreshPayload =validToken(refreshToken, process.env.REF_TOKEN_KEY);
+        redisRefreshToken = await redisClient.get(refreshToken);
+    }
 
     if (!accessPayload) {
         if (refreshPayload && Number(redisRefreshToken) === jwt.decode(refreshToken).user_id) {
