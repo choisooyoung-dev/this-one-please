@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     getMenus();
+    getCart();
 });
 
 // store page에 들어오면 store의 menu 모두 보이기
@@ -83,7 +84,8 @@ const getMenus = async () => {
 // 안한다면 아무 api도 실행하지 않음.
 const addCart = async (menuId, storeId) => {
     // get menu api에서 받아온 menu id, store id
-    let isCheck = false;
+    let leaveCart = false; // 다른 매장의 메뉴가 담겨있는 장바구니를 지우지 않을 것임
+    let isExistCart = false;
     const userDataSet = document.getElementById('userId');
     if (userDataSet) {
         const userId = document.getElementById('userId').dataset.userId;
@@ -95,6 +97,7 @@ const addCart = async (menuId, storeId) => {
                 console.log(response);
                 // cart에 담겨있는게 있으면서 && 현재 담을 메뉴와 다른 매장의 메뉴라면
                 if (response.data.length > 0) {
+                    isExistCart = true;
                     if (response.data[0].store_id !== storeId) {
                         if (
                             confirm(`장바구니에는 같은 가게의 메뉴만 담을 수 있습니다.
@@ -102,10 +105,11 @@ const addCart = async (menuId, storeId) => {
                         ) {
                             // 장바구니를 비우고 현재 메뉴를 추가
                             deleteCartAll(response.data.user_id);
+                            isExistCart = false;
                         } else {
                             // 추가하지 않고 장바구니도 비우지 않음
                             // 함수를 나가면서 아래 create cart api를 실행하지 않을 것으로 기대
-                            isCheck = true;
+                            leaveCart = true;
                         }
                     } // cart에 담겨있는게 없거나 || 있는데 같은 매장의 메뉴라면 (if문을 돌지 않았다면)
                     // + if문을 돌아 cart를 비우고 나왔다면
@@ -113,8 +117,8 @@ const addCart = async (menuId, storeId) => {
                 }
             })
             .catch((error) => console.error('Error:', error));
+        if (leaveCart) return;
 
-        if (isCheck) return;
         // create cart api
         await fetch('/api/carts', {
             method: 'POST',
@@ -131,6 +135,8 @@ const addCart = async (menuId, storeId) => {
             .then((response) => response.json())
             .then((response) => {
                 console.log(response);
+                if (!isExistCart) window.location.reload();
+                isExistCart = true;
             })
             .catch((error) => console.error('Error:', error));
     } else {
@@ -140,8 +146,8 @@ const addCart = async (menuId, storeId) => {
 };
 
 // 장바구니 비우기
-function deleteCartAll(userId) {
-    fetch('/api/carts', {
+const deleteCartAll = async (userId) => {
+    await fetch('/api/carts', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -156,4 +162,26 @@ function deleteCartAll(userId) {
             console.log(response);
         })
         .catch((error) => console.error('Error:', error));
-}
+};
+
+const getCart = async () => {
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
+        const footerOrder = document.getElementById('footerOrder');
+        footerOrder.addEventListener('click', () => {
+            window.location.href = '/cart';
+        });
+
+        // 장바구니에 메뉴가 담겨있는지 확인
+        await fetch('/api/carts', {})
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                if (response.data.length) {
+                    footerOrder.style.display = 'block';
+                }
+            })
+            .catch((error) => console.error('Error:', error));
+    }
+};
