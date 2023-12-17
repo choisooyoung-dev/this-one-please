@@ -21,7 +21,13 @@ export class MenusController {
                 return res.status(401).json({ success: false, error: '해당 스토어에 권한이 없습니다.' });
             }
 
-            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
+            const { name, price } = await menusSchemaValidation.validateAsync(req.body);
+            const { image_url } = req.body;
+
+            if (price === undefined || price === null) {
+                return res.status(401).json({ success: false, error: '가격을 입력해주세요.' });
+            }
+
             const createdMenu = await this.menusService.createMenu(store_id, name, price, image_url);
 
             return res.status(200).json({ success: true, data: createdMenu });
