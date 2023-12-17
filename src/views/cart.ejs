@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,25 +58,28 @@
             cursor: pointer;
         }
     </style>
-        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+    <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
 </head>
+
 <body>
 
-<!-- <header>
+    <!-- <header>
     <h1>장바구니</h1>
 </header> -->
-<%-include('header')%>
-<main>
-  <div id = 'cart-container'>
+    <%-include('header')%>
+        <main>
+            <div id='cart-container'>
 
-  </div>
-  <div id='order' class="checkout-button" onclick="checkout()">주문하기</div>
+            </div>
+            <div id='order' class="checkout-button">주문하기</div>
 
-</main>
+        </main>
 
-<%-include('footer')%>
+        <%-include('footer')%>
+            <div id="userId" data-user-id="<%=data.user.id%>"></div>
 
-<script src="<%= path %>javascripts/cart.js"></script>
+            <script src="<%= path %>javascripts/cart.js"></script>
 
 </body>
+
 </html>

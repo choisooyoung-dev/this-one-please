@@ -16,7 +16,6 @@ export class CartsService {
 
     getCarts = async (user_id) => {
         const carts = await this.cartsRepository.getCarts(user_id);
-        console.log('service: ', carts);
 
         return carts;
     };
@@ -30,9 +29,9 @@ export class CartsService {
         const carts = await this.cartsRepository.getCart(id);
         return carts;
     };
-    
-    getCartMenu = async (user_id,menu_id) => {
-        const cart = await this.cartsRepository.getCartMenu(user_id,menu_id);
+
+    getCartMenu = async (user_id, menu_id) => {
+        const cart = await this.cartsRepository.getCartMenu(user_id, menu_id);
         return cart;
     };
 
@@ -40,5 +39,11 @@ export class CartsService {
         const deletedCart = await this.cartsRepository.deleteCart(id);
 
         return deletedCart;
+    };
+
+    deleteCartAll = async (user_id) => {
+        const deletedCartAll = await this.cartsRepository.deleteCartAll(user_id);
+
+        return deletedCartAll;
     };
 }

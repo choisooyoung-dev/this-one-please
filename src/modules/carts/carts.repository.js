@@ -41,15 +41,15 @@ export class CartsRepository {
                 menu_price: cart.Menu?.price,
                 menu_image: cart.Menu?.image_url,
                 store_name: cart.Store?.name,
+                store_id: cart.store_id,
                 count: cart.count,
             };
         });
     };
 
-    
-    getOrderCarts = async (user_id,store_id) => {
+    getOrderCarts = async (user_id, store_id) => {
         const carts = await prisma.cart.findMany({
-            where: { user_id:+user_id, store_id:+store_id },
+            where: { user_id: +user_id, store_id: +store_id },
             select: {
                 id: true,
                 user_id: true,
@@ -57,7 +57,7 @@ export class CartsRepository {
                 store_id: true,
                 count: true,
                 Menu: {
-                    select: { name: true, price: true, image_url:true },
+                    select: { name: true, price: true, image_url: true },
                 },
                 Store: {
                     select: { name: true },
@@ -73,7 +73,7 @@ export class CartsRepository {
                 menu_price: cart.Menu?.price,
                 menu_image: cart.Menu?.image_url,
                 store_name: cart.Store?.name,
-                count: cart.count
+                count: cart.count,
             };
         });
     };
@@ -96,18 +96,26 @@ export class CartsRepository {
         return cart;
     };
 
-    getCartMenu = async (user_id,menu_id) => {
+    getCartMenu = async (user_id, menu_id) => {
         const cart = await prisma.cart.findFirst({
-            where: { user_id:+user_id, menu_id: +menu_id },
+            where: { user_id: +user_id, menu_id: +menu_id },
         });
         return cart;
     };
-
 
     deleteCart = async (id) => {
         await prisma.$transaction(async (tx) => {
             await tx.cart.delete({
                 where: { id: +id },
+            });
+        });
+        return {};
+    };
+
+    deleteCartAll = async (user_id) => {
+        await prisma.$transaction(async (tx) => {
+            await tx.cart.deleteMany({
+                where: { user_id },
             });
         });
         return {};

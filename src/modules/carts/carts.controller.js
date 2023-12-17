@@ -9,15 +9,14 @@ export class CartsController {
             const { menu_id, store_id, count } = req.body;
             const originCart = await this.cartsService.getCartMenu(user_id, menu_id);
 
-            if(!originCart) {
+            if (!originCart) {
                 const createdCart = await this.cartsService.createCart(user_id, menu_id, store_id, count);
                 return res.status(201).json({
                     success: true,
                     data: createdCart,
                     message: '장바구니 만들기 성공',
                 });
-            }
-            else {
+            } else {
                 const updatedCart = await this.cartsService.updateCart(originCart.id, count + originCart.count);
                 return res.status(201).json({
                     success: true,
@@ -25,7 +24,6 @@ export class CartsController {
                     message: '업데이트가 되었습니다',
                 });
             }
-
         } catch (e) {
             console.log(e);
             res.status(500).json({
@@ -39,7 +37,6 @@ export class CartsController {
         try {
             const user_id = res.locals.user.id;
             const carts = await this.cartsService.getCarts(user_id);
-            // console.log(carts);
             return res.status(201).json({
                 success: true,
                 data: carts,
@@ -82,11 +79,11 @@ export class CartsController {
     deleteCart = async (req, res, next) => {
         try {
             const user_id = res.locals.user.id;
+            const { id } = req.params;
             const cart = await this.cartsService.getCart(id);
-            if (cart.user_id !== res.locals.user.id) {
+            if (cart.user_id !== user_id) {
                 return res.status(400).json({ success: false, message: '권한이 없습니다' });
             }
-            const { id } = req.params;
             if (!cart) {
                 return res.status(404).json({
                     success: false,
@@ -94,6 +91,22 @@ export class CartsController {
                 });
             }
             await this.cartsService.deleteCart(id);
+            return res.status(201).json({ success: true, message: '삭제 성공' });
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({
+                success: false,
+                message: '예상치 못한 에러입니다',
+            });
+        }
+    };
+
+    deleteCartAll = async (req, res, next) => {
+        try {
+            const { user_id } = req.body;
+
+            await this.cartsService.deleteCartAll(user_id);
+
             return res.status(201).json({ success: true, message: '삭제 성공' });
         } catch (e) {
             console.log(e);

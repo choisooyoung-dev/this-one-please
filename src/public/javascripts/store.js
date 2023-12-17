@@ -85,7 +85,6 @@ const addCart = (menuId, storeId) => {
                 // 다른 필요한 헤더가 있다면 여기에 추가
             },
             body: JSON.stringify({
-                user_id: userId,
                 menu_id: menuId,
                 store_id: storeId,
                 count: 1,
