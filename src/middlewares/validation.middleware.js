@@ -5,7 +5,6 @@ const signupSchemaValidation = joi.object({
     password: joi.string().min(6).required().trim(),
     confirmPassword: joi.ref('password'),
     name: joi.string().required().trim(),
-
     point: joi.number().required(),
     addresss: joi.string().required().trim(),
 });
