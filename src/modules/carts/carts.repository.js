@@ -46,6 +46,38 @@ export class CartsRepository {
         });
     };
 
+    
+    getOrderCarts = async (user_id,store_id) => {
+        const carts = await prisma.cart.findMany({
+            where: { user_id:+user_id, store_id:+store_id },
+            select: {
+                id: true,
+                user_id: true,
+                menu_id: true,
+                store_id: true,
+                count: true,
+                Menu: {
+                    select: { name: true, price: true, image_url:true },
+                },
+                Store: {
+                    select: { name: true },
+                },
+            },
+        });
+
+        return carts.map((cart) => {
+            return {
+                id: cart.id,
+                user_id: cart.user_id,
+                menu_name: cart.Menu?.name,
+                menu_price: cart.Menu?.price,
+                menu_image: cart.Menu?.image_url,
+                store_name: cart.Store?.name,
+                count: cart.count
+            };
+        });
+    };
+
     updateCart = async (id, count) => {
         console.log(id, count);
 
@@ -63,6 +95,14 @@ export class CartsRepository {
         });
         return cart;
     };
+
+    getCartMenu = async (user_id,menu_id) => {
+        const cart = await prisma.cart.findFirst({
+            where: { user_id:+user_id, menu_id: +menu_id },
+        });
+        return cart;
+    };
+
 
     deleteCart = async (id) => {
         await prisma.$transaction(async (tx) => {

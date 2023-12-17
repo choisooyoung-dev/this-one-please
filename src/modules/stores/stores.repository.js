@@ -44,4 +44,15 @@ export class StoreRepository {
 
         return filterStores;
     };
+
+    getUser = async (id) => {
+        const user = await prisma.stores.findUnique({
+            where: { id },
+            select:{
+                Users:true
+            }
+        });
+
+        return user.Users;
+    };
 }

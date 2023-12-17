@@ -30,6 +30,11 @@ export class CartsService {
         const carts = await this.cartsRepository.getCart(id);
         return carts;
     };
+    
+    getCartMenu = async (user_id,menu_id) => {
+        const cart = await this.cartsRepository.getCartMenu(user_id,menu_id);
+        return cart;
+    };
 
     deleteCart = async (id) => {
         const deletedCart = await this.cartsRepository.deleteCart(id);
