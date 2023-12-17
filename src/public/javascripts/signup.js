@@ -33,6 +33,7 @@ const sendEmail = async () => {
 
         if (data.error) {
             alert(data.error);
+            window.location.href = '/login';
         }
         if (data.message) {
             alert(data.message);

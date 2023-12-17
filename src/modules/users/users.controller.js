@@ -17,7 +17,7 @@ export class UsersController {
         if (userEmail) {
             return res.status(400).json({
                 success: false,
-                message: '이미 등록되어있는 이메일 입니다.',
+                error: '이미 등록되어있는 이메일 입니다. 로그인 해주세요',
             });
         }
 
