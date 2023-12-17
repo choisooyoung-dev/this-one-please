@@ -4,7 +4,9 @@ export class MenusService {
     menusRepository = new MenusRepository();
     // 메뉴 등록
     createMenu = async (store_id, name, price, image_url) => {
+        console.log('service---------');
         const createdMenu = await this.menusRepository.createMenu(store_id, name, price, image_url);
+        console.log('createdMenu in service: ', createdMenu);
 
         return {
             store_id: createdMenu.store_id,

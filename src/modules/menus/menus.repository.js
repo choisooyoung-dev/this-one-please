@@ -3,9 +3,11 @@ import { prisma } from '../../utils/prisma/index.js';
 export class MenusRepository {
     // 메뉴 등록
     createMenu = async (store_id, name, price, image_url) => {
+        console.log('reposi---------');
         const createdMenu = await prisma.menus.create({
             data: { store_id, name, price, image_url },
         });
+        console.log('createdMenu: ', createdMenu);
 
         return createdMenu;
     };
