@@ -1,3 +1,4 @@
+import { menusSchemaValidation } from '../../middlewares/validation.middleware.js';
 import { MenusService } from './menus.service.js';
 
 export class MenusController {
@@ -7,7 +8,7 @@ export class MenusController {
     createMenu = async (req, res, next) => {
         try {
             const store_id = Number(req.params.store_id);
-            const { name, price, image_url } = req.body;
+            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
 
             const createdMenu = await this.menusService.createMenu(store_id, name, price, image_url);
 
@@ -49,7 +50,7 @@ export class MenusController {
         try {
             const store_id = Number(req.params.store_id);
             const id = Number(req.params.id);
-            const { name, price, image_url } = req.body;
+            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
 
             const updatedMenu = await this.menusService.updateMenu(store_id, id, name, price, image_url);
 

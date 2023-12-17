@@ -2,6 +2,7 @@ import redisClient from '../../../auth-utils/redis.util.js';
 import { AuthService } from './auth.service.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { loginSchemaValidation } from '../../middlewares/validation.middleware.js';
 dotenv.config();
 
 export class AuthController {
@@ -9,7 +10,7 @@ export class AuthController {
 
     login = async (req, res, next) => {
         try {
-            const { email, password } = req.body;
+            const { email, password } = await loginSchemaValidation.validateAsync(req.body);
 
             const user = await this.authService.login(email, password);
 
