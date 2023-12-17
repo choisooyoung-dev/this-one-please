@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { StoresController } from '../modules/stores/stores.controller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
 import storeMiddleware from '../middlewares/store.middleware.js';
+import uploadMiddleware from '../middlewares/s3.middleware.js';
 
 const storesRouter = Router();
 const storesController = new StoresController();
 
 // 매장 등록
-storesRouter.post('', authMiddleware, storeMiddleware, storesController.open);
+storesRouter.post('', authMiddleware, storeMiddleware, uploadMiddleware.single("image_url"), storesController.open);
 
 // 매장 조회
 storesRouter.get('/:id', storesController.enter);
