@@ -7,9 +7,13 @@ export class MenusController {
     // 메뉴 등록
     createMenu = async (req, res, next) => {
         try {
-            const store_id = Number(req.params.store_id);
-            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
+            const store = res.locals.store;
+            if(!store){
+                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            }
+            const store_id = store.id;
 
+            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
             const createdMenu = await this.menusService.createMenu(store_id, name, price, image_url);
 
             return res.status(200).json({ success: true, data: createdMenu });
@@ -22,7 +26,6 @@ export class MenusController {
     getMenusAll = async (req, res, next) => {
         try {
             const store_id = Number(req.params.store_id);
-
             const gotMenusAll = await this.menusService.getMenusAll(store_id);
 
             return res.status(200).json({ success: true, data: gotMenusAll });
@@ -34,9 +37,7 @@ export class MenusController {
     // 메뉴 단일 조회
     getMenuOne = async (req, res, next) => {
         try {
-            const store_id = Number(req.params.store_id);
             const id = Number(req.params.id);
-
             const gotMenuOne = await this.menusService.getMenuOne(store_id, id);
 
             return res.status(200).json({ success: true, data: gotMenuOne });
@@ -48,7 +49,12 @@ export class MenusController {
     // 메뉴 수정
     updateMenu = async (req, res, next) => {
         try {
-            const store_id = Number(req.params.store_id);
+            const store = res.locals.store;
+            if(!store){
+                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            }
+            const store_id = store.id;
+
             const id = Number(req.params.id);
             const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
 
@@ -63,7 +69,12 @@ export class MenusController {
     // 메뉴 삭제
     deleteMenu = async (req, res, next) => {
         try {
-            const store_id = Number(req.params.store_id);
+             const store = res.locals.store;
+            if(!store){
+                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            }
+            const store_id = store.id;
+
             const id = Number(req.params.id);
 
             const deletedMenu = await this.menusService.deleteMenu(store_id, id);
