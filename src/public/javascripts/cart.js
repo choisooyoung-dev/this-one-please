@@ -13,7 +13,11 @@ function cartList() {
                 return;
             }
 
+            const storeName = response.data[0].store_name;
+
             const container = document.getElementById(`cart-container`);
+            container.innerText = `${storeName}`;
+
             response.data.forEach((e) => {
                 const product = document.createElement('div');
                 product.className = 'product';
