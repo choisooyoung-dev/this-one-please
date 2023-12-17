@@ -5,7 +5,6 @@ const signupSchemaValidation = joi.object({
     password: joi.string().min(6).required().trim(),
     confirmPassword: joi.ref('password'),
     name: joi.string().required().trim(),
-
     point: joi.number().required(),
     addresss: joi.string().required().trim(),
 });
@@ -17,21 +16,17 @@ const loginSchemaValidation = joi.object({
 
 const categoriesSchemaValidation = joi.object({
     name: joi.string().required().trim(),
-    image_url: joi.string().required().trim(),
 });
 
 const storesSchemaValidation = joi.object({
     name: joi.string().required().trim(),
-    image_url: joi.string().required().trim(),
     category_id: joi.number().required(),
     addresss: joi.string().required().trim(),
 });
 
 const menusSchemaValidation = joi.object({
     name: joi.string().required().trim(),
-    price: joi.number().required(),
-    image_url: joi.string().required().trim(),
-    store_id: joi.number().required(),
+    price: joi.number().required().default(0),
 });
 
 const cartSchemaValidation = joi.object({});

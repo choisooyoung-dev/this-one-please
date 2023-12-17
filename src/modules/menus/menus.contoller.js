@@ -8,12 +8,26 @@ export class MenusController {
     createMenu = async (req, res, next) => {
         try {
             const store = res.locals.store;
-            if(!store){
-                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            const user = res.locals.user;
+
+            // 스토어 자체가 없음.
+            if (!store) {
+                return res.status(404).json({ success: false, error: '해당 스토어를 찾을 수 없습니다.' });
             }
             const store_id = store.id;
 
-            const { name, price, image_url } = await menusSchemaValidation.validateAsync(req.body);
+            // 로그인 유저가 사장이지만 다른 스토어 메뉴 등록 불가
+            if (store.user_id !== user.id) {
+                return res.status(401).json({ success: false, error: '해당 스토어에 권한이 없습니다.' });
+            }
+
+            const { name, price } = await menusSchemaValidation.validateAsync(req.body);
+            const { image_url } = req.body;
+
+            if (price === undefined || price === null) {
+                return res.status(401).json({ success: false, error: '가격을 입력해주세요.' });
+            }
+
             const createdMenu = await this.menusService.createMenu(store_id, name, price, image_url);
 
             return res.status(200).json({ success: true, data: createdMenu });
@@ -50,8 +64,8 @@ export class MenusController {
     updateMenu = async (req, res, next) => {
         try {
             const store = res.locals.store;
-            if(!store){
-                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            if (!store) {
+                return res.status(404).json({ success: false, message: '해당 스토어를 찾을 수 없습니다.' });
             }
             const store_id = store.id;
 
@@ -69,9 +83,9 @@ export class MenusController {
     // 메뉴 삭제
     deleteMenu = async (req, res, next) => {
         try {
-             const store = res.locals.store;
-            if(!store){
-                return res.status(404).json({success:false, message:"해당 스토어를 찾을 수 없습니다."});
+            const store = res.locals.store;
+            if (!store) {
+                return res.status(404).json({ success: false, message: '해당 스토어를 찾을 수 없습니다.' });
             }
             const store_id = store.id;
 
