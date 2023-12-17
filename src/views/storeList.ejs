@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Store Management</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
-        <style>
-            .image-placeholder {
-                background-color: #e2e8f0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                color: #64748b;
-                font-size: 1.5rem;
-                font-weight: bold;
-            }
-        </style>
-    </head>
-    <body>
-        <%-include('header')%>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+    <style>
+        .image-placeholder {
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        footerOrder {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <%-include('header')%>
 
         <div style="display: flex; align-items: center; justify-content: center; margin: 10px">
             <label id="category-name"></label>
         </div>
         <div id="store-container"></div>
-
+        <footerOrder id="footerOrder" style="display: none;">
+            <p>장바구니로 이동</p>
+        </footerOrder>
         <%-include('footer')%>
 
-        <div id="categoryId" data-category-id="<%=categoryId%>"></div>
-    </body>
-    <script src="<%= path %>/javascripts/storeList.js"></script>
+            <div id="categoryId" data-category-id="<%=categoryId%>"></div>
+            <% if(data.isLogin) { %>
+                <div id="userId" data-user-id="<%=data.user.id%>"></div>
+                <% } %>
+</body>
+<script src="<%= path %>/javascripts/storeList.js"></script>
+
 </html>

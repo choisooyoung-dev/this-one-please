@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function cartList() {
+    const footerOrder = document.getElementById('footerOrder');
     fetch('/api/carts')
         .then((response) => response.json())
         .then((response) => {
@@ -12,18 +13,19 @@ function cartList() {
                 window.location.href = '/';
                 return;
             }
+            if (response.data.length) {
+                footerOrder.style.display = 'block';
+                footerOrder.addEventListener('click', () => {
+                    checkout(response.data[0].store_id);
+                });
+            }
 
-            const checkoutButton = document.querySelector('.checkout-button');
             if (!response.data.length) {
                 const main = document.querySelector('main');
                 main.innerText = '장바구니가 비어있습니다.';
                 main.style.display = 'flex';
                 main.style.justifyContent = 'center';
-                checkoutButton.style.display = 'none';
             }
-            checkoutButton.addEventListener('click', function () {
-                checkout(response.data[0].store_id);
-            });
 
             const storeName = response.data[0].store_name;
             const container = document.getElementById(`cart-container`);
@@ -99,7 +101,7 @@ function cartList() {
 
 function removeFromCart(button, cartId) {
     // 상품 제거 로직을 추가할 수 있습니다.
-    var productElement = button.parentElement;
+    let productElement = button.parentElement;
     productElement.remove();
     updateTotalPrice();
 
@@ -118,6 +120,7 @@ function removeFromCart(button, cartId) {
             .then((response) => response.json())
             .then((response) => {
                 console.log(response);
+                window.location.reload();
             })
             .catch((error) => console.error('Error:', error));
     } else {
@@ -190,8 +193,9 @@ function updateTotalPrice() {
         totalPrice += total;
     });
 
-    const checkoutButton = document.querySelector('.checkout-button');
-    checkoutButton.innerText = '주문하기 - 총 가격: ' + totalPrice + '원';
+    const footerOrder = document.querySelector('footerOrder');
+    const order_p = footerOrder.querySelector('p');
+    order_p.innerText = '주문하기 - 총 가격: ' + totalPrice + '원';
 }
 
 function checkout(storeId) {

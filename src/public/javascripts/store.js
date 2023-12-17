@@ -172,6 +172,10 @@ const getCart = async () => {
         footerOrder.addEventListener('click', () => {
             window.location.href = '/cart';
         });
+        const order_p = footerOrder.querySelector('p');
+
+        let totalPrice = 0;
+        let storeName = '';
 
         // 장바구니에 메뉴가 담겨있는지 확인
         await fetch('/api/carts', {})
@@ -181,7 +185,12 @@ const getCart = async () => {
                 if (response.data.length) {
                     footerOrder.style.display = 'block';
                 }
+                response.data.forEach((e) => {
+                    totalPrice += Number(e.menu_price);
+                });
+                storeName = response.data[0].store_name;
             })
             .catch((error) => console.error('Error:', error));
+        order_p.innerText = '<' + storeName + '> 주문하기 - 총 가격: ' + totalPrice + '원';
     }
 };
