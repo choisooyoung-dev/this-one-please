@@ -78,9 +78,9 @@ const getCart = async () => {
                 response.data.forEach((e) => {
                     totalPrice += Number(e.menu_price);
                 });
-                storeName = response.data[0].store_name;
+                if (response.data.length) storeName = response.data[0].store_name;
             })
             .catch((error) => console.error('Error:', error));
-        order_p.innerText = '<' + storeName + '> 주문하기 - 총 가격: ' + totalPrice + '원';
+        if (storeName.length) order_p.innerText = '<' + storeName + '> 주문하기 - 총 가격: ' + totalPrice + '원';
     }
 };
