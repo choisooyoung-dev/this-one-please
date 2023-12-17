@@ -1,4 +1,6 @@
 import redis from 'redis';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const redisClient = redis.createClient({
   host: process.env.REDIS_HOST, // 여기에 원하는 호스트를 설정하세요
