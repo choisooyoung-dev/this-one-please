@@ -3,13 +3,20 @@ const searchInput = document.getElementById('searchInputValue');
 
 document.addEventListener('DOMContentLoaded', () => {
     InitCategory();
+    getCart();
 
     // 검색 버튼 누르면 쿼리스트링 값으로 검색 입력값 보내주기
     searchbtn.addEventListener('click', (e) => {
         e.preventDefault();
         const searchInputValue = searchInput.value;
-        console.log(searchInputValue);
-        window.location.href = `/search?searchInputValue=${searchInputValue}`;
+
+        // 검색어 없을 때
+        if (!searchInputValue) {
+            alert('검색어를 입력해주세요.');
+            window.location.href = '/';
+        } else {
+            window.location.href = `/search?searchInputValue=${searchInputValue}`;
+        }
     });
 });
 
@@ -45,4 +52,35 @@ const InitCategory = async () => {
             });
         })
         .catch((error) => console.error('에러 발생:', error));
+};
+
+const getCart = async () => {
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
+        const footerOrder = document.getElementById('footerOrder');
+        footerOrder.addEventListener('click', () => {
+            window.location.href = '/cart';
+        });
+        const order_p = footerOrder.querySelector('p');
+
+        let totalPrice = 0;
+        let storeName = '';
+
+        // 장바구니에 메뉴가 담겨있는지 확인
+        await fetch('/api/carts', {})
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                if (response.data.length) {
+                    footerOrder.style.display = 'block';
+                }
+                response.data.forEach((e) => {
+                    totalPrice += Number(e.menu_price);
+                });
+                storeName = response.data[0].store_name;
+            })
+            .catch((error) => console.error('Error:', error));
+        order_p.innerText = '<' + storeName + '> 주문하기 - 총 가격: ' + totalPrice + '원';
+    }
 };
