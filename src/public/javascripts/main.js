@@ -8,8 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
     searchbtn.addEventListener('click', (e) => {
         e.preventDefault();
         const searchInputValue = searchInput.value;
-        console.log(searchInputValue);
-        window.location.href = `/search?searchInputValue=${searchInputValue}`;
+
+        // 검색어 없을 때
+        if (!searchInputValue) {
+            alert('검색어를 입력해주세요.');
+            window.location.href = '/';
+        } else {
+            window.location.href = `/search?searchInputValue=${searchInputValue}`;
+        }
     });
 });
 
