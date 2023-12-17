@@ -21,8 +21,14 @@ export class MenusController {
                 return res.status(401).json({ success: false, error: '해당 스토어에 권한이 없습니다.' });
             }
 
+            console.log(req.body);
             const { name, price } = await menusSchemaValidation.validateAsync(req.body);
-            const { image_url } = req.body;
+            // const { image_url } = req.body;
+            let image_url = 'https://node3-chapter4.s3.ap-northeast-2.amazonaws.com/2023-12-17wqn8ttq8';
+            if( req.file ) {
+                image_url = req.file.location;
+            }
+            console.log(image_url);
 
             if (price === undefined || price === null) {
                 return res.status(401).json({ success: false, error: '가격을 입력해주세요.' });

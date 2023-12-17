@@ -79,7 +79,11 @@ export class StoresController {
             }
 
             const id = Number(store.id);
-            const { name, image_url, category_id, address } = req.body;
+            let image_url = store.image_url;
+            if( req.file ) {
+                image_url = req.file.location;
+            }
+            const { name, category_id, address } = req.body;
 
             const remodellingStore = await this.storesService.remodelling(id, name, image_url, category_id, address);
 
