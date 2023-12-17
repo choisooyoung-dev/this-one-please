@@ -21,10 +21,6 @@ export const ErrorHandler = (err, req, res, next) => {
         return res.json({ success: false, message: '회원 유형을 선택해주세요.' });
     }
 
-    if (validErrorName === 'image_url') {
-        return res.json({ success: false, message: '사진을 첨부해주세요.' });
-    }
-
     if (validErrorName === 'price') {
         return res.json({ success: false, message: '가격을 입력해주세요.' });
     }

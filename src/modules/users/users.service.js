@@ -17,4 +17,11 @@ export class UsersService {
         const user = await this.usersRespository.getUser(id);
         return user;
     };
+
+    // 이메일 중복 확인 용도로 씁니다.
+
+    getUserEmail = async (email) => {
+        const userEmail = await this.usersRespository.getUserEmail(email);
+        return userEmail;
+    };
 }
