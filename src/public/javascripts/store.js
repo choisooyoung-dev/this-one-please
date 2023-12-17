@@ -22,7 +22,7 @@ const getMenus = async () => {
     // menucontainer getbyid
     const container = document.getElementById('menu-container');
 
-    await fetch(`/api/menus/${parseInt(storeId)}`)
+    await fetch(`/api/menus/store/${parseInt(storeId)}`)
         .then((response) => response.json())
         .then((response) => {
             console.log(response.data);
