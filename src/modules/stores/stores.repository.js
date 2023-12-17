@@ -4,10 +4,16 @@ export class StoreRepository {
     // 매장 등록
     open = async (user_id, name, image_url, category_id, address) => {
         const openStore = await prisma.stores.create({
-            data: { user_id, name, image_url, category_id:+category_id, address },
+            data: { user_id, name, image_url, category_id: +category_id, address },
         });
 
         return openStore;
+    };
+
+    // 매장 전체 조회
+    getAllStore = async () => {
+        const stores = await prisma.stores.findMany();
+        return stores;
     };
 
     // 매장 조회
@@ -48,9 +54,9 @@ export class StoreRepository {
     getUser = async (id) => {
         const user = await prisma.stores.findUnique({
             where: { id },
-            select:{
-                Users:true
-            }
+            select: {
+                Users: true,
+            },
         });
 
         return user.Users;

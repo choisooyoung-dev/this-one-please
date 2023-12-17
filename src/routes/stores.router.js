@@ -8,7 +8,10 @@ const storesRouter = Router();
 const storesController = new StoresController();
 
 // 매장 등록
-storesRouter.post('', authMiddleware, storeMiddleware, uploadMiddleware.single("image_url"), storesController.open);
+storesRouter.post('', authMiddleware, storeMiddleware, uploadMiddleware.single('image_url'), storesController.open);
+
+// 매장 전체 조회
+storesRouter.get('', storesController.getAllStore);
 
 // 매장 조회
 storesRouter.get('/:id', storesController.enter);
