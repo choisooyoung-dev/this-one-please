@@ -4,7 +4,7 @@ export class StoreRepository {
     // 매장 등록
     open = async (user_id, name, image_url, category_id, address) => {
         const openStore = await prisma.stores.create({
-            data: { user_id, name, image_url, category_id, address },
+            data: { user_id, name, image_url, category_id:+category_id, address },
         });
 
         return openStore;
