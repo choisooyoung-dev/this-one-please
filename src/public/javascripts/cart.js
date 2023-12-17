@@ -14,6 +14,13 @@ function cartList() {
             }
 
             const checkoutButton = document.querySelector('.checkout-button');
+            if (!response.data.length) {
+                const main = document.querySelector('main');
+                main.innerText = '장바구니가 비어있습니다.';
+                main.style.display = 'flex';
+                main.style.justifyContent = 'center';
+                checkoutButton.style.display = 'none';
+            }
             checkoutButton.addEventListener('click', function () {
                 checkout(response.data[0].store_id);
             });
@@ -110,7 +117,7 @@ function removeFromCart(button, cartId) {
         })
             .then((response) => response.json())
             .then((response) => {
-                console.log('response >> ', response);
+                console.log(response);
             })
             .catch((error) => console.error('Error:', error));
     } else {

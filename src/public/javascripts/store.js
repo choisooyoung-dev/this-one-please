@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
     getMenus();
 });
 
+// store page에 들어오면 store의 menu 모두 보이기
 const getMenus = async () => {
     const storeId = document.getElementById('storeId').dataset.storeId;
-    //같은 방식으로 store-name 스토어 이름만
+
+    // store get api - store 정보(이름, 주소, 이미지 보이기) 생성
     await fetch(`/api/stores/${parseInt(storeId)}`)
         .then((response) => response.json())
         .then((response) => {
@@ -19,9 +21,10 @@ const getMenus = async () => {
         })
         .catch((error) => console.error('에러 발생:', error));
 
-    // menucontainer getbyid
+    // store의 메뉴들을 담을 container
     const container = document.getElementById('menu-container');
 
+    // menu get all api - menu 정보(이름, 이미지, 가격), 장바구니 추가버튼 생성
     await fetch(`/api/menus/store/${parseInt(storeId)}`)
         .then((response) => response.json())
         .then((response) => {
@@ -63,8 +66,9 @@ const getMenus = async () => {
                 const newButton = document.createElement('button');
                 newButton.className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded';
                 newButton.innerText = '장바구니 추가';
+                // 장바구니 추가버튼 눌렀을 때 add cart 함수 동작
                 newButton.addEventListener('click', function () {
-                    addCart(e.id, Number(storeId));
+                    addCart(e.id, Number(storeId)); // menuId, storeId
                 });
                 div1.appendChild(newButton);
             });
@@ -72,13 +76,47 @@ const getMenus = async () => {
         .catch((error) => console.error('에러 발생:', error));
 };
 
-const addCart = (menuId, storeId) => {
+// get cart api 실행 후 data가 있는지 없는지 -> 없으면 create cart
+// 있다면 받아온 storeId와 현재 페이지의 storeId가 같은지 다른지 -> 같으면 create cart
+// 다르면 장바구니를 비우고 해당 메뉴를 추가할지 or 해당 메뉴를 추가하지 않을지 confirm alert
+// 추가한다면 delete cart all api 실행 후 create cart
+// 안한다면 아무 api도 실행하지 않음.
+const addCart = async (menuId, storeId) => {
+    // get menu api에서 받아온 menu id, store id
+    let isCheck = false;
     const userDataSet = document.getElementById('userId');
     if (userDataSet) {
         const userId = document.getElementById('userId').dataset.userId;
 
-        // 회원가입 버튼 누르면 api 실행
-        fetch('/api/carts', {
+        // 장바구니 추가 버튼 누르면 cart get api 실행
+        await fetch('/api/carts', {})
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                // cart에 담겨있는게 있으면서 && 현재 담을 메뉴와 다른 매장의 메뉴라면
+                if (response.data.length > 0) {
+                    if (response.data[0].store_id !== storeId) {
+                        if (
+                            confirm(`장바구니에는 같은 가게의 메뉴만 담을 수 있습니다.
+                장바구니를 비우고 해당 메뉴를 담으시겠습니까?`) === true
+                        ) {
+                            // 장바구니를 비우고 현재 메뉴를 추가
+                            deleteCartAll(response.data.user_id);
+                        } else {
+                            // 추가하지 않고 장바구니도 비우지 않음
+                            // 함수를 나가면서 아래 create cart api를 실행하지 않을 것으로 기대
+                            isCheck = true;
+                        }
+                    } // cart에 담겨있는게 없거나 || 있는데 같은 매장의 메뉴라면 (if문을 돌지 않았다면)
+                    // + if문을 돌아 cart를 비우고 나왔다면
+                    // 아래 create cart api를 실행할 것으로 기대
+                }
+            })
+            .catch((error) => console.error('Error:', error));
+
+        if (isCheck) return;
+        // create cart api
+        await fetch('/api/carts', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,3 +138,22 @@ const addCart = (menuId, storeId) => {
         // window.location.href = '/login';
     }
 };
+
+// 장바구니 비우기
+function deleteCartAll(userId) {
+    fetch('/api/carts', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            // 다른 필요한 헤더가 있다면 여기에 추가
+        },
+        body: JSON.stringify({
+            user_id: userId,
+        }),
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => console.error('Error:', error));
+}
