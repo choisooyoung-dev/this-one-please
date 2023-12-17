@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Store Management</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+        <style>
+            .image-placeholder {
+                background-color: #e2e8f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #64748b;
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <%-include('header')%>
+
+        <div style="display: flex; align-items: center; justify-content: center; margin: 10px">
+            <label id="category-name"></label>
+        </div>
+        <div id="store-container"></div>
+
+        <%-include('footer')%>
+    </body>
+    <script src="<%= path %>/javascripts/search.js"></script>
+</html>

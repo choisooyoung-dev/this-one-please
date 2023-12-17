@@ -19,6 +19,12 @@ export class StoresService {
         };
     };
 
+    // 매장 전체 조회
+    getAllStore = async () => {
+        const stores = await this.storeRepository.getAllStore();
+        return stores;
+    };
+
     // 매장 조회
     enter = async (id) => {
         const enterStore = await this.storeRepository.enter(id);
