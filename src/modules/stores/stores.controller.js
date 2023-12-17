@@ -17,7 +17,7 @@ export class StoresController {
             const user_id = res.locals.user.id;
             const { name, category_id, address } = req.body;
             let image_url = 'https://node3-chapter4.s3.ap-northeast-2.amazonaws.com/2023-12-17wqn8ttq8';
-            if( req.file ) {
+            if (req.file) {
                 image_url = req.file.location;
             }
 
@@ -31,6 +31,22 @@ export class StoresController {
             const openStore = await this.storesService.open(user_id, name, image_url, category_id, address);
 
             return res.status(200).json({ success: true, data: openStore });
+        } catch (error) {
+            next(error);
+        }
+    };
+
+    // 매장 전체 조회
+    getAllStore = async (req, res, next) => {
+        try {
+            const stores = await this.storesService.getAllStore();
+            if (!stores) {
+                return res.status(400).json({ success: false, error: '등록된 매장이 없습니다. ' });
+            }
+            return res.status(200).json({
+                success: true,
+                data: stores,
+            });
         } catch (error) {
             next(error);
         }

@@ -5,12 +5,12 @@
         <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
     </head>
     <body>
-        
         <%-include('header')%>
         <div class="container mx-auto p-4">
             <div class="input-field-container" style="display: flex; align-items: center">
                 <div class="input-field" style="width: 85%">
-                    <input type="text" id="search" required autocomplete="off" />
+                    <input type="text" id="searchInputValue" required autocomplete="off" />
+
                     <label for="search">검색어 입력란</label>
                 </div>
                 <div class="button-container" style="width: 15%">
