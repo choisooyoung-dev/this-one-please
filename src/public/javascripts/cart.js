@@ -13,8 +13,12 @@ function cartList() {
                 return;
             }
 
-            const storeName = response.data[0].store_name;
+            const checkoutButton = document.querySelector('.checkout-button');
+            checkoutButton.addEventListener('click', function () {
+                checkout(response.data[0].store_id);
+            });
 
+            const storeName = response.data[0].store_name;
             const container = document.getElementById(`cart-container`);
             container.innerText = `${storeName}`;
 
@@ -179,10 +183,56 @@ function updateTotalPrice() {
         totalPrice += total;
     });
 
-    document.querySelector('.checkout-button').innerText = '주문하기 - 총 가격: ' + totalPrice + '원';
+    const checkoutButton = document.querySelector('.checkout-button');
+    checkoutButton.innerText = '주문하기 - 총 가격: ' + totalPrice + '원';
 }
 
-function checkout() {
-    // 주문 처리 로직을 추가할 수 있습니다.
+function checkout(storeId) {
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
+
+        // 주문하기 버튼 누르면 orders create api 실행
+        fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // 다른 필요한 헤더가 있다면 여기에 추가
+            },
+            body: JSON.stringify({
+                store_id: storeId,
+            }),
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                if (response.success) deleteCartAll(response.data.user_id);
+            })
+            .catch((error) => console.error('Error:', error));
+    } else {
+        alert('로그인 후 이용 가능합니다.');
+        // window.location.href = '/login';
+    }
     alert('주문이 완료되었습니다!');
+}
+
+function deleteCartAll(userId) {
+    fetch('/api/carts', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            // 다른 필요한 헤더가 있다면 여기에 추가
+        },
+        body: JSON.stringify({
+            user_id: userId,
+        }),
+    })
+        .then((response) => response.json())
+        .then((response) => {
+            console.log(response);
+            if (response.success) {
+                window.location.href = '/';
+            }
+        })
+        .catch((error) => console.error('Error:', error));
 }
