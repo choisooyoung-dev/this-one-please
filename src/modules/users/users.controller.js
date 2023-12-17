@@ -11,6 +11,16 @@ export class UsersController {
     sendEmail = async (req, res, next) => {
         const { email } = req.body;
 
+        const userEmail = await this.usersService.getUserEmail(email);
+        console.log('userEmail: ', userEmail);
+
+        if (userEmail) {
+            return res.status(400).json({
+                success: false,
+                message: '이미 등록되어있는 이메일 입니다.',
+            });
+        }
+
         try {
             const transporter = nodemailer.createTransport({
                 service: 'gmail', // gmail 사용
@@ -42,9 +52,10 @@ export class UsersController {
                     from: process.env.MAILS_EMAIL, // env 파일 내 보내는 사람의 메일 주소
                     to: email, // 받는 사람
                     subject: '👋 2거주세요 가입 인증번호입니다.', // 제목
-                    text: `인증번호는 ${randomStr} 입니다.`, // 메일 내용
+                    text: `인증번호는 ${randomStr} 입니다. 3분 내로 입력해주세요.`, // 메일 내용
                     // html: "<b>Hello world?</b>", // html 보내줄 수도 있음
                 });
+                await redisClient.expire(randomStr, 180);
             }
             await main();
 
