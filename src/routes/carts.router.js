@@ -17,4 +17,7 @@ router.patch('/:id', authMiddleware, cartController.updateCart);
 //Cart삭제하기
 router.delete('/:id', authMiddleware, cartController.deleteCart);
 
+//Cart 전체 삭제하기
+router.delete('', cartController.deleteCartAll);
+
 export default router;

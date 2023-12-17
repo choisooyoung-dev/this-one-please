@@ -90,8 +90,23 @@ export class CartsController {
                     message: '삭제 할 주문 목록이 없습니다',
                 });
             }
-            console.log('controller -> service');
             await this.cartsService.deleteCart(id);
+            return res.status(201).json({ success: true, message: '삭제 성공' });
+        } catch (e) {
+            console.log(e);
+            res.status(500).json({
+                success: false,
+                message: '예상치 못한 에러입니다',
+            });
+        }
+    };
+
+    deleteCartAll = async (req, res, next) => {
+        try {
+            const { user_id } = req.body;
+
+            await this.cartsService.deleteCartAll(user_id);
+
             return res.status(201).json({ success: true, message: '삭제 성공' });
         } catch (e) {
             console.log(e);
