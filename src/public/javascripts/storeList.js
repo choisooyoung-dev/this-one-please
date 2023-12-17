@@ -4,6 +4,7 @@ const categoryId = document.getElementById('categoryId').dataset.categoryId;
 document.addEventListener('DOMContentLoaded', function () {
     categoryName();
     storeList();
+    getCart();
 });
 
 function categoryName() {
@@ -46,7 +47,7 @@ function storeList() {
                 cdev3.appendChild(cdev4);
 
                 const image = document.createElement('img');
-                image.src = `${e.image_url}`
+                image.src = `${e.image_url}`;
                 image.className = 'w-full h-full object-cover';
                 // image.src = `https://source.unsplash.com/random/400x200?restaurant&rand=${Math.random()}`;
                 cdev4.appendChild(image);
@@ -71,3 +72,34 @@ function storeList() {
         })
         .catch((error) => console.error('에러 발생:', error));
 }
+
+const getCart = async () => {
+    const userDataSet = document.getElementById('userId');
+    if (userDataSet) {
+        const userId = document.getElementById('userId').dataset.userId;
+        const footerOrder = document.getElementById('footerOrder');
+        footerOrder.addEventListener('click', () => {
+            window.location.href = '/cart';
+        });
+        const order_p = footerOrder.querySelector('p');
+
+        let totalPrice = 0;
+        let storeName = '';
+
+        // 장바구니에 메뉴가 담겨있는지 확인
+        await fetch('/api/carts', {})
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+                if (response.data.length) {
+                    footerOrder.style.display = 'block';
+                }
+                response.data.forEach((e) => {
+                    totalPrice += Number(e.menu_price);
+                });
+                storeName = response.data[0].store_name;
+            })
+            .catch((error) => console.error('Error:', error));
+        order_p.innerText = '<' + storeName + '> 주문하기 - 총 가격: ' + totalPrice + '원';
+    }
+};

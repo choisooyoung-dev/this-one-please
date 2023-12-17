@@ -23,6 +23,16 @@
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
+
+        footerOrder {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+            background-color: #ffffff;
+        }
     </style>
 </head>
 
@@ -64,13 +74,16 @@
 
             <div id="menu-container"></div>
         </div>
-        <%-include('footer')%>
+        <footerOrder id="footerOrder" style="display: none;">
+            <p>장바구니로 이동</p>
+        </footerOrder>
 
+        <%-include('footer')%>
             <div id="storeId" data-store-id="<%=storeId%>"></div>
-            
-        <% if(data.isLogin) { %>
-            <div id="userId" data-user-id="<%=data.user.id%>"></div>
-        <% } %>
+
+            <% if(data.isLogin) { %>
+                <div id="userId" data-user-id="<%=data.user.id%>"></div>
+                <% } %>
 
 </body>
 <script src="<%= path %>javascripts/store.js"></script>

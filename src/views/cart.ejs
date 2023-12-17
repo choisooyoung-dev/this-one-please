@@ -48,14 +48,14 @@
             font-weight: bold;
         }
 
-        .checkout-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        footerOrder {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+            background-color: #ffffff;
         }
     </style>
     <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
@@ -68,13 +68,11 @@
 </header> -->
     <%-include('header')%>
         <main>
-            <div id='cart-container'>
-
-            </div>
-            <div id='order' class="checkout-button">주문하기</div>
-
+            <div id='cart-container'></div>
         </main>
-
+        <footerOrder id="footerOrder" style="display: none;">
+            <p>주문하기</p>
+        </footerOrder>
         <%-include('footer')%>
             <div id="userId" data-user-id="<%=data.user.id%>"></div>
 
