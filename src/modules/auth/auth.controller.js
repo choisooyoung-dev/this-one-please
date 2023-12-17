@@ -14,9 +14,18 @@ export class AuthController {
 
             const user = await this.authService.login(email, password);
 
-            const user_id = user.id;
             if (!user) {
-                throw error;
+                return res.status(400).json({ success: false, error: '가입되어있지 않은 계정입니다. 회원가입 해주세요.' });
+            }
+
+            const user_id = user.id;
+
+            if (email !== user.email) {
+                return res.status(400).json({ success: false, error: '가입되어있지 않은 계정입니다. 회원가입 해주세요.' });
+            }
+
+            if (password !== user.password) {
+                return res.status(401).json({ success: false, error: '비밀번호가 일치하지 않습니다.' });
             }
 
             const accessToken = jwt.sign({ user_id }, process.env.ACC_TOKEN_KEY, {
@@ -34,7 +43,7 @@ export class AuthController {
 
             return res.status(200).json({
                 success: true,
-                message: '로그인 성공',
+                message: '로그인 되었습니다.',
                 data: { accessToken, refreshToken },
             });
         } catch (error) {
