@@ -1,6 +1,17 @@
+const searchbtn = document.getElementById('searchbtn');
+const searchInput = document.getElementById('searchInputValue');
+
 document.addEventListener('DOMContentLoaded', () => {
     InitCategory();
     getCart();
+
+    // 검색 버튼 누르면 쿼리스트링 값으로 검색 입력값 보내주기
+    searchbtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const searchInputValue = searchInput.value;
+        console.log(searchInputValue);
+        window.location.href = `/search?searchInputValue=${searchInputValue}`;
+    });
 });
 
 const InitCategory = async () => {
