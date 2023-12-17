@@ -14,7 +14,7 @@ storesRouter.post('', authMiddleware, storeMiddleware, uploadMiddleware.single("
 storesRouter.get('/:id', storesController.enter);
 
 // 매장 수정
-storesRouter.patch('', authMiddleware, storeMiddleware, storesController.remodelling);
+storesRouter.patch('', authMiddleware, storeMiddleware, uploadMiddleware.single("image_url"), storesController.remodelling);
 
 // 매장 삭제
 storesRouter.delete('', authMiddleware, storeMiddleware, storesController.close);

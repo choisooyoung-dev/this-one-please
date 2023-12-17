@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { MenusController } from '../modules/menus/menus.contoller.js';
 import authMiddleware from '../middlewares/auth.middleware.js';
 import storeMiddleware from '../middlewares/store.middleware.js';
+import uploadMiddleware from '../middlewares/s3.middleware.js';
 
 const menusRouter = Router();
 const menusController = new MenusController();
 
 // 메뉴 등록
-menusRouter.post('', authMiddleware, storeMiddleware, menusController.createMenu);
+menusRouter.post('', authMiddleware, storeMiddleware,uploadMiddleware.single("image_url"), menusController.createMenu);
 
 // 메뉴 전체 조회
 menusRouter.get('/store/:store_id', menusController.getMenusAll);
