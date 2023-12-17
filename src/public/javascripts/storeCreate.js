@@ -9,8 +9,9 @@ const InitCategory = async () => {
         .then((response) => {
             console.log(response);
             let newItem = document.createElement('div');
-            let innerHtml = `<select id="categorySelect">
-      <option value="" disabled selected>카테고리 선택</option>`;
+            let innerHtml = `<label for="categorySelect"></label>
+            <select id="categorySelect">
+            <option value="" disabled selected>카테고리 선택</option>`;
             response.data.forEach((e, i) => {
                 innerHtml += `<option value=${i + 1}>${e.name}</option>`;
             });
@@ -25,6 +26,7 @@ const createStore = () => {
     // category_id
     const categoryId = parseInt(document.getElementById('categorySelect').value);
     console.log(categoryId);
+
     // store_name
     const storeName = document.getElementById('store-name').value;
     console.log(storeName);
@@ -33,30 +35,52 @@ const createStore = () => {
     const storeAddress = document.getElementById('store-address').value;
     console.log(storeAddress);
 
-    // store_img(일단 아무거나)
-    const storeImageUrl = '';
+    const userDataSet = document.getElementById('userId');
+    
+    const fileInput = document.getElementById('store-image');
+    const imageFile = fileInput.files[0];
 
-    // 회원가입 버튼 누르면 api 실행
+    var formData = new FormData();
+    formData.append('user_id', userDataSet.userId);
+    formData.append('category_id', categoryId);
+    formData.append('name', storeName);
+    formData.append('address', storeAddress);
+    formData.append('image_url', imageFile);
+    // console.log(formData);
+
     fetch('/api/stores', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            // 다른 필요한 헤더가 있다면 여기에 추가
-        },
-        body: JSON.stringify({
-            user_id: 5,
-            category_id: categoryId,
-            name: storeName,
-            address: storeAddress,
-            image_url: storeImageUrl,
-        }),
+        body: formData,
+        credentials: 'include',
     })
         .then((response) => response.json())
         .then((response) => {
             console.log(response);
-            if(response.success) {
-                window.location.href = '/'
+            if (response.success) {
+                window.location.href = '/';
             }
         })
-        .catch((error) => console.error('Error:', error));
+        .catch((error) => {
+            console.error('오류 발생:', error);
+        });
+
 };
+
+function openFileInput() {
+    document.getElementById('store-image').click();
+}
+
+function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById('previewImage');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}

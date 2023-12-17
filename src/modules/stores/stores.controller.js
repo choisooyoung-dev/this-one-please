@@ -15,7 +15,11 @@ export class StoresController {
             }
 
             const user_id = res.locals.user.id;
-            const { name, image_url, category_id, address } = req.body;
+            const { name, category_id, address } = req.body;
+            let image_url = 'https://node3-chapter4.s3.ap-northeast-2.amazonaws.com/2023-12-17wqn8ttq8';
+            if( req.file ) {
+                image_url = req.file.location;
+            }
 
             // // 에러 핸들러 미들웨어에서 statusCode와 에러 키워드를 받아 에러를 처리할 수 있도록 하면 좋을 것 같다.
             // if (!user_id) next(errorHandler, 401, 'isNotExistUser'); // 인증받은 사용자 아이디가 없음
