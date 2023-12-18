@@ -1,38 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
-        <style>
-            .order-image {
-                background-color: #E2E8F0;
-                width: 100%;
-                height: 150px;
-            }
-            .star-rating input[type="radio"] {
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="<%= path %>stylesheets/style.css" />
+    <style>
+        .order-image {
+            background-color: #E2E8F0;
+            width: 100%;
+            height: 150px;
+        }
+
+        .star-rating input[type="radio"] {
             display: none;
         }
+
         .star-rating label {
             color: #ccc;
             font-size: 24px;
         }
-        .star-rating input[type="radio"]:checked ~ label {
+
+        .star-rating input[type="radio"]:checked~label {
             color: #ffc107;
         }
+
         .star-rating label:hover,
-        .star-rating label:hover ~ label,
-        .star-rating input[type="radio"]:focus ~ label {
+        .star-rating label:hover~label,
+        .star-rating input[type="radio"]:focus~label {
             color: #ffeb3b;
         }
-        </style>
-    </head>
-    <body>
-        <%-include('header')%>
-        <div class="container mx-auto p-6">
-            <h1 class="text-2xl font-semibold mb-4">주문 리스트</h1>
+    </style>
+</head>
+
+<body>
+    <%-include('header')%>
+        <div class="container mx-auto p-6" id="body-container">
+            <h1 class="text-2xl font-semibold mb-4" id="order-list">주문 리스트</h1>
             <div class="bg-white shadow-md rounded-lg p-4 mb-4">
                 <div class="border-b pb-4 mb-4">
                     <div class="order-image mb-3"></div>
@@ -44,7 +50,7 @@
                     <p class="text-gray-600">메뉴 가격</p>
                 </div>
             </div>
-            <div class="bg-white shadow-md rounded-lg p-4">
+            <div class="bg-white shadow-md rounded-lg p-4 mb-4">
                 <div class="border-b pb-4 mb-4">
                     <div class="order-image mb-3"></div>
                     <div class="flex justify-between items-center">
@@ -53,46 +59,54 @@
                     </div>
                     <p class="text-gray-600">주문날짜 및 시간</p>
                     <p class="text-gray-600">메뉴 가격</p>
-                    <button class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">리뷰쓰기</button>
+                    <button
+                        class="mt-3 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">리뷰쓰기</button>
                 </div>
-                    <div class="bg-white rounded px-8 pt-6 pb-8 mb-4" id = 'reveiw-box'>
-                        <div class="mb-6">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="rating">
-                                이번 주문 어떠셨나요?
-                            </label>
-                            <div class="star-rating mb-4" style="color: rgb(255, 230, 0);">
-                                <span class="star" onclick="rate(1)">★</span>
-                                <span class="star" onclick="rate(2)">★</span>
-                                <span class="star" onclick="rate(3)">★</span>
-                                <span class="star" onclick="rate(4)">★</span>
-                                <span class="star" onclick="rate(5)">★</span>
-                                <span class="star" onclick="rate(6)">★</span>
-                                <span class="star" onclick="rate(7)">★</span>
-                                <span class="star" onclick="rate(8)">★</span>
-                                <span class="star" onclick="rate(9)">★</span>
-                                <span class="star" onclick="rate(10)">★</span>
-                            </div>
-                            <p>선택한 평점: <span id="selectedRating">0</span></p>
-                            <textarea id="review-text" name="review-text" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="리뷰텍스트란"></textarea>
+                <div class="bg-white rounded px-8 pt-6 pb-8 mb-4" id='reveiw-box'>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="rating">
+                            이번 주문 어떠셨나요?
+                        </label>
+                        <div class="star-rating mb-4" style="color: rgb(255, 230, 0);">
+                            <span class="star" onclick="rate(1)">★</span>
+                            <span class="star" onclick="rate(2)">★</span>
+                            <span class="star" onclick="rate(3)">★</span>
+                            <span class="star" onclick="rate(4)">★</span>
+                            <span class="star" onclick="rate(5)">★</span>
+                            <span class="star" onclick="rate(6)">★</span>
+                            <span class="star" onclick="rate(7)">★</span>
+                            <span class="star" onclick="rate(8)">★</span>
+                            <span class="star" onclick="rate(9)">★</span>
+                            <span class="star" onclick="rate(10)">★</span>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                                작성 하기
-                            </button>
-                        </div>
+                        <p>선택한 평점: <span id="selectedRating">0</span></p>
+                        <textarea id="review-text" name="review-text" rows="4"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="리뷰텍스트란"></textarea>
                     </div>
-                
+                    <div class="flex items-center justify-between">
+                        <button
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="button">
+                            작성 하기
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
         <%-include('footer')%>
-    </body>
-    <script>
-        // let selectedRating = 0;
+            <div id="userId" data-user-id="<%=data.user.id%>"></div>
+</body>
+<script>
+    // let selectedRating = 0;
 
-        function rate(rating) {
-            // selectedRating = rating;
-            document.getElementById('selectedRating').innerText = rating;
-            // 여기에서 선택한 평점을 서버로 전송하거나 다른 동작을 수행할 수 있습니다.
-        }
-    </script>
+    function rate(rating) {
+        // selectedRating = rating;
+        document.getElementById('selectedRating').innerText = rating;
+        // 여기에서 선택한 평점을 서버로 전송하거나 다른 동작을 수행할 수 있습니다.
+    }
+</script>
+<script src="<%= path %>javascripts/myPage.js"></script>
+
 </html>

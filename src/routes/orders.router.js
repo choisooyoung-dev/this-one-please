@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('', authMiddleware, orderController.createOrder);
 
 //유저 주문 목록 보기
-router.get('/user/:userId', authMiddleware, orderController.getUserOrders);
+router.get('/user', authMiddleware, orderController.getUserOrders);
 
 //매장 주문 목록 보기
 router.get('/store/:storeId', authMiddleware, storeMiddleware, orderController.getStoreOrders);
@@ -20,6 +20,5 @@ router.patch('/:id/:state', authMiddleware, storeMiddleware, orderController.upd
 
 //주문 거절
 router.delete('/:id', authMiddleware, storeMiddleware, orderController.deleteOrder);
-
 
 export default router;
