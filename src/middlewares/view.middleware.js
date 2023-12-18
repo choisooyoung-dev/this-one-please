@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import redisClient from '../../auth-utils/redis.util.js';
 import { prisma } from './../utils/prisma/index.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default async (req, res, next) => {
   const { accessToken, refreshToken } = req.cookies;
