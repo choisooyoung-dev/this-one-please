@@ -38,10 +38,19 @@ const getOrderList = async () => {
                     const orderContainer = document.createElement('div'); // 3
                     orderContainer.className = 'border-b pb-4 mb-4';
                     orderFrame.appendChild(orderContainer);
-
-                    const image = document.createElement('div'); // 4
+                    
+                    const image = document.createElement('img'); // 4
                     image.className = 'order-image mb-3';
+                    image.src = e.image_url;
                     orderContainer.appendChild(image);
+                    
+                    fetch(`/api/stores/${e.store_id}`)
+                        .then((response) => response.json())
+                        .then((response) => {
+                            console.log(response);
+                            image.src = response.data.image_url;
+                        });
+        
 
                     const storeInfo = document.createElement('div'); // 4
                     storeInfo.className = 'flex justify-between items-center';
