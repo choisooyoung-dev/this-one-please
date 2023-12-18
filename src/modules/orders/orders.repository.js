@@ -11,29 +11,28 @@ export default class OrderRepository {
 
     createOrder = async (user_id, store_id) => {
         const self = this;
-        const carts = await self.cartsRepository.getOrderCarts(user_id,store_id);
+        const carts = await self.cartsRepository.getOrderCarts(user_id, store_id);
         const info = JSON.stringify(carts);
 
         let price = 0;
         console.log(carts);
-        carts.forEach(cart => {
-          price += cart.menu_price * cart.count;
+        carts.forEach((cart) => {
+            price += cart.menu_price * cart.count;
         });
-        
-         // 유저 가져오기
-         const user = await self.userRepository.getUser(user_id);
-       
+
+        // 유저 가져오기
+        const user = await self.userRepository.getUser(user_id);
+
         if (user.point < price) {
-          return { success: false, message:'금액이 부족합니다.' };
+            return { success: false, message: '금액이 부족합니다.' };
         }
 
         // 매장주 가져오기
         const storeUser = await self.storeRepository.getUser(store_id);
-                    
+
         try {
             const data = await prisma.$transaction(
                 async (tx) => {
-
                     // 유저 금액에서 토탈 금액 뺴기
                     const updateUser = await tx.users.update({
                         where: { id: user.id },
@@ -62,7 +61,7 @@ export default class OrderRepository {
                             store_id: store_id,
                             info,
                             price,
-                            state: 0
+                            state: 0,
                         },
                     });
                     console.log('3');
@@ -71,7 +70,7 @@ export default class OrderRepository {
                         user_point: updateUser.point,
                         store_point: updateStoreUser.point,
                         order,
-                        success: true
+                        success: true,
                     };
                 },
                 {
@@ -90,23 +89,26 @@ export default class OrderRepository {
         }
     };
 
-    getOrder = async(id)=> {
-      const order =  await prisma.orders.findUnique({
-        where: { id: +id },
-        select:{state:true,store_id:true}
-      });
-      return order;
-    }
+    getOrder = async (id) => {
+        const order = await prisma.orders.findUnique({
+            where: { id: +id },
+            select: { state: true, store_id: true },
+        });
+        return order;
+    };
 
     getUserOrders = async (user_id) => {
         const orders = await prisma.orders.findMany({
             where: { user_id: +user_id },
             select: {
-                id:true,
-                user_id:true,
-                store_id:true,
+                id: true,
+                user_id: true,
+                store_id: true,
                 info: true,
                 price: true,
+                state: true,
+                created_at: true,
+                updated_at: true,
                 Store: {
                     select: { name: true },
                 },
@@ -119,9 +121,9 @@ export default class OrderRepository {
         const orders = await prisma.orders.findMany({
             where: { store_id: +store_id },
             select: {
-                id:true,
-                user_id:true,
-                store_id:true,
+                id: true,
+                user_id: true,
+                store_id: true,
                 info: true,
                 price: true,
                 User: {
